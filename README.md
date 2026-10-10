@@ -1,23 +1,25 @@
-# HYRON V-0.3 — Histórico persistente
+# HYRON V-0.4 — multiusuário
 
-Implementação do histórico em Cloudflare D1 (plano Free, sujeito a limites). O banco armazena mensagens; o navegador mantém a lista de conversas e os tokens de acesso individuais. Não existe sincronização entre dispositivos nem login nesta versão.
+Cloudflare Workers + D1, contas por convite, memórias por usuário, histórico isolado e roteador multi-LLM.
 
 ## Instalação
 
-1. Na pasta do projeto original (com `.git`), copie os arquivos desta versão por cima, sem copiar `.git` de outra pasta.
-2. Execute `npm install` e `npx wrangler d1 create hyron-history` no PowerShell, autenticado na conta Cloudflare correta.
-3. Copie o `database_id` retornado e substitua `SUBSTITUA_PELO_DATABASE_ID_DO_CLOUDFLARE` em `wrangler.jsonc`.
-4. Execute `npx wrangler d1 execute hyron-history --remote --file=database/0001_history.sql` para criar as tabelas **no banco remoto**.
-5. Execute `npm run check` para validar TypeScript.
-6. `git add .`, `git commit -m "V-0.3 - Historico persistente D1"`, `git push origin main`.
-7. Confirme o deploy automático no Cloudflare. Não configure chaves de API no GitHub.
+1. Faça backup do banco remoto antes de atualizar: `npx.cmd wrangler d1 export hyron-history --remote --output=backup-hyron.sql`.
+2. Copie os arquivos para seu repositório V-0.3 (não copie `node_modules`). **Não apague o banco**.
+3. Execute `npm.cmd install` e `npm.cmd run check`.
+4. Execute `npx.cmd wrangler d1 execute hyron-history --remote --file=database/0002_v04.sql` **uma única vez**. Essa migração adiciona a coluna `user_id`; se repetir, SQLite reclamará de coluna duplicada.
+5. Crie um segredo forte: `npx.cmd wrangler secret put HYRON_SETUP_KEY` (mínimo 24 caracteres aleatórios). Mantenha `OPENROUTER_API_KEY` já configurada.
+6. Faça `git add .`, `git commit -m "HYRON V-0.4 multiusuario"`, `git push origin main` e aguarde deploy.
+7. No site, selecione **Configuração inicial do administrador**, informe nome, senha (12+ caracteres) e o valor de `HYRON_SETUP_KEY`. A criação do administrador é permitida somente se ainda não houver usuários.
+8. Faça login, clique **Convites e usuários**, gere um código válido por 48h e envie ao convidado. Ele seleciona **Cadastrar com convite**.
+9. Clique **Importar V-0.3** no mesmo navegador onde usava a versão antiga para reivindicar suas conversas por token original. Conversas antigas não são atribuídas automaticamente.
 
-## Privacidade e limites
+## Segurança e limitações
 
-- A conversa é recuperada no mesmo navegador após atualizar a página e fechar/reabrir o navegador, desde que o armazenamento local não seja apagado.
-- O conteúdo fica armazenado no D1. O token de cada conversa fica em `localStorage` e é verificado no backend por SHA-256. Quem tiver acesso ao navegador poderá acessar as conversas. Não é um sistema de contas/autenticação robusto.
-- A lista de conversas não é sincronizada entre dispositivos; se apagar o `localStorage`, perde os tokens para recuperar conversas, embora os dados possam continuar no banco.
-- O endpoint público ainda precisa de autenticação real e rate limiting antes de uso por terceiros. `HYRON_ACCESS_KEY` continua opcional e não deve ser embutida no JavaScript público.
-- A mensagem do usuário é gravada antes da chamada à LLM. Em caso de falha de provedor, atualize a conversa para recuperar a pergunta armazenada.
-- A V-0.3 não importa automaticamente as mensagens da V-0.2: elas existiam apenas na memória temporária da página.
-- Para deploys automatizados, mantenha o binding D1 declarado no `wrangler.jsonc`; nunca coloque segredos no repositório.
+- Sessão HttpOnly, Secure, SameSite=Strict; 7 dias. Senhas com PBKDF2-SHA256 (210 mil iterações); não coloque credenciais em arquivos públicos.
+- Acesso a conversas/memórias sempre restrito ao usuário autenticado. Cadastro público sem convite não é permitido.
+- Limite padrão de 40 mensagens por usuário por dia; variável opcional `DAILY_MESSAGE_LIMIT`. A cota diária não substitui limitação de tentativas de login no Cloudflare WAF/Turnstile; **habilite rate limiting de login e registro antes de abrir o serviço ao público**.
+- Memória V-0.4 é explícita: salve e exclua lembranças no botão Memórias. O contexto recupera até 6 lembranças por correspondência textual; não é busca semântica nem extração automática.
+- Integrações FreeLLMAPI **inspiradas no catálogo**, sem instalar a biblioteca Python no Worker. Suporta OpenRouter, Groq, Ollama Cloud, Cerebras, Mistral e Gemini por endpoints HTTP compatíveis; cada provedor requer chave e modelo válido (variáveis `<PROVEDOR>_API_KEY` e `<PROVEDOR>_MODEL`). Gratuidade depende da política e disponibilidade do provedor.
+- Login não tem ainda recuperação de senha; guarde as credenciais de administrador.
+- O limite de mensagens usa contador D1 e pode ser sujeito a concorrência de requisições; Cloudflare WAF é recomendado para proteção adicional.
