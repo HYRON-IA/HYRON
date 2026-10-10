@@ -1,46 +1,40 @@
-# HYRON v0.1
+# HYRON v0.2 — Multi-LLM Router
 
-Protótipo open source (MIT) de assistente web com voz e fallback entre APIs gratuitas. **Não é um agente autônomo ainda.**
+HYRON é um assistente pessoal web com backend Cloudflare Workers e frontend estático. O roteador é uma implementação original inspirada no conceito de agregação do [FreeLLMAPI](https://github.com/tashfeenahmed/freellmapi); **não** inclui o servidor FreeLLMAPI nem fornece acesso automático a centenas de modelos.
 
-## Arquitetura
+## O que mudou
 
-- Cloudflare Workers: backend e arquivos estáticos
-- Groq (`llama-3.3-70b-versatile`) como primeira opção; OpenRouter (`openrouter/free`) como fallback
-- Web Speech API: ditado e leitura em voz alta, sujeitos à compatibilidade do navegador
-- Histórico mantido apenas na aba (não há memória persistente ainda)
+- Roteamento entre Groq, OpenRouter e Ollama Cloud (se configurados)
+- Preferência opcional por provedor, com fallback
+- Exibição do provedor e modelo efetivamente usados
+- Endpoint `GET /api/status` para listar provedores configurados (não testa disponibilidade)
+- Personalidade HYRON preservada e suporte existente a voz
 
-## Publicação sem instalar nada no computador
+## Implantação gratuita
 
-1. Crie um repositório no GitHub e envie os arquivos desta pasta (extraia o ZIP primeiro).
-2. No Cloudflare Dashboard, acesse Workers & Pages e crie um Worker conectado ao repositório GitHub. Se a interface não oferecer o fluxo de Git, utilize o editor web do GitHub Codespaces para executar `npm install` e `npm run deploy`.
-3. Configure a compilação/deploy com `npm run deploy`, diretório raiz do projeto e os ajustes exigidos pela integração Git da Cloudflare.
-4. Em **Settings > Variables and Secrets**, adicione `GROQ_API_KEY` e/ou `OPENROUTER_API_KEY` como segredos. Configure `HYRON_ACCESS_KEY` para restringir o uso da API. Nunca publique chaves no GitHub ou JavaScript do navegador.
-5. Abra o endereço `*.workers.dev` gerado. No ícone de engrenagem, informe a chave de acesso HYRON, se definida.
+1. Substitua os arquivos da v0.1 pelos deste pacote no repositório GitHub e faça commit/push na branch `main`.
+2. Cloudflare Workers → `hyron` → Settings → Variables and Secrets. Adicione pelo menos uma chave: `GROQ_API_KEY`, `OPENROUTER_API_KEY` ou `OLLAMA_API_KEY`. **Tipo Secret**.
+3. Para Ollama Cloud, configure também `OLLAMA_MODEL` com um identificador de modelo **disponível na sua conta**. Para Groq/OpenRouter, os modelos padrão podem ser substituídos via `GROQ_MODEL`/`OPENROUTER_MODEL`.
+4. Configure `HYRON_ACCESS_KEY` como Secret para restringir a API. Na interface, clique na engrenagem e informe essa chave. **Atenção:** essa é uma chave compartilhada, não um sistema de contas. Não divulgue a chave. Não há rate limiting por usuário na v0.2.
+5. O deploy automático via integração GitHub/Cloudflare deve publicar a atualização. Consulte os logs caso falhe.
 
-Documentação oficial: https://developers.cloudflare.com/workers/ ; https://console.groq.com/ ; https://openrouter.ai/
+### Desenvolvimento local (sem executar LLM local)
 
-## Desenvolvimento
+`npm install` → `npm run check` → `npm run dev`. Use `.dev.vars` local para segredos de desenvolvimento (não versionar).
 
-```sh
-npm install
-npm run check
-npm run dev
-```
+### Limites
 
-Para testes locais, use `.dev.vars` (ignorado pelo Git). Para publicar: `npm run deploy`.
+- Cada provedor exige credenciais próprias e está sujeito a cotas, elegibilidade e políticas variáveis. Sem chave não há acesso.
+- A ordem padrão é Groq → OpenRouter → Ollama Cloud; um provedor preferido é tentado primeiro.
+- O fallback ocorre diante de erro, indisponibilidade ou resposta vazia; não soma nem burla cotas.
+- Não há banco de dados, histórico persistente, detecção de cotas reais, autenticação individual, ferramentas de busca ou streaming nesta versão.
+- O `/api/status` não revela segredos, mas lista provedores configurados. Se `HYRON_ACCESS_KEY` estiver configurada, protege também esse endpoint.
+- A integração com Ollama Cloud segue o formato `/api/chat`; confirme modelo e acesso na sua conta antes de usar.
 
-## Limitações e segurança
+## Segurança
 
-- Provedores podem alterar modelos, disponibilidade e cotas gratuitas; revise os IDs no arquivo `src/index.ts`.
-- O fallback tenta outro provedor quando o anterior falha; não ignora limites contratuais.
-- Não há autenticação completa nem limitação de taxa. **Não exponha a aplicação publicamente sem configurar `HYRON_ACCESS_KEY` e controles adicionais.** A chave no `sessionStorage` é apenas um controle inicial, não substitui login seguro.
-- A API de chat não navega na web, não executa código e não controla o GitHub nesta versão.
-- O reconhecimento de voz pode enviar áudio a serviços do navegador; consulte as políticas do navegador.
-- A configuração `wrangler.jsonc` é destinada a Workers com assets estáticos. Pode exigir ajustes conforme a versão da plataforma.
-- Custo zero apenas dentro das franquias gratuitas; nenhuma cobrança deve ser ativada sem sua decisão.
+Nunca inclua chaves no GitHub, `.env.example` ou frontend. O código verifica Origin quando presente, mas isso não substitui autenticação. Se o Worker ficar público sem `HYRON_ACCESS_KEY`, terceiros poderão consumir suas cotas gratuitas.
 
-## Próximas versões
+## Licença
 
-- v0.2: autenticação real, D1, memória persistente e histórico
-- v0.3: ferramentas, busca web e leitura de repositórios GitHub com permissões
-- v0.4: roteador ampliado a partir de catálogos Free LLM APIs
+MIT (ver LICENSE). Referência conceitual: FreeLLMAPI de tashfeenahmed; este pacote não incorpora código desse projeto.
