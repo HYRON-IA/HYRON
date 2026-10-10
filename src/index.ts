@@ -55,7 +55,7 @@ if(path==='/api/auth/register'&&request.method==='POST'){
 const user=await auth(request,env);if(!user)return bad('Faça login para continuar',401);
 if(path==='/api/auth/me'&&request.method==='GET')return json({user});
 if(path==='/api/auth/logout'&&request.method==='POST'){const t=cookie(request);await env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(await hash(t)).run();return json({ok:true},200,{'set-cookie':sessionCookie('',0)});}
-if(path==='/api/status'&&request.method==='GET')return json({version:'0.4.0',configuredProviders:active(env).map(p=>p.name),history:true,memory:true,role:user.role});
+if(path==='/api/status'&&request.method==='GET')return json({version:'0.5.0',configuredProviders:active(env).map(p=>p.name),history:true,memory:true,role:user.role});
 if(path==='/api/admin/invite'&&request.method==='POST'){
  if(user.role!=='admin')return bad('Apenas administradores',403);const code=random();await env.DB.prepare('INSERT INTO invites(code_hash,created_by,expires_at) VALUES(?,?,?)').bind(await hash(code),user.id,Date.now()+48*3600000).run();return json({code,expiresInHours:48});
 }
@@ -63,7 +63,30 @@ if(path==='/api/admin/users'&&request.method==='GET'){
  if(user.role!=='admin')return bad('Apenas administradores',403);return json({users:(await env.DB.prepare('SELECT id,username,role,disabled,created_at FROM users ORDER BY created_at').all()).results});
 }
 if(path==='/api/admin/users'&&request.method==='PATCH'){
- if(user.role!=='admin')return bad('Apenas administradores',403);const b=await body(request);if(!validId(b.id)||b.id===user.id||typeof b.disabled!=='boolean')return bad('Usuário inválido',400);await env.DB.prepare("UPDATE users SET disabled=? WHERE id=? AND role='user'").bind(b.disabled?1:0,b.id).run();if(b.disabled)await env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(b.id).run();return json({ok:true});
+ if(user.role!=='admin')return bad('Apenas administradores',403);
+ const b=await body(request);
+ if(!validId(b.id)||!['admin','user'].includes(String(b.role)))return bad('Usuário ou permissão inválida',400);
+ const target=await env.DB.prepare('SELECT id,username,role,disabled FROM users WHERE id=?').bind(b.id).first<User>();
+ if(!target)return bad('Usuário não encontrado',404);
+ if(target.disabled)return bad('Não é possível alterar a permissão de uma conta bloqueada',409);
+ if(target.role===b.role)return json({ok:true,unchanged:true});
+ // Atomic guard: never remove the final active admin, including concurrent requests.
+ const result=await env.DB.prepare(`UPDATE users SET role=? WHERE id=? AND disabled=0 AND role=? AND (
+   ?='admin' OR (SELECT COUNT(*) FROM users WHERE role='admin' AND disabled=0)>1
+ )`).bind(b.role,b.id,target.role,b.role).run();
+ if(!result.meta.changes)return bad('Alteração não realizada. O último administrador deve permanecer ativo.',409);
+ await env.DB.prepare('INSERT INTO admin_audit(id,actor_id,target_id,old_role,new_role) VALUES(?,?,?,?,?)').bind(crypto.randomUUID(),user.id,target.id,target.role,b.role).run();
+ // Refresh privileges immediately: auth() looks up the role in users for every request.
+ return json({ok:true,username:target.username,role:b.role});
+}
+if(path==='/api/admin/users/disable'&&request.method==='PATCH'){
+ if(user.role!=='admin')return bad('Apenas administradores',403);
+ const b=await body(request);
+ if(!validId(b.id)||b.id===user.id||typeof b.disabled!=='boolean')return bad('Usuário inválido',400);
+ const result=await env.DB.prepare("UPDATE users SET disabled=? WHERE id=? AND role='user'").bind(b.disabled?1:0,b.id).run();
+ if(!result.meta.changes)return bad('Usuário comum não encontrado ou estado inalterado',404);
+ if(b.disabled)await env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(b.id).run();
+ return json({ok:true});
 }
 if(path==='/api/conversations'&&request.method==='GET')return json({conversations:(await env.DB.prepare('SELECT id,title,created_at FROM conversations WHERE user_id=? ORDER BY created_at DESC LIMIT 200').bind(user.id).all()).results});
 if(path==='/api/conversations'&&request.method==='POST'){
