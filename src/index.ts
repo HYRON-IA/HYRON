@@ -105,5 +105,14 @@ if(path==='/api/chat'&&request.method==='POST'){
  return json({error:'Nenhum provedor respondeu. Confira modelos, chaves e cotas.',attempts},503);
 }
 return bad('Rota não encontrada',404);
-}catch(e){return bad(e instanceof SyntaxError?'JSON inválido':'Erro interno. Verifique a migração D1 e os logs do Worker',e instanceof SyntaxError?400:503);}
+} catch (e) {
+  console.error('HYRON API ERROR:', e);
+
+  return bad(
+    e instanceof SyntaxError
+      ? 'JSON inválido'
+      : 'Erro interno. Consulte os logs do Worker.',
+    e instanceof SyntaxError ? 400 : 503
+  );
+}
 }};
