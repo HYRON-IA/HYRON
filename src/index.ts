@@ -17,7 +17,7 @@ const hash=async(s:string)=>Array.from(new Uint8Array(await crypto.subtle.digest
 const random=()=>Array.from(crypto.getRandomValues(new Uint8Array(32)),x=>x.toString(16).padStart(2,'0')).join('');
 const validId=(s:unknown):s is string=>typeof s==='string'&&/^[0-9a-f-]{36}$/i.test(s);
 const active=(env:Env)=>PROVIDERS.filter(p=>String(env[p.key]||'').trim()&&String(env[p.model]||p.fallbackModel).trim());
-async function passHash(password:string,salt:string){const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);const bits=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:new TextEncoder().encode(salt),iterations:210000},base,256);return Array.from(new Uint8Array(bits),x=>x.toString(16).padStart(2,'0')).join('');}
+async function passHash(password:string,salt:string){const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);const bits=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:new TextEncoder().encode(salt),iterations:100000},base,256);return Array.from(new Uint8Array(bits),x=>x.toString(16).padStart(2,'0')).join('');}
 function same(a:string,b:string){if(a.length!==b.length)return false;let n=0;for(let i=0;i<a.length;i++)n|=a.charCodeAt(i)^b.charCodeAt(i);return n===0;}
 function cookie(request:Request){return request.headers.get('cookie')?.match(/(?:^|;\s*)hyron_session=([a-f0-9]{64})(?:;|$)/)?.[1]||'';}
 const sessionCookie=(token:string,maxAge:number)=>`hyron_session=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${maxAge}`;
