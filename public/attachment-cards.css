@@ -1,0 +1,66 @@
+/* HYRON v0.6.7 - Cartoes de anexos no estilo do ChatGPT (visual proprio do HYRON). */
+#hyron-attach-strip{display:flex;gap:9px;flex-wrap:wrap;margin:8px 0;align-items:stretch}
+.hyron-attachment-card{position:relative;display:flex;min-width:0;max-width:100%;width:210px;min-height:68px;border:1px solid #38675b;border-radius:13px;background:#142e28;color:#eaf8f3;box-shadow:0 2px 8px #0002;overflow:hidden}
+.hyron-attachment-card-main{display:flex;align-items:center;gap:10px;width:100%;height:auto;min-width:0;border:0;border-radius:0;padding:9px 11px;background:transparent;color:inherit;text-align:left;cursor:default;font:inherit;font-weight:400;line-height:1.3}
+button.hyron-attachment-card-main{cursor:pointer}
+button.hyron-attachment-card-main:hover,button.hyron-attachment-card-main:focus-visible{background:#205044;outline:2px solid #78d9c2;outline-offset:-2px}
+.hyron-attachment-visual{width:49px;height:49px;flex:0 0 49px;display:grid;place-items:center;overflow:hidden;border-radius:9px;background:#245345}
+.hyron-attachment-visual img{width:100%;height:100%;object-fit:cover;display:block}
+.hyron-attachment-icon{font-family:ui-monospace,Consolas,monospace;font-size:1.15rem;font-weight:700;color:#9df1d9}
+.hyron-attachment-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.hyron-attachment-name{font-size:.8rem;line-height:1.3;font-weight:650;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;max-width:100%}
+.hyron-attachment-meta{color:#afd1c4;font-size:.68rem;line-height:1.3;overflow-wrap:anywhere}
+.hyron-attachment-remove{position:absolute;top:3px;right:3px;width:22px;min-height:22px;height:22px;display:grid;place-items:center;padding:0;background:#10231f;border:1px solid #3b7666;border-radius:50%;color:#e6f9f2;font-size:16px;line-height:1;opacity:.95}
+.hyron-attachment-card--draft .hyron-attachment-card-main{padding-right:24px}
+.hyron-attachment-remove:hover{background:#964e52;border-color:#df8d95}
+#chat .bubble.user:has(.hyron-message-attachments){white-space:normal;max-width:min(90%,780px);padding:10px 12px}
+.hyron-message-user-text{white-space:pre-wrap;overflow-wrap:anywhere;margin-bottom:7px}
+.hyron-message-attachments{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+#chat .hyron-message-attachments .hyron-attachment-card{width:205px;min-height:64px;background:#123b32;border-color:#438474}
+#chat .hyron-message-attachments .hyron-attachment-visual{background:#1b5143}
+#chat .hyron-message-attachments .hyron-attachment-card--image:has(img){width:162px;min-height:150px}
+#chat .hyron-message-attachments .hyron-attachment-card--image:has(img) .hyron-attachment-card-main{flex-direction:column;align-items:stretch;gap:5px;padding:5px}
+#chat .hyron-message-attachments .hyron-attachment-card--image:has(img) .hyron-attachment-visual{width:100%;height:109px;flex:0 0 auto}
+#chat .hyron-message-attachments .hyron-attachment-card--image:has(img) .hyron-attachment-info{padding:2px 5px 4px}
+#hyron-attach-strip .hyron-attachment-card--image:has(img){width:155px}
+#hyron-attach-strip .hyron-attachment-card--image:has(img) .hyron-attachment-visual{width:58px;height:54px;flex-basis:58px}
+#hyron-drive-list .hyron-file-row>.hyron-attachment-card{flex:1;min-width:150px;width:auto;max-width:360px}
+#hyron-drive-image-list .hyron-attachment-card{margin:5px 0;width:100%;max-width:350px}
+@media(max-width:520px){.hyron-attachment-card{width:min(100%,190px)}#chat .hyron-message-attachments .hyron-attachment-card{width:min(100%,185px)}#chat .hyron-message-attachments .hyron-attachment-card--image:has(img){width:140px}}
+
+/* HYRON_082_WIDE_TEXT_PENCIL_ONLY - Diferencia texto/código de imagens no compositor. */
+/* Apenas os cartões editáveis de não-imagens ficam largos. */
+#hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image):has(.hyron-draft-edit-button){
+ width:min(100%,420px)!important;min-height:72px;max-width:100%;display:flex;align-items:center;
+}
+#hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image):has(.hyron-draft-edit-button) .hyron-attachment-card-main{
+ flex:1 1 auto;min-width:0;width:auto!important;padding:9px 6px 9px 11px!important;
+}
+#hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image):has(.hyron-draft-edit-button) .hyron-attachment-info{
+ min-width:0;flex:1 1 auto;
+}
+#hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image):has(.hyron-draft-edit-button) .hyron-attachment-name{
+ display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.85rem;
+}
+#hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image) .hyron-draft-edit-button{
+ display:grid!important;place-items:center!important;flex:0 0 33px!important;
+ width:33px!important;height:33px!important;min-width:33px!important;min-height:33px!important;
+ margin:0 40px 0 3px!important;padding:0!important;border-radius:50%!important;
+ line-height:1!important;font-size:18px!important;font-weight:600!important;
+ background:#1d4e41!important;color:#dcfff4!important;border:1px solid #4f9d83!important;
+ box-shadow:none!important;white-space:nowrap!important;cursor:pointer!important;
+}
+#hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image) .hyron-draft-edit-button:hover{
+ background:#2d715e!important;border-color:#83dbb9!important;
+}
+#hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image) .hyron-draft-edit-button:focus-visible{
+ outline:2px solid #a3ffe0!important;outline-offset:2px!important;
+}
+#hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image):has(.hyron-draft-edit-button) .hyron-attachment-remove{
+ top:50%!important;right:8px!important;transform:translateY(-50%)!important;
+ width:27px!important;height:27px!important;min-height:27px!important;z-index:3;
+}
+@media(max-width:520px){
+ #hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image):has(.hyron-draft-edit-button){width:100%!important;}
+ #hyron-attach-strip .hyron-attachment-card--draft:not(.hyron-attachment-card--image) .hyron-draft-edit-button{margin-right:38px!important;}
+}

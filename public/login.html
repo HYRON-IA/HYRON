@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HYRON v0.8.7 — Entrar</title>
+<link rel="icon" type="image/svg+xml" href="/hyron-cobra.svg">
+<link rel="stylesheet" href="/style.css">
+<style>html,body{min-height:100%;}body{margin:0;min-height:100vh;overflow:auto;background:#071310;} .auth-box{margin:8vh auto;} #login-status{width:min(460px,calc(100% - 28px));margin:12px auto;color:#9ebbb2;font:14px sans-serif;}[hidden]{display:none!important}</style>
+</head><body>
+<p id="login-status" role="status">Verificando acesso...</p>
+<section id="invite-signup" class="auth-box" hidden><h1>Convite HYRON</h1><p>Seu nome de usuário já foi definido. Crie somente sua senha para ativar o acesso.</p><form id="invite-signup-form"><label>Usuário <input id="invite-signup-user" readonly autocomplete="username"></label><label>Crie sua senha <input id="invite-signup-pass" type="password" required minlength="12" maxlength="128" autocomplete="new-password"></label><label>Confirme a senha <input id="invite-signup-confirm" type="password" required minlength="12" maxlength="128" autocomplete="new-password"></label><button type="submit">Ativar minha conta</button><p id="invite-signup-error" role="alert"></p></form></section>
+<section id="auth" class="auth-box" hidden><h1>HYRON</h1><p>Ideias, código e boas conversas.</p><form id="auth-form"><label>Acesso <select id="auth-mode"><option value="login">Entrar</option><option value="register">Cadastrar com convite</option><option value="setup">Configuração inicial do administrador</option></select></label><label>Usuário <input id="username" required minlength="3" maxlength="32" autocomplete="username"></label><label>Senha <input id="password" type="password" required minlength="12" autocomplete="current-password"></label><label id="invite-wrap" hidden>Código do convite <input id="invite" autocomplete="off"></label><label id="setup-wrap" hidden>Chave de configuração inicial <input id="setup" type="password" autocomplete="off"></label><button id="auth-submit">Entrar</button><p id="auth-error" role="alert"></p></form></section>
+<script type="module" src="/hyron-login-separado.js?v=0871"></script>
+</body></html>

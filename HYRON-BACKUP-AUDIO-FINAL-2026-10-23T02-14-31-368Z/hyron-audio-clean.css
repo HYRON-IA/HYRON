@@ -1,0 +1,3 @@
+/* Esconde metadados redundantes SEM apagar arquivos ou informacoes do banco. */
+[data-hyron-dm-v2="panel"] .hyron-audio-clean-only .hyron-audio-clean-hidden{display:none!important}
+[data-hyron-dm-v2="panel"] .hyron-audio-clean-only .hyron-dm-v2-audio{margin:0!important;max-width:min(460px,100%)!important}

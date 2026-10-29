@@ -1,0 +1,16 @@
+/* HYRON_083_MOBILE_CHAT_LAST_LINE_V1
+   Apenas espacamento de rolagem: nao altera a geometria nem o fundo do composer.
+*/
+@media (max-width: 650px) {
+  html[data-hyron-theme] #hyron-main #chat,
+  #hyron-main #chat {
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain;
+    scroll-padding-bottom: 20px;
+    padding-bottom: max(88px, calc(env(safe-area-inset-bottom, 0px) + 60px)) !important;
+  }
+  #hyron-main #chat > :last-child {
+    scroll-margin-bottom: 20px;
+  }
+}

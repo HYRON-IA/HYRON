@@ -1,0 +1,18 @@
+[
+  {
+    "file": "src/index.ts",
+    "existed": true
+  },
+  {
+    "file": "src/model-providers.ts",
+    "existed": true
+  },
+  {
+    "file": "src/free-llm-profile.ts",
+    "existed": true
+  },
+  {
+    "file": "src/hyron-provider-client.ts",
+    "existed": false
+  }
+]

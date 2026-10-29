@@ -1,0 +1,7 @@
+#humor-settings{margin:10px 0} .hyron-humor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;align-items:center} .hyron-humor-grid label{display:flex;flex-direction:column;gap:7px;color:#d8f2e9} .hyron-humor-grid output{color:#79e6cc;font-size:.85rem} .hyron-humor-grid input[type=range]{accent-color:#48d8b6;width:100%} .hyron-humor-grid label.hyron-humor-check{flex-direction:row;align-items:center;gap:10px} .hyron-humor-check input{accent-color:#48d8b6;width:18px;height:18px} #humor-settings .hint{margin:0;font-size:.82rem}
+/* v0.8.2 drawer */
+.hyron-personality-dialog{margin:0 0 0 auto;width:min(460px,100%);max-width:100vw;height:100dvh;max-height:100dvh;overflow:auto;border:0;border-left:1px solid var(--hy-border,#355a50);background:var(--hy-surface,#0c1916);color:var(--hy-text,#e6f2ef);padding:24px;box-shadow:-20px 0 80px #0008}
+.hyron-personality-dialog::backdrop{background:#0009}
+.hyron-personality-header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px}.hyron-personality-header h2{margin:0;font-size:25px}
+.hyron-personality-dialog #humor-settings{margin:0;border:0;padding:0;background:transparent}.hyron-personality-dialog .hyron-humor-grid{display:flex;flex-direction:column;gap:28px;align-items:stretch}.hyron-personality-dialog .hyron-humor-grid label{width:100%;color:var(--hy-text,#e6f2ef)}
+#hyron-sidebar #hyron-personality-button{display:block;width:100%;text-align:left;margin:4px 0;min-height:42px}

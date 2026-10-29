@@ -1,0 +1,43 @@
+/* HYRON_083_MOBILE_HEADER_CHAT_FIX_V1
+   Ajustes isolados ao mobile; mantém tema, desktop e lógica das mensagens. */
+@media (max-width:650px) {
+  html, body { width:100%; max-width:100%; overflow-x:hidden !important; }
+  #app.shell:not([hidden]) { height:100dvh !important; min-height:0 !important; overflow:hidden !important; }
+  #hyron-main { position:relative !important; display:flex !important; flex-direction:column !important;
+    width:100% !important; min-width:0 !important; height:100dvh !important;
+    min-height:0 !important; max-height:100dvh !important;
+    overflow:hidden !important; padding-bottom:max(7px,env(safe-area-inset-bottom,0px)) !important; }
+  #hyron-main > header { flex:0 0 auto !important; min-width:0 !important; max-width:100% !important;
+    padding-right:49px !important; }
+  #hyron-main > header small, #hyron-main > header #who { display:none !important; }
+  #hyron-main #chat { flex:1 1 0 !important; min-height:0 !important; max-height:none !important;
+    height:auto !important; overflow-y:auto !important; overflow-x:hidden !important;
+    overscroll-behavior-y:contain; margin-top:0 !important; margin-bottom:0 !important;
+    padding-bottom:14px !important; scroll-padding-bottom:20px; }
+  #hyron-main #form { position:relative !important; bottom:auto !important; top:auto !important;
+    flex:0 0 auto !important; margin-bottom:0 !important; max-height:min(45dvh,300px) !important; }
+  #hyron-main > p.hint { flex:0 0 auto !important; margin:0 !important; }
+  #sidebar-toggle { position:relative !important; display:inline-flex !important; visibility:visible !important;
+    opacity:1 !important; z-index:2 !important; flex-shrink:0 !important; }
+  /* O sino fica fora do fluxo visual: nunca substitui o menu hambúrguer. */
+  #hyron-notifications-root { position:fixed !important; top:calc(env(safe-area-inset-top,0px) + 13px) !important;
+    right:12px !important; left:auto !important; bottom:auto !important;
+    width:44px !important; min-width:44px !important; height:44px !important;
+    display:block !important; z-index:10040 !important; pointer-events:none !important;
+    transform:none !important; margin:0 !important; }
+  #hyron-notification-bell { pointer-events:auto !important; position:absolute !important;
+    right:0 !important; left:auto !important; top:0 !important;
+    width:44px !important; min-width:44px !important; height:44px !important;
+    padding:0 !important; margin:0 !important; border:0 !important;
+    background:transparent !important; box-shadow:none !important;
+    display:flex !important; align-items:center !important; justify-content:center !important;
+    font-size:0 !important; color:#fff !important; }
+  #hyron-notification-bell::after { content:'🔔' !important; font-size:23px !important;
+    line-height:1 !important; filter:grayscale(1) brightness(0) invert(1) !important; }
+  #hyron-notification-bell.hyron-has-notifications::after { filter:none !important; }
+  #hyron-notification-popover { pointer-events:auto !important; position:absolute !important;
+    right:0 !important; left:auto !important; top:49px !important;
+    width:min(355px,calc(100vw - 24px)) !important; max-width:calc(100vw - 24px) !important;
+    max-height:min(65dvh,460px) !important; margin:0 !important; overflow-y:auto !important; }
+  #hyron-notification-popover[hidden] { display:none !important; }
+}

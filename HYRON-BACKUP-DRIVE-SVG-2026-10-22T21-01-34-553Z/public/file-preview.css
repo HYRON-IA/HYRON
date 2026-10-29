@@ -1,0 +1,20 @@
+/* HYRON v0.6.6 - painel de prévia sem dependências externas */
+#hyron-file-preview{border:1px solid #426e61;border-radius:15px;background:#10231f;color:#e5f5ef;width:min(920px,94vw);max-height:88dvh;overflow:hidden;padding:0;box-shadow:0 20px 90px #000a}
+#hyron-file-preview::backdrop{background:rgba(0,0,0,.73)}
+#hyron-file-preview .hyron-preview-head{padding:12px 16px;border-bottom:1px solid #335c4f;display:flex;gap:12px;align-items:center;justify-content:space-between}
+#hyron-file-preview .hyron-preview-head strong{overflow-wrap:anywhere;max-width:75%;font-size:1rem}
+#hyron-file-preview .hyron-preview-head button{flex-shrink:0}
+#hyron-file-preview .hyron-preview-note{font-size:.78rem;color:#9fceb9;padding:0 16px;margin:9px 0}
+#hyron-file-preview .hyron-preview-body{padding:10px 16px 18px;max-height:calc(88dvh - 122px);overflow:auto;min-height:100px}
+#hyron-file-preview pre{white-space:pre;tab-size:2;overflow:auto;background:#0c1918;padding:12px;border:1px solid #274c43;border-radius:9px;color:#d6f3e8;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}
+#hyron-file-preview .hyron-preview-code .hyron-preview-line{display:block;min-height:1.4em}
+#hyron-file-preview .hyron-preview-code .hyron-preview-line::before{content:attr(data-line);display:inline-block;min-width:4ch;margin-right:14px;text-align:right;color:#799c90;user-select:none}
+#hyron-file-preview .hyron-preview-image{display:block;max-width:100%;max-height:72dvh;object-fit:contain;margin:auto;border-radius:6px}
+.hyron-file-preview-btn{padding:5px 9px!important;min-height:28px!important;font-size:.76rem!important;cursor:pointer}
+@media(max-width:540px){#hyron-file-preview{width:98vw}#hyron-file-preview .hyron-preview-body{padding:8px}}
+
+/* HYRON SVG dual-view and editor entry */
+#hyron-file-preview .hyron-preview-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+#hyron-file-preview .hyron-preview-actions button{background:#23463b;border:1px solid #497867;border-radius:7px;color:#eafff5;padding:7px 10px;cursor:pointer}
+#hyron-file-preview .hyron-preview-actions button[aria-selected="true"]{background:#2e795d}
+#hyron-file-preview .hyron-preview-actions button[hidden]{display:none!important}

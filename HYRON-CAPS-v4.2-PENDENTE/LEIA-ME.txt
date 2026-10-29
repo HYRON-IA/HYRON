@@ -1,0 +1,7 @@
+HYRON CAPS v4.2 - base de integração (NÃO é instalador e NÃO altera seu HYRON)
+
+identity.ts: adaptador para converter senderId em displayName/username na montagem do histórico para o modelo. Preserva IDs originais. Use com o mapa de participantes da conversa, validado no backend. Não confie em nome enviado pelo cliente sem autenticação.
+
+individuality.sql: proposta de tabela D1 separada com dois clubes fixados e dois não definidos. Não executar sem verificar schema atual. IDs dos bots são placeholders a confirmar no código real.
+
+INTEGRAÇÃO PENDENTE: preciso do ZIP exato da instalação do HYRON 0.8.4 + CAPS v4.1 hotfix para adaptar imports, IDs reais, consultas de usuários e testes, gerando instalador BAT preservando o restante.

@@ -1,0 +1,95 @@
+/* HYRON 0.7 — appearance tokens override earlier fixed palettes. */
+:root{--hy-canvas:#071310;--hy-surface:#102820;--hy-raised:#19372e;--hy-text:#e9f5ef;--hy-muted:#a0bdb1;--hy-border:#385c4e;--hy-accent:#78e6cd;--hy-accent-text:#78e6cd;--hy-accent-soft:#21463c;--hy-button-text:#101114;--hy-icon:#78e6cd;--hy-icon-bg:#101114;--hy-danger:#ffb3bd;--hy-error-bg:#381e29;--hy-chat:rgba(16,40,32,.96);--hy-wallpaper:none;--hy-wall-color:#071310;background:var(--hy-canvas);color:var(--hy-text)}
+html[data-hyron-theme] body{background-color:var(--hy-wall-color);background-image:var(--hy-wallpaper);background-size:cover;background-position:center;background-attachment:fixed;color:var(--hy-text)}
+html[data-hyron-theme] #app.shell{background:transparent}
+html[data-hyron-theme] #hyron-sidebar{background:var(--hy-surface);border-color:var(--hy-border)}
+html[data-hyron-theme] #hyron-main{background:transparent}
+html[data-hyron-theme] #hyron-main header{background:var(--hy-chat);border:1px solid var(--hy-border);border-radius:14px;padding:12px 16px}
+html[data-hyron-theme] h1,html[data-hyron-theme] h2,html[data-hyron-theme] .sidebar-brand strong{color:var(--hy-accent-text)}
+html[data-hyron-theme] small,html[data-hyron-theme] .hint,html[data-hyron-theme] .sidebar-brand small,html[data-hyron-theme] .sidebar-title,html[data-hyron-theme] .history-empty,html[data-hyron-theme] #voice-info{color:var(--hy-muted)}
+html[data-hyron-theme] button,html[data-hyron-theme] select,html[data-hyron-theme] input:not([type=color]):not([type=radio]):not([type=range]):not([type=checkbox]),html[data-hyron-theme] .history-bar select{background:var(--hy-raised);border-color:var(--hy-border);color:var(--hy-text)}
+html[data-hyron-theme] button:hover{background:var(--hy-accent-soft);color:var(--hy-text)}
+html[data-hyron-theme] :is(button,input,select,textarea,summary):focus-visible{outline:2px solid var(--hy-accent-text);outline-offset:3px}
+html[data-hyron-theme] #hyron-sidebar button,html[data-hyron-theme] #hyron-sidebar #hyron-drive-open,html[data-hyron-theme] #hyron-sidebar #logout{background:var(--hy-raised);color:var(--hy-text);border-color:var(--hy-border)}
+html[data-hyron-theme] #hyron-sidebar button:hover,html[data-hyron-theme] #sidebar-conversations .sidebar-conversation.active{background:var(--hy-accent-soft);border-color:var(--hy-accent-text)}
+html[data-hyron-theme] #hyron-sidebar #new,html[data-hyron-theme] #hyron-main #send{background:var(--hy-accent);border-color:var(--hy-accent);color:var(--hy-button-text)}
+html[data-hyron-theme] #hyron-sidebar #new:hover,html[data-hyron-theme] #hyron-main #send:hover{filter:brightness(.92)}
+html[data-hyron-theme] #hyron-sidebar .sidebar-title,html[data-hyron-theme] #hyron-sidebar summary{color:var(--hy-muted)}
+html[data-hyron-theme] .sidebar-drive-action,html[data-hyron-theme] .sidebar-session-action,html[data-hyron-theme] .sidebar-tools,html[data-hyron-theme] .voice-library,html[data-hyron-theme] header{border-color:var(--hy-border)}
+html[data-hyron-theme] #hyron-main #chat{background:var(--hy-chat);border-radius:16px;padding:16px 20px}
+html[data-hyron-theme] #chat .bubble.ai:not(.error),html[data-hyron-theme] #chat .hyron-rich-content,html[data-hyron-theme] #chat .hyron-rich-content :is(h1,h2,h3,h4,h5,h6,strong),html[data-hyron-theme] #chat .hyron-rich-content td{color:var(--hy-text)}
+html[data-hyron-theme] #chat .bubble.user{background:var(--hy-accent-soft);color:var(--hy-text);border:1px solid var(--hy-border)}
+html[data-hyron-theme] #chat .hyron-rich-content a{color:var(--hy-accent-text)}
+html[data-hyron-theme] #chat .hyron-rich-content :is(pre,code,th,blockquote){background:var(--hy-raised);color:var(--hy-text);border-color:var(--hy-border)}
+html[data-hyron-theme] #chat .hyron-rich-content :is(table,td,th,hr){border-color:var(--hy-border)}
+html[data-hyron-theme] #chat .bubble.error{background:var(--hy-error-bg);color:var(--hy-danger);border:1px solid var(--hy-danger)}
+html[data-hyron-theme] #hyron-main #form,html[data-hyron-theme] .auth-box,html[data-hyron-theme] .auth-box form,html[data-hyron-theme] .settings-panel,html[data-hyron-theme] #voice-settings .voice-controls,html[data-hyron-theme] .hyron-name-setting,html[data-hyron-theme] #hyron-drive-panel{background:var(--hy-surface);border-color:var(--hy-border);color:var(--hy-text)}
+html[data-hyron-theme] .auth-box p,html[data-hyron-theme] #hyron-main #form .hyron-web-label,html[data-hyron-theme] #voice-settings .voice-controls #rate-value{color:var(--hy-muted)}
+html[data-hyron-theme] #provider,html[data-hyron-theme] #hyron-web-mode,html[data-hyron-theme] #search,html[data-hyron-theme] .voice-controls select,html[data-hyron-theme] .hyron-name-setting input,html[data-hyron-theme] .hyron-name-setting select{background:var(--hy-raised);border-color:var(--hy-border);color:var(--hy-text)}
+html[data-hyron-theme] textarea{color:var(--hy-text)}
+html[data-hyron-theme] textarea::placeholder,html[data-hyron-theme] input::placeholder{color:var(--hy-muted);opacity:1}
+html[data-hyron-theme] #voice-rate{accent-color:var(--hy-accent-text)}
+html[data-hyron-theme] .hyron-history-menu{background:var(--hy-surface);border-color:var(--hy-border)}
+html[data-hyron-theme] .hyron-history-menu button{background:transparent;color:var(--hy-text)}
+html[data-hyron-theme] .hyron-history-menu button:hover{background:var(--hy-accent-soft)}
+html[data-hyron-theme] .hyron-history-menu .history-delete{color:var(--hy-danger)}
+html[data-hyron-theme] .logo,html[data-hyron-theme] #hyron-sidebar .sidebar-mark,html[data-hyron-theme] .appearance-mark{background:var(--hy-icon-bg);color:var(--hy-icon);border:1px solid var(--hy-border);padding:4px;display:grid;place-items:center;flex-shrink:0}
+.logo svg,.sidebar-mark svg,.appearance-mark svg{width:100%;height:100%;display:block}
+html[data-hyron-theme] #hyron-appearance-open{display:block;text-align:left;width:100%;min-height:42px;margin:4px 0;padding:10px 12px}
+html[data-hyron-theme] .hyron-attachment-card,html[data-hyron-theme] .hyron-file-card,html[data-hyron-theme] .hyron-preview-dialog,html[data-hyron-theme] .hyron-router-dialog{background:var(--hy-surface);color:var(--hy-text);border-color:var(--hy-border)}
+html[data-hyron-theme] .model-meta{opacity:1;color:var(--hy-muted)}
+html[data-hyron-theme] #hyron-main>p.hint{background:var(--hy-chat);border-radius:8px;padding:5px 8px}
+.appearance-dialog{margin:0 0 0 auto;padding:28px;width:min(440px,100%);height:100dvh;max-height:100dvh;max-width:100vw;overflow-y:auto;border:0;border-left:1px solid var(--hy-border);background:var(--hy-surface);color:var(--hy-text);box-shadow:-20px 0 80px #0005}
+.appearance-dialog::backdrop{background:#0007}
+.appearance-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:12px}
+.appearance-heading h2{font-size:26px;line-height:1.2;letter-spacing:-.03em;margin:5px 0 0;color:var(--hy-text)}
+.appearance-kicker{font-size:10px;letter-spacing:.18em;font-weight:750;color:var(--hy-muted);margin:0}
+.appearance-dialog .appearance-close{background:transparent;border:1px solid var(--hy-border);font-size:24px;width:38px;height:38px;display:grid;place-items:center;padding:0;color:var(--hy-text)}
+.appearance-brand-preview{display:flex;align-items:center;gap:18px;padding:20px;border-radius:16px;border:1px solid var(--hy-border);background:var(--hy-raised);margin-bottom:26px}
+.appearance-mark{width:80px;height:80px;border-radius:14px}
+.appearance-brand-preview strong{display:block;font-size:22px;letter-spacing:.13em;color:var(--hy-text)}
+.appearance-brand-preview span:not(.appearance-mark){display:block;font-size:11px;color:var(--hy-muted);margin-top:5px;line-height:1.6}
+.appearance-dialog fieldset{border:0;border-top:1px solid var(--hy-border);padding:20px 0 0;margin:0 0 24px;min-width:0}
+.appearance-dialog legend{padding:0 12px 0 0;font-size:13px;font-weight:750;color:var(--hy-text)}
+.appearance-theme-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.appearance-theme-card{display:grid;gap:9px;position:relative;padding:8px;border:1px solid var(--hy-border);border-radius:11px;font-size:12px;cursor:pointer;color:var(--hy-text)}
+.appearance-theme-card.selected{border:2px solid var(--hy-accent-text);padding:7px;background:var(--hy-accent-soft)}
+.appearance-theme-card input{position:absolute;top:13px;right:13px;margin:0;accent-color:var(--hy-accent-text)}
+.theme-swatch{display:flex;flex-direction:column;gap:7px;border-radius:5px;padding:16px 10px;height:56px}
+.theme-swatch i{display:block;border-radius:4px;height:5px;width:60%}.theme-swatch i:last-child{width:80%;opacity:.4}
+.swatch-hydra{background:#071310}.swatch-hydra i{background:#78e6cd}
+.swatch-dark{background:#15161c}.swatch-dark i{background:#a8b8ff}
+.swatch-light{background:#e9eef4}.swatch-light i{background:#196e5e}
+.appearance-colors{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.appearance-colors label{font-size:12px;color:var(--hy-muted);display:grid;gap:9px}
+.appearance-colors input[type=color]{width:100%;height:42px;border:1px solid var(--hy-border);border-radius:9px;background:var(--hy-raised);padding:5px;cursor:pointer}
+.appearance-field{display:grid;gap:9px;font-size:12px;color:var(--hy-muted);margin:10px 0 18px}
+.appearance-field select{width:100%;padding:11px;border-radius:9px;background:var(--hy-raised);color:var(--hy-text);border:1px solid var(--hy-border)}
+.appearance-field input[type=range]{width:100%;accent-color:var(--hy-accent-text)}
+.appearance-help,.appearance-local{font-size:11px;line-height:1.65;color:var(--hy-muted);margin:10px 0}
+.appearance-local{border-top:1px solid var(--hy-border);padding-top:16px}
+.appearance-file{display:grid;gap:10px;font-size:12px;color:var(--hy-text)}
+.appearance-file input{font-size:11px;width:100%;padding:8px;border-radius:8px;border:1px solid var(--hy-border)}
+.appearance-dialog .appearance-secondary{font-size:11px;line-height:1.4;background:transparent;border:1px solid var(--hy-border);color:var(--hy-text);padding:9px 11px}
+.appearance-footer{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:14px 0 4px;border-top:1px solid var(--hy-border)}
+.appearance-dialog .appearance-save{background:var(--hy-accent);color:var(--hy-button-text);border:1px solid var(--hy-accent);font-size:12px;padding:12px 14px}
+#appearance-status{color:var(--hy-accent-text);font-size:12px;line-height:1.6;min-height:18px}
+@media(max-width:600px){.appearance-dialog{padding:22px 18px}.appearance-heading{margin-bottom:18px}html[data-hyron-theme] #hyron-main #chat{padding:12px}html[data-hyron-theme] #hyron-main header{padding:9px 10px}.appearance-brand-preview{padding:16px}.appearance-footer{flex-wrap:wrap}.appearance-dialog .appearance-save{flex:1}}
+/* Conversation fills the workspace; the reading column stays centered. */
+html[data-hyron-theme] #hyron-main{padding:10px 16px;gap:10px}
+html[data-hyron-theme] #hyron-main header{width:100%;max-width:none;margin:0;background:transparent;border:0;border-radius:0;padding:8px 12px;flex:none}
+html[data-hyron-theme] #hyron-main #chat{width:100%;max-width:none;margin:0;min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;background:transparent;border:0;border-radius:0;padding:24px max(12px,calc((100% - 780px)/2));gap:26px;scrollbar-gutter:stable}
+html[data-hyron-theme] #chat .bubble.ai{background:transparent;border:0;border-radius:0;padding:0;max-width:100%;width:100%;line-height:1.7}
+html[data-hyron-theme] #chat .bubble.user{max-width:85%;padding:12px 18px;border:0;border-radius:22px;line-height:1.6}
+html[data-hyron-theme] #hyron-main #form{width:min(100%,780px);margin:0 auto;flex:none;border-radius:24px;padding:12px 14px;box-shadow:0 4px 24px #0001}
+html[data-hyron-theme] #hyron-main #form #prompt{min-height:48px;max-height:160px;padding:10px 8px;resize:vertical}
+html[data-hyron-theme] #hyron-main #hyron-attach-hint{display:none}
+html[data-hyron-theme] #hyron-main>p.hint{background:transparent;font-size:10px;line-height:1.4;padding:0 6px;max-width:780px}
+@media(max-width:600px){html[data-hyron-theme] #hyron-main{padding:6px 8px;gap:7px}html[data-hyron-theme] #hyron-main header{padding:6px}html[data-hyron-theme] #hyron-main #chat{padding:18px 10px}html[data-hyron-theme] #hyron-main #form{padding:9px 10px;border-radius:20px}html[data-hyron-theme] #hyron-main header small{display:none}}
+
+html[data-hyron-theme] #hyron-main #form #prompt{height:48px;min-height:48px;max-height:min(280px,35dvh);resize:none;overflow-y:hidden}
+/* Keep the description while letting the reading column reach the top. */
+html[data-hyron-theme] #hyron-main{position:relative;container-type:inline-size}
+html[data-hyron-theme] #hyron-main header{background:transparent;box-shadow:none}
+@container(min-width:900px){html[data-hyron-theme] #hyron-main header{position:absolute;top:12px;left:16px;width:240px;max-width:240px;z-index:2}html[data-hyron-theme] #hyron-main #chat{padding-top:14px;padding-left:max(260px,calc((100% - 780px)/2))}}
+@media(max-width:600px){html[data-hyron-theme] #hyron-main header small{display:inline}}

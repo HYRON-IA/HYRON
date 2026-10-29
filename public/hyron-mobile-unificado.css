@@ -1,0 +1,53 @@
+/* HYRON 0.8.5 - Mobile WhatsApp-inspired layout. Desktop untouched. */
+@media (max-width: 700px) {
+  .hyron-groups-panel:not([hidden]),.hyron-dm-panel:not([hidden]){position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;max-height:100dvh!important;border:0!important;border-radius:0!important;margin:0!important;box-sizing:border-box!important;z-index:11000!important;padding:0!important;overflow:hidden!important;background:#081612!important;}
+  .hyron-groups-panel:not([hidden]){display:flex!important;flex-direction:column!important;gap:0!important;}
+  .hyron-groups-row{flex:0 0 auto!important;min-height:54px!important;padding:8px 12px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:6px!important;flex-wrap:nowrap!important;border-bottom:1px solid #284c3c!important;background:#0d201a!important;}
+  .hyron-groups-row h2{font-size:1.04rem!important;flex:1!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+  .hyron-groups-row button:not(.hyron-mobile-actions-trigger){font-size:0!important;width:40px!important;height:40px!important;padding:0!important;flex:0 0 40px!important;}
+  .hyron-groups-row button:not(.hyron-mobile-actions-trigger)::first-letter{font-size:18px!important;}
+  .hyron-mobile-actions-trigger{flex:none!important;width:40px!important;height:40px!important;border:1px solid #385f50!important;border-radius:10px!important;background:#14261f!important;color:#fff!important;font-size:22px!important;padding:0!important;}
+  .hyron-mobile-actions-menu[hidden]{display:none!important}
+  .hyron-mobile-actions-menu{position:absolute!important;z-index:40!important;top:56px!important;right:10px!important;display:grid!important;gap:5px!important;padding:8px!important;width:min(230px,85vw)!important;background:#152820!important;border:1px solid #456554!important;border-radius:12px!important;box-shadow:0 10px 35px #000a!important;}
+  .hyron-mobile-actions-menu button{width:100%!important;text-align:left!important;white-space:normal!important;font-size:14px!important;padding:10px!important;}
+  .hyron-groups-status{min-height:0!important;font-size:12px!important;padding:0 10px!important;}
+  .hyron-groups-status:empty{display:none!important}
+  .hyron-groups-workspace,.hyron-groups-unified{flex:1!important;min-height:0!important;display:block!important;overflow:hidden!important;}
+  .hyron-groups-conversations{display:block!important;height:100%!important;overflow-y:auto!important;padding:12px!important;border:0!important;box-sizing:border-box!important;}
+  .hyron-groups-list{display:grid!important;grid-template-columns:1fr!important;gap:5px!important;}
+  .hyron-groups-card{min-height:68px!important;padding:10px!important;border-radius:10px!important;}
+  .hyron-groups-conversation{display:none!important;height:100%!important;min-height:0!important;overflow:hidden!important;}
+  .hyron-groups-panel.has-group .hyron-groups-conversations{display:none!important;}
+  .hyron-groups-panel.has-group .hyron-groups-conversation{display:flex!important;flex-direction:column!important;}
+  .hyron-groups-chat-layout{display:flex!important;flex:1!important;min-height:0!important;overflow:hidden!important;}
+  .hyron-groups-chat-members{display:none!important;}
+  .hyron-groups-chat{display:flex!important;flex-direction:column!important;flex:1!important;min-width:0!important;min-height:0!important;border:0!important;border-radius:0!important;}
+  .hyron-groups-chat-heading{flex:0 0 auto!important;padding:8px 12px!important;min-height:52px!important;display:flex!important;flex-flow:row wrap!important;align-items:center!important;gap:8px!important;}
+  .hyron-groups-chat-heading button{width:auto!important;max-width:fit-content!important;font-size:12px!important;padding:7px!important;}
+  .hyron-groups-chat-heading .hyron-groups-danger-action{display:none!important;}
+  .hyron-groups-chat-feed{flex:1!important;min-height:0!important;overflow:auto!important;padding:12px 10px!important;}
+  .hyron-groups-msg{max-width:88%!important;min-width:0!important;}
+  .hyron-groups-chat-composer{flex:0 0 auto!important;min-height:0!important;max-height:42dvh!important;overflow-y:auto!important;padding:7px 9px max(8px,env(safe-area-inset-bottom))!important;gap:6px!important;align-items:end!important;}
+  .hyron-groups-chat-composer textarea{min-height:42px!important;max-height:120px!important;resize:none!important;font-size:16px!important;}
+  .hyron-groups-chat-composer button{padding:8px!important;}
+  /* DM panels use a similar list/chat screen model */
+  .hyron-dm-panel:not([hidden]){display:block!important;}
+  .hyron-dm-dialog{width:100%!important;height:100%!important;max-height:100dvh!important;min-height:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;}
+  .hyron-dm-head{flex:0 0 auto!important;min-height:52px!important;padding:10px 12px!important;gap:8px!important;}
+  .hyron-dm-head h2{font-size:1.06rem!important;flex:1!important;min-width:0!important;}
+  .hyron-dm-head [data-close]{font-size:13px!important;padding:8px!important;}
+  .hyron-dm-columns{display:flex!important;flex:1!important;min-height:0!important;overflow:hidden!important;flex-direction:column!important;}
+  .hyron-dm-left{flex:1!important;min-height:0!important;overflow-y:auto!important;border:0!important;padding:12px!important;}
+  .hyron-dm-right{display:none!important;flex:1!important;min-height:0!important;overflow:hidden!important;}
+  .hyron-dm-panel[data-hyron-mobile-view="chat"] .hyron-dm-left{display:none!important;}
+  .hyron-dm-panel[data-hyron-mobile-view="chat"] .hyron-dm-right{display:flex!important;flex-direction:column!important;}
+  .hyron-dm-thread{min-height:65px!important;padding:12px!important;}
+  .hyron-dm-title{display:flex!important;align-items:center!important;gap:10px!important;min-height:48px!important;box-sizing:border-box!important;padding:8px 12px!important;}
+  .hyron-mobile-dm-back{flex:none!important;border:0!important;background:transparent!important;color:inherit!important;font-size:22px!important;padding:4px 8px!important;}
+  .hyron-dm-messages{flex:1!important;min-height:0!important;overflow-y:auto!important;padding:12px!important;}
+  .hyron-dm-message{max-width:87%!important;}
+  .hyron-dm-compose{flex:0 0 auto!important;max-height:43dvh!important;overflow-y:auto!important;padding:7px 9px max(8px,env(safe-area-inset-bottom))!important;gap:7px!important;align-items:end!important;}
+  .hyron-dm-compose textarea{min-height:42px!important;max-height:120px!important;resize:none!important;font-size:16px!important;}
+  .hyron-dm-media-actions{display:flex!important;flex-wrap:wrap!important;gap:5px!important;}
+  .hyron-dm-media-actions button{font-size:12px!important;padding:6px!important;}
+}

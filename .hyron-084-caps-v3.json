@@ -1,0 +1,20 @@
+{
+  "dir": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\.backup-hyron-caps-v3-1792855843344",
+  "files": [
+    {
+      "name": "index.ts",
+      "before": "201d3b5ef1169e38c98a2ae67e02ca2ea32780a27d0f8db32dfae3f5bedb927b",
+      "after": "7bd3d042019bd46fbe56a9ab7901ee21de230b7850556370102aabb9b3d90a3f"
+    },
+    {
+      "name": "group-rooms.ts",
+      "before": "3540de3f36c0c88e1ccba84d0282548b77520eba068bee0d625170196d065686",
+      "after": "53d611de654cd1b079a9644d1218762f24051fa69e30dc62f10ff5d4253e97cf"
+    },
+    {
+      "name": "private-messages.ts",
+      "before": "586bda186bb3708f7b5a39d447ef8779155f67e545ab0d2ba0ac922298071481",
+      "after": "e36b3543bb3b7048075407c5f27bdb1bef4afc51d3e268baf69d917407682f3b"
+    }
+  ]
+}

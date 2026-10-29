@@ -1,0 +1,40 @@
+/* HYRON 0.8.2 Linha Direta - scoped UI */
+.hyron-dm-toggle{position:relative}.hyron-dm-count{display:inline-block;margin-left:5px;background:#2ba98e;color:#031915;border-radius:99px;padding:1px 6px;font-size:.75em}
+.hyron-dm-panel[hidden]{display:none!important}.hyron-dm-panel{position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:18px}
+.hyron-dm-dialog{width:min(1000px,98vw);height:min(720px,92vh);display:flex;flex-direction:column;overflow:hidden;border:1px solid #315b50;border-radius:18px;background:#0d1816;color:#e7f4f0;box-shadow:0 15px 70px #000c}
+.hyron-dm-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid #28483d}.hyron-dm-head h2{font-size:1.15rem;margin:0}
+.hyron-dm-columns{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:0;flex:1}.hyron-dm-left{border-right:1px solid #28483d;overflow:auto;padding:12px}.hyron-dm-right{display:flex;flex-direction:column;min-width:0;min-height:0}.hyron-dm-users{display:flex;gap:7px;margin:8px 0}.hyron-dm-users input{min-width:0;flex:1}.hyron-dm-threads{display:grid;gap:6px;margin-top:12px}.hyron-dm-thread{display:flex;flex-direction:column;text-align:left;gap:3px;padding:10px;border:1px solid #274139;border-radius:10px;background:#15251f;color:inherit;cursor:pointer}.hyron-dm-thread.active{border-color:#4cd3aa;background:#213c31}.hyron-dm-preview{font-size:.79rem;opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hyron-dm-pill{background:#31b996;color:#071610;border-radius:50px;padding:1px 6px;font-size:.75rem;margin-left:6px}.hyron-dm-title{padding:12px 15px;border-bottom:1px solid #28483d;font-weight:600}.hyron-dm-messages{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:15px}.hyron-dm-message{max-width:80%;padding:9px 12px;border-radius:13px;background:#233a32;white-space:pre-wrap;overflow-wrap:anywhere}.hyron-dm-message.own{align-self:flex-end;background:#246651}.hyron-dm-message.other{align-self:flex-start}.hyron-dm-message small{display:block;margin-top:4px;opacity:.65;font-size:.7rem}.hyron-dm-compose{border-top:1px solid #28483d;padding:12px;display:flex;gap:9px}.hyron-dm-compose textarea{resize:vertical;min-width:0;flex:1;max-height:140px;min-height:45px}.hyron-dm-compose button{align-self:flex-end}.hyron-dm-status{padding:3px 15px;font-size:.75rem;min-height:20px;color:#b2d5c8}.hyron-dm-dialog button{cursor:pointer}.hyron-dm-users-list{max-height:170px;overflow:auto;display:grid;gap:4px}.hyron-dm-user{padding:7px;text-align:left;border-radius:6px}
+@media(max-width:650px){.hyron-dm-columns{grid-template-columns:1fr;grid-template-rows:minmax(120px,33%) minmax(0,1fr)}.hyron-dm-left{border-right:0;border-bottom:1px solid #28483d;padding:9px}.hyron-dm-dialog{height:94vh}.hyron-dm-message{max-width:92%}}
+
+/* HYRON 0.8.2 - Linha Direta multimidia */
+.hyron-dm-composer-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.hyron-dm-composer-main textarea{width:100%;box-sizing:border-box;min-height:48px}
+.hyron-dm-media-actions{display:flex;flex-wrap:wrap;gap:6px}
+.hyron-dm-media-actions button,.hyron-dm-pending button{font-size:.8rem;padding:5px 8px;border:1px solid #38574f;border-radius:8px;color:inherit;background:#1a312a}
+.hyron-dm-pending{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.8rem;word-break:break-word}
+.hyron-dm-pending[hidden]{display:none}
+.hyron-dm-attachment{display:grid;gap:5px;padding-top:7px;max-width:min(350px,65vw)}
+.hyron-dm-attachment img,.hyron-dm-attachment video{display:block;max-width:100%;max-height:300px;border-radius:9px}
+.hyron-dm-attachment audio{width:min(300px,65vw)}
+.hyron-dm-attachment a{color:#9ae8d0;font-size:.79rem;overflow-wrap:anywhere}
+
+.hyron-dm-local-preview{max-width:100%;max-height:125px;min-width:0;border-radius:7px}
+.hyron-dm-capture{position:fixed;inset:0;z-index:9900;display:grid;place-items:center;background:#000c;padding:18px}
+.hyron-dm-capture-box{width:min(740px,98vw);background:#11221d;border:1px solid #48695d;padding:14px;border-radius:15px;display:grid;gap:12px}
+.hyron-dm-capture-box video{width:100%;max-height:65vh;background:#050606}
+.hyron-dm-capture-actions{display:flex;gap:10px;justify-content:flex-end}
+.hyron-dm-capture-actions button{padding:9px 14px;border-radius:9px;border:1px solid #48695d;background:#234d41;color:white}
+
+
+/* HYRON_DM_WHATSAPP_RECORDER_082 */
+.hyron-dm-voice-compose[hidden]{display:none!important}
+.hyron-dm-voice-compose{flex:1;min-width:0;padding:12px;border:1px solid var(--border,rgba(128,160,148,.35));background:var(--panel-bg,var(--panel,#111e19));color:var(--text,#f5fffc);border-radius:14px;display:grid;gap:12px}
+.hyron-dm-voice-top,.hyron-dm-voice-controls{display:flex;align-items:center;gap:12px;min-width:0;flex-wrap:wrap}
+.hyron-dm-record-dot{width:10px;height:10px;flex:none;border-radius:50%;background:#ec5d64;animation:hyron-record-pulse 1.2s infinite}
+@keyframes hyron-record-pulse{50%{opacity:.25}}
+.hyron-dm-voice-compose.paused .hyron-dm-record-dot{animation:none;opacity:.4}
+.hyron-dm-voice-top strong{font-variant-numeric:tabular-nums}
+.hyron-dm-voice-wave{flex:1;height:28px;min-width:60px;background:repeating-linear-gradient(90deg,currentColor 0 3px,transparent 3px 9px);opacity:.3;mask-image:linear-gradient(0deg,transparent,black 35%,black 70%,transparent)}
+.hyron-dm-voice-controls button{border:1px solid var(--border,rgba(128,160,148,.35));background:var(--input-bg,#202d29);color:inherit;border-radius:12px;padding:9px 13px;cursor:pointer}
+.hyron-dm-voice-controls [data-voice-finish]{margin-left:auto;border-color:var(--accent,#3bae92);font-weight:700}
+@media(max-width:768px){.hyron-dm-voice-compose{width:100%;padding:10px}.hyron-dm-voice-controls{gap:6px;justify-content:space-between}.hyron-dm-voice-controls button{padding:9px 7px;font-size:12px}.hyron-dm-voice-controls [data-voice-finish]{margin-left:0}}

@@ -1,0 +1,10 @@
+/* HYRON 0.8.3 shared waveform progress: DM + group audio. */
+.hyron-083-original-seek{display:none!important}
+.hyron-083-wave{display:flex;align-items:center;justify-content:space-between;gap:2px;flex:1 1 72px;min-width:65px;max-width:100%;height:38px;cursor:pointer;touch-action:none;user-select:none;border-radius:6px;outline-offset:3px;color:var(--hy-accent,var(--dm-accent,#33b88b))}
+.hyron-083-wave-bar{display:block;flex:1 1 0;min-width:2px;max-width:5px;border-radius:3px;background:currentColor;opacity:.31;transition:opacity 80ms ease}
+.hyron-083-wave-bar.hyron-083-wave-done{opacity:1}
+.hyron-083-wave:focus-visible{outline:2px solid currentColor}
+.hyron-083-wave-disabled{cursor:not-allowed;opacity:.55}
+.hyron-083-wave-disabled .hyron-083-wave-bar{opacity:.26}
+.hyron-dm-v2-controls .hyron-083-wave,.hyron-groups-audio-controls .hyron-083-wave{min-width:65px}
+@media(max-width:550px){.hyron-083-wave{gap:1px;min-width:50px}.hyron-083-wave-bar{min-width:1px}}

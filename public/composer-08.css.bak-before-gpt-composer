@@ -1,0 +1,31 @@
+/* HYRON 0.8.2 — barra compacta sem alterar o campo expansivel v0.7 */
+#hyron-main #form .hyron-compact-actions{align-items:center;display:flex;flex-wrap:nowrap;gap:8px;position:relative}
+#hyron-main #form .hyron-compact-actions .provider-label{display:flex;align-items:center;gap:6px;min-width:0;font-size:12px}
+#hyron-main #form #provider{max-width:190px;min-width:95px}
+#hyron-main #form #mic,#hyron-main #form #send,#hyron-main #form #hyron-tools-toggle{width:38px;min-width:38px;height:38px;display:grid;place-items:center;border-radius:50%;padding:0;font-size:20px;line-height:1}
+#hyron-main #form #send{margin-left:auto;font-weight:750}
+#hyron-main .hyron-tools-wrapper{position:relative;flex:none}
+#hyron-main .hyron-tools-menu{position:absolute;left:0;bottom:calc(100% + 12px);width:min(270px,calc(100vw - 40px));z-index:80;padding:9px;display:grid;gap:6px;border:1px solid var(--hy-border,#355a50);border-radius:15px;background:var(--hy-surface,#13221f);box-shadow:0 12px 36px #0008}
+#hyron-main .hyron-tools-menu[hidden]{display:none!important}
+#hyron-main .hyron-tool-item>button{width:100%;text-align:left}
+#hyron-main .hyron-tool-item .hyron-web-label{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px;font-size:13px}
+#hyron-main .hyron-tool-item #hyron-web-mode{max-width:138px}
+@media(max-width:530px){#hyron-main #form .hyron-compact-actions{gap:5px}#hyron-main #form .hyron-compact-actions .provider-label{font-size:0}#hyron-main #form #provider{max-width:130px;font-size:12px}#hyron-main #form #mic,#hyron-main #form #send,#hyron-main #form #hyron-tools-toggle{width:34px;min-width:34px;height:34px}}
+
+/* 0.8.3: a textarea e a moldura sao uma unica caixa, sem bordas internas. */
+html[data-hyron-theme] #hyron-main #form{display:flex;flex-direction:column;gap:4px;overflow:visible;border:1px solid var(--hy-border,#355a50);background:var(--hy-surface,#102820);padding:11px 12px 9px;border-radius:24px}
+html[data-hyron-theme] #hyron-main #form:focus-within{border-color:var(--hy-accent,#78e6cd);box-shadow:0 0 0 1px color-mix(in srgb,var(--hy-accent,#78e6cd) 18%,transparent)}
+html[data-hyron-theme] #hyron-main #form #prompt,html[data-hyron-theme] #hyron-main #form #prompt:focus,html[data-hyron-theme] #hyron-main #form #prompt:focus-visible{display:block;width:100%;box-sizing:border-box;height:48px;min-height:48px;max-height:min(280px,35dvh);padding:10px 10px 7px;margin:0;border:0!important;outline:none!important;outline-offset:0!important;box-shadow:none!important;border-radius:0!important;background:transparent!important;resize:none!important;overflow-y:hidden;font:inherit;line-height:1.45}
+html[data-hyron-theme] #hyron-main #form .hyron-compact-actions{padding:1px 1px 0;min-height:40px;gap:8px}
+html[data-hyron-theme] #hyron-main #form #hyron-tools-toggle{font-size:23px;border-radius:50%}
+html[data-hyron-theme] #hyron-main #form #provider{min-width:0;max-width:175px}
+@media(max-width:600px){html[data-hyron-theme] #hyron-main #form{padding:8px 9px 8px}html[data-hyron-theme] #hyron-main #form #provider{max-width:120px}}
+
+/* v0.8.1: ajuste fino da altura e da integracao entre texto e ferramentas. */
+html[data-hyron-theme] #hyron-main #form{gap:0!important;padding:8px 13px 8px!important;border-radius:27px!important;min-height:0!important}
+html[data-hyron-theme] #hyron-main #form #prompt,
+html[data-hyron-theme] #hyron-main #form #prompt:focus{height:auto!important;min-height:43px!important;max-height:min(260px,36dvh)!important;padding:8px 9px 5px!important;line-height:1.5!important;resize:none!important;border:0!important;box-shadow:none!important;background:transparent!important;overflow-y:auto}
+html[data-hyron-theme] #hyron-main #form .hyron-compact-actions{min-height:38px!important;gap:9px!important;padding:0 2px!important;align-items:center!important;border:0!important;background:transparent!important}
+html[data-hyron-theme] #hyron-main #form #provider{min-height:35px;max-width:180px}
+html[data-hyron-theme] #hyron-main #form #send{margin-left:auto!important}
+@media(max-width:600px){html[data-hyron-theme] #hyron-main #form{padding:7px 9px!important}html[data-hyron-theme] #hyron-main #form .hyron-compact-actions{gap:5px!important}html[data-hyron-theme] #hyron-main #form #provider{max-width:126px}}

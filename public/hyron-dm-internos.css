@@ -1,0 +1,10 @@
+/* HYRON_DM_INTERNOS_RETRATIL_V1 */
+.hyron-dm-threads .hyron-internos-section{border:1px solid rgba(105,175,148,.35);border-radius:12px;margin:6px 3px 12px;overflow:hidden;background:rgba(30,66,55,.12)}
+.hyron-internos-toggle{width:100%;display:flex;align-items:center;gap:8px;padding:11px 12px;border:0;background:rgba(35,92,72,.28);color:inherit;font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.hyron-internos-toggle:hover{background:rgba(35,92,72,.44)}
+.hyron-internos-count{margin-left:auto;font-size:12px;opacity:.75;border-radius:12px;padding:2px 7px;background:rgba(105,175,148,.15)}
+.hyron-internos-arrow:before{content:'▾';display:block;transition:transform .15s ease}
+.hyron-internos-toggle[aria-expanded='false'] .hyron-internos-arrow:before{transform:rotate(-90deg)}
+.hyron-internos-items{padding:4px 3px 6px}
+.hyron-internos-items[hidden]{display:none!important}
+.hyron-internos-items .hyron-dm-thread{width:100%}

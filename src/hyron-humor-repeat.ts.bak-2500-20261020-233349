@@ -1,0 +1,80 @@
+import { applyHybridHumor } from './hyron-humor-hybrid';
+
+type OriginalArgs = Parameters<typeof applyHybridHumor>;
+type HumorResult = Awaited<ReturnType<typeof applyHybridHumor>>;
+type ProtectedResult = HumorResult & { humorAttempts: number; repeatedInsultsRejected: number };
+const STARTER = [
+ 'Você é tão confuso que até o Wi-Fi pede ajuda pra se conectar.',
+ 'Sua velocidade de pensamento é tão boa quanto o download de um video em 240p.',
+ 'Você é tão rápido em perder a linha que o próprio texto precisa de pausa para te acompanhar.',
+ 'Você é tão confuso que até o GPS pede “recalcular rota”.',
+ 'Você é tão confuso que até o Wi-Fi pede “reconectar”.',
+ 'Você é tão lento no raciocínio que o processador pede férias.',
+ 'Você é tão lento que o processador já pediu férias.',
+ 'Seu cérebro tem mais lag que um streaming dos anos 2000 — e ainda tem a audácia de culpar o Wi-Fi.'
+];
+const normalize = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/wi[\s-]?fi/g,'wifi').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const STOP = new Set(['voce','seu','sua','seus','suas','que','com','para','uma','mais','tanto','tem','ate','por','pede','pedir','muito','ainda','mesmo','estao','esta','isso','essa','este','onde']);
+const tokens = (s:string) => new Set(normalize(s).split(' ').filter(x=>x.length>3&&!STOP.has(x)));
+function similar(a:string,b:string):boolean {
+ const na=normalize(a),nb=normalize(b);
+ if(!na||!nb)return false;
+ if(na===nb||(na.length>25&&nb.includes(na))||(nb.length>25&&na.includes(nb)))return true;
+ const aa=tokens(a),bb=tokens(b);if(!aa.size||!bb.size)return false;
+ const overlap=[...aa].filter(x=>bb.has(x)).length;
+ return overlap>=3&&overlap/Math.min(aa.size,bb.size)>=0.75;
+}
+const roast=/\b(?:provoca[cç][aã]o|zoada|zoeira|sarc[aá]stic|me\s+(?:xinga|zoa|zoe|insulta|ofende)|tira\s+sarro)\b/i;
+const fallbackTexts = [
+ 'A criatividade da SenseNova tirou folga. Não consegui uma provocação inédita desta vez.',
+ 'As cinco tentativas não renderam uma zoeira nova. Melhor não reciclar a mesma.',
+ 'Desta vez nenhuma provocação passou pelo filtro. Vou poupar você do disco riscado.'
+];
+const fallback = (reason:string,attempts:number,rejected:number):ProtectedResult => ({answer:fallbackTexts[Math.floor(Math.random()*fallbackTexts.length)],changed:true,reason,engine:'none',aiStatus:reason,humorAttempts:attempts,repeatedInsultsRejected:rejected});
+async function save(db:D1Database,userId:string,insult:string):Promise<void> {
+ await db.prepare('INSERT INTO hyron_humor_insults(user_id,insult) VALUES(?,?)').bind(userId,insult).run();
+ await db.prepare('DELETE FROM hyron_humor_insults WHERE user_id=? AND id NOT IN (SELECT id FROM hyron_humor_insults WHERE user_id=? ORDER BY id DESC LIMIT 20)').bind(userId,userId).run();
+}
+export async function applyRepeatProtectedHumor(db:D1Database,userId:string,...args:OriginalArgs):Promise<ProtectedResult> {
+ const [base,userMessage,settings,ctx,opts]=args;
+ const relevant=roast.test(userMessage)&&settings.teasing&&settings.level>=3&&settings.frequency>0&&!ctx.hasSources&&!ctx.webRequested&&!ctx.backendIdentity;
+ if(!relevant){const r=await applyHybridHumor(...args);return {...r,humorAttempts:r.aiStatus==='ok'?1:0,repeatedInsultsRejected:0};}
+ let history:string[];
+ try {
+  const count=await db.prepare('SELECT COUNT(*) AS n FROM hyron_humor_insults WHERE user_id=?').bind(userId).first<{n:number}>();
+  if(!count?.n){for(const insult of STARTER)await save(db,userId,insult);}
+  history=(await db.prepare('SELECT insult FROM hyron_humor_insults WHERE user_id=? ORDER BY id DESC LIMIT 20').bind(userId).all<{insult:string}>()).results.map(x=>x.insult);
+ }catch(e){console.error('HYRON HUMOR MEMORY READ',e instanceof Error?e.name:'unknown');return fallback('humor-memory-unavailable',0,0);}
+ const original=base.trim();
+ const duplicate=(text:string)=>history.some(h=>similar(h,text));
+ // O modelo principal ja pode ter criado uma provocacao nova. Aceite-a sem obrigar
+ // outra geracao, evitando duplicidade e chamadas desnecessarias a SenseNova.
+ if(original&&!duplicate(original)) {
+  try {await save(db,userId,original);}catch(e){console.error('HYRON HUMOR MEMORY WRITE',e instanceof Error?e.name:'unknown');return fallback('humor-memory-write-failed',0,0);}
+  return {answer:original,changed:false,reason:'main-model-unique',engine:'none',aiStatus:'not-needed',humorAttempts:0,repeatedInsultsRejected:0};
+ }
+ let rejected=1;
+ if(!String(opts.senseNovaKey||'').trim())return fallback('missing-sensenova-configuration',0,rejected);
+ let attempts=0;let lastStatus='not-used';
+ const rejectedThisRequest:string[]=[];
+ for(let n=1;n<=5;n++) {
+  attempts=n;
+  const r=await applyHybridHumor(base,userMessage,settings,ctx,{...opts,excludedInsults:[...history,original,...rejectedThisRequest]});
+  lastStatus=r.aiStatus;
+  if(r.engine!=='secondary-ai'||!r.changed) {
+   // Erros de transporte nao sao repeticoes e nao justificam gastar mais 4 chamadas.
+   if(['unavailable','not-configured','missing-sensenova-configuration'].includes(r.aiStatus)||r.aiStatus.startsWith('http-'))break;
+   rejected++;continue;
+  }
+  const prefix=base.trimEnd()+'\n\n';
+  const proposed=(r.answer.startsWith(prefix)?r.answer.slice(prefix.length):r.answer).trim();
+  if(!proposed||duplicate(proposed)||similar(proposed,original)||rejectedThisRequest.some(x=>similar(x,proposed))){
+   rejected++;
+   if(proposed)rejectedThisRequest.push(proposed);
+   continue;
+  }
+  try {await save(db,userId,proposed);}catch(e){console.error('HYRON HUMOR MEMORY WRITE',e instanceof Error?e.name:'unknown');return fallback('humor-memory-write-failed',attempts,rejected);}
+  return {answer:proposed,changed:true,reason:'main-duplicate-replaced',engine:'secondary-ai',aiStatus:'ok',humorAttempts:attempts,repeatedInsultsRejected:rejected};
+ }
+ return fallback('no-unique-insult-'+lastStatus,attempts,rejected);
+}

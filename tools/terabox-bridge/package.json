@@ -1,0 +1,14 @@
+{
+  "name": "hyron-terabox-storage-bridge",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node --env-file=.env src/index.ts",
+    "test": "node --test test/bridge.test.ts",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc --noEmit -p tsconfig.json"
+  }
+}

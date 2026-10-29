@@ -1,0 +1,14 @@
+.hyron-avatar-settings{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:12px 0}.hyron-avatar-image{width:70px;height:70px;border-radius:50%;object-fit:cover;display:block;background:var(--surface,#233a33)}.hyron-avatar-image[hidden]{display:none}.hyron-avatar-actions{display:flex;flex-wrap:wrap;gap:8px}.hyron-avatar-status{font-size:12px;opacity:.85}.hyron-dm-person-avatar{width:34px;height:34px;flex:none;border-radius:50%;object-fit:cover;margin-right:9px;background:var(--surface,#233a33)}.hyron-dm-person-avatar[hidden]{display:none}
+
+.hyron-dm-thread:has(>.hyron-dm-person-avatar){position:relative;padding-left:55px;min-height:51px;justify-content:center}.hyron-dm-thread>.hyron-dm-person-avatar{position:absolute;left:10px;top:50%;transform:translateY(-50%);margin:0}
+
+/* HYRON 083 — Meu Perfil no menu lateral */
+#hyron-profile-open{width:100%;text-align:left;cursor:pointer}
+.hyron-profile-dialog{width:min(92vw,480px);max-height:85vh;overflow:auto;padding:22px;border:1px solid #45635a;border-radius:16px;color:var(--text,#e8f5ed);background:var(--surface,#10231e);box-shadow:0 24px 90px #0009}
+.hyron-profile-dialog::backdrop{background:#000b}
+.hyron-profile-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hyron-profile-heading h2{margin:0;font-size:1.25rem}
+.hyron-profile-close{cursor:pointer;border:1px solid #61766e;border-radius:9px;padding:8px 12px;background:transparent;color:inherit}
+.hyron-profile-username{opacity:.8;font-size:.9rem}
+.hyron-profile-dialog .settings-panel{display:block!important;margin-top:16px}
+.hyron-profile-dialog button{cursor:pointer}

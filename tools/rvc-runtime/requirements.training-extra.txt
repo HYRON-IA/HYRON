@@ -1,0 +1,4 @@
+# Additional direct dependencies imported by the pinned RVC training path.
+# Install only after reviewing and explicitly authorizing these additions.
+matplotlib>=3.8.2,<4
+tensorboard>=2.19.0,<3

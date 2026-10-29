@@ -1,0 +1,5 @@
+/* Apenas áudio sem texto: player limpo e data/hora real abaixo */
+[data-hyron-dm-v2="panel"] .hyron-audio-bubble-transparent .hyron-audio-clean-hidden{display:none!important}
+[data-hyron-dm-v2="panel"] .hyron-audio-bubble-transparent .hyron-dm-v2-audio{margin:0!important;max-width:min(460px,100%)!important}
+[data-hyron-dm-v2="panel"] .hyron-audio-bubble-transparent .hyron-audio-clean-time{font-size:12px;line-height:1.4;opacity:.7;text-align:right;margin:5px 3px 0;color:var(--muted,var(--text-secondary,inherit));}
+[data-hyron-dm-v2="panel"] .hyron-audio-clean-time[hidden]{display:none!important}

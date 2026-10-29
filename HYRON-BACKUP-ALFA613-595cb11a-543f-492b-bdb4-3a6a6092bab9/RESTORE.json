@@ -1,0 +1,34 @@
+[
+  {
+    "file": "src/index.ts",
+    "existed": true
+  },
+  {
+    "file": "src/google-drive.ts",
+    "existed": true
+  },
+  {
+    "file": "src/hyron-image-history.ts",
+    "existed": false
+  },
+  {
+    "file": "public/attachments.js",
+    "existed": true
+  },
+  {
+    "file": "public/drive-ui.js",
+    "existed": true
+  },
+  {
+    "file": "public/app.js",
+    "existed": true
+  },
+  {
+    "file": "database/0009_chat_drive_images.sql",
+    "existed": false
+  },
+  {
+    "file": "src/hyron-history-recall.ts",
+    "existed": true
+  }
+]

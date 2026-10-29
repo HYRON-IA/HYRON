@@ -1,0 +1,22 @@
+# Kaggle / transient runtime artifacts
+output/*
+!output/.gitkeep
+
+# Private or operator-controlled data
+**/dataset*
+**/datasets/**
+**/*.wav
+**/*.pth
+**/*.index
+**/*.zip
+**/*.tar
+**/*.gz
+
+# Local tooling clutter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.log
+
+# Notebook outputs
+*.nbconvert.ipynb

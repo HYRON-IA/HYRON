@@ -1,0 +1,132 @@
+:root{font-family:Inter,system-ui,Arial,sans-serif;color:#e6f2ef;background:#07100f;color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 0,#163a33,#07100f 55%)}.shell{width:min(850px,100%);min-height:100vh;margin:auto;display:flex;flex-direction:column;padding:24px;gap:20px}header{display:flex;align-items:center;gap:14px;border-bottom:1px solid #29423d;padding-bottom:18px}.logo{display:grid;place-items:center;background:#173c34;color:#7de9d0;border:1px solid #326c5f;border-radius:16px;font-size:30px;width:58px;height:58px}h1{font-size:25px;letter-spacing:.17em;margin:0;color:#78e6cd}small,.hint{color:#90ada5}.ghost{margin-left:auto}.chat{display:flex;flex:1;flex-direction:column;gap:14px;overflow-y:auto;min-height:45vh;max-height:65vh;padding:10px 0}.bubble{padding:14px 17px;border-radius:15px;max-width:88%;white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere}.ai{align-self:flex-start;background:#192c28;border:1px solid #2b5147}.user{align-self:flex-end;background:#1a5345}.error{border-color:#b76a6a;color:#ffd5d5}form{border:1px solid #355a50;border-radius:15px;padding:12px;background:#101f1c}textarea{width:100%;resize:vertical;border:0;outline:0;background:transparent;color:inherit;font:inherit;padding:10px;min-height:60px}.actions{display:flex;gap:8px;flex-wrap:wrap}button{cursor:pointer;border:1px solid #3b6156;border-radius:10px;padding:10px 14px;background:#1b352e;color:#d8f2e9;font-weight:600}button:hover{background:#285245}button:disabled{opacity:.45;cursor:wait}#send{margin-left:auto;background:#257f69;border-color:#3baf94}.hint{font-size:12px;text-align:center;margin:0}@media(max-width:500px){.shell{padding:13px}.actions{gap:5px}button{padding:9px}.chat{max-height:60vh}}
+
+.model-meta{display:block;opacity:.65;font-size:.72rem;margin-top:.5rem}.provider-label{display:flex;align-items:center;gap:.35rem;font-size:.8rem}#provider{max-width:150px;background:#142523;color:#e3f5ee;border:1px solid #35564d;border-radius:6px;padding:.4rem}
+
+.history-bar{display:flex;gap:10px;align-items:center}.history-bar select{flex:1;min-width:0;padding:10px;border:1px solid #35564d;border-radius:10px;background:#142523;color:#e3f5ee}.history-bar button{white-space:nowrap}
+.auth-box{width:min(460px,calc(100% - 28px));margin:8vh auto;padding:26px;border:1px solid #355a50;border-radius:18px;background:#101f1c}.auth-box form,.auth-box label{display:flex;flex-direction:column;gap:10px}.auth-box form{gap:16px}.auth-box input,.auth-box select,#search{padding:11px;border:1px solid #35564d;border-radius:9px;background:#142523;color:#e3f5ee;width:100%}.auth-box h1{margin-bottom:6px}.auth-box p{color:#9ebbb2}#auth-error{color:#ffc7c7}#who{margin:3px 0} [hidden]{display:none!important}
+
+.settings-panel{background:#10231e;border:1px solid #355a50;border-radius:14px;padding:14px;display:grid;gap:12px}.settings-panel h2{font-size:1rem;margin:0;color:#78e6cd}.settings-heading{display:flex;align-items:center;justify-content:space-between}.admin-user{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #29423d}.admin-user span{overflow-wrap:anywhere}.voice-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:end}.voice-controls label{display:flex;flex-direction:column;gap:6px;flex:1;min-width:160px}.voice-controls select{background:#142523;color:#e3f5ee;border:1px solid #35564d;border-radius:9px;padding:9px}.voice-controls input{width:100%}#invite-code{min-width:180px;flex:1;background:#142523;color:#e3f5ee;border:1px solid #35564d;border-radius:8px;padding:9px}#voice-info{text-align:left}
+
+.voice-library{border-top:1px solid #355a50;padding-top:12px;display:grid;gap:10px}.voice-library h3{margin:0;font-size:.95rem}.voice-library label{display:grid;gap:6px;font-size:.85rem}.voice-library input{max-width:100%;color:#d8f2e9}.voice-library .hint{text-align:left}.voice-library-item{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid #355a50;border-radius:9px;padding:10px;flex-wrap:wrap}.voice-library-item span{overflow-wrap:anywhere;font-size:.85rem}
+
+#voice-rate{width:min(310px,72vw);accent-color:#78e6cd;cursor:pointer}#rate-value{font-variant-numeric:tabular-nums;display:inline-block;min-width:3.7rem}#speed-info{margin-top:.6rem;text-align:left}.english-toggle{display:flex;align-items:center;gap:.4rem}.english-toggle input{width:auto}#reset-rate{white-space:nowrap}
+
+
+/* HYRON v0.5.16b — Layout de narracao corrigido. */
+#voice-settings { gap: 14px; }
+#voice-settings .voice-controls {
+  display:grid;
+  grid-template-columns:minmax(200px,1fr) minmax(220px,1.5fr) auto;
+  grid-template-areas: "voice speed reset" "english english test";
+  gap:14px 16px; align-items:end;
+  padding:16px; border:1px solid #31594d; background:#0e1e1a; border-radius:12px;
+}
+#voice-settings .voice-controls > .voice-picker{grid-area:voice;min-width:0}
+#voice-settings .voice-controls > .speed-control{grid-area:speed;min-width:0}
+#voice-settings .voice-controls > .rate-reset{grid-area:reset;align-self:end;min-height:42px}
+#voice-settings .voice-controls > .english-toggle{
+ grid-area:english;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;
+ gap:10px;min-width:0;margin:0;cursor:pointer;line-height:1.4
+}
+#voice-settings .voice-controls > .english-toggle input{width:18px;height:18px;flex:0 0 18px;margin:0}
+#voice-settings .voice-controls > .english-toggle span{display:inline;white-space:normal}
+#voice-settings .voice-controls > .voice-test-btn{grid-area:test;min-height:42px}
+#voice-settings .voice-controls #voice-rate{width:100%;margin:4px 0 0;min-width:0;accent-color:#78e6cd}
+#voice-settings .voice-controls #rate-value{display:inline-block;font-weight:700;margin-left:8px;color:#78e6cd}
+#voice-settings .voice-controls select{width:100%;min-height:42px}
+#voice-settings .voice-library-item audio{max-width:100%}
+/* Ocultar interfaces de upload/importacao sem apagar dados ou handlers. */
+#cloud-upload,[id="piper-import"]{display:none!important}
+@media(max-width:700px){
+ #voice-settings .voice-controls{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:
+  "voice voice" "speed reset" "english english" "test test";gap:14px}
+ #voice-settings .voice-controls > .voice-test-btn{width:100%}
+}
+@media(max-width:430px){
+ #voice-settings .voice-controls{grid-template-columns:minmax(0,1fr);grid-template-areas:
+  "voice" "speed" "reset" "english" "test"}
+ #voice-settings .voice-controls > .rate-reset{justify-self:start}
+}
+
+/* HYRON v0.5.16d: grade fixa e nome fonetico configuravel */
+#voice-settings .voice-controls{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto!important;grid-template-areas:"voice speed reset" "english english test"!important;gap:16px!important;align-items:end!important}
+#voice-settings .voice-controls > *{min-width:0!important;max-width:100%;box-sizing:border-box}
+#voice-settings .voice-controls > .voice-picker{grid-area:voice}
+#voice-settings .voice-controls > .speed-control{grid-area:speed}
+#voice-settings .voice-controls > .rate-reset{grid-area:reset}
+#voice-settings .voice-controls > .english-toggle{grid-area:english}
+#voice-settings .voice-controls > .voice-test-btn{grid-area:test}
+#voice-settings .voice-controls #voice-rate{display:block!important;width:100%!important;max-width:100%!important}
+#voice-settings .voice-controls #rate-value{margin:0 0 0 8px}
+.hyron-name-setting{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;align-items:end;gap:10px 14px;border:1px solid #31594d;border-radius:10px;padding:14px;background:#0e1e1a}
+.hyron-name-setting label{display:grid;gap:6px;min-width:0;font-size:.88rem}
+.hyron-name-setting input,.hyron-name-setting select{width:100%;min-width:0;min-height:42px;box-sizing:border-box;border:1px solid #35564d;border-radius:8px;padding:8px 10px;background:#142523;color:#e3f5ee}
+.hyron-name-setting button{min-height:42px;white-space:nowrap}
+.hyron-name-setting .hint{grid-column:1/-1;margin:0}
+@media(max-width:800px){
+ #voice-settings .voice-controls{grid-template-columns:minmax(0,1fr) auto!important;grid-template-areas:"voice voice" "speed reset" "english english" "test test"!important}
+ .hyron-name-setting{grid-template-columns:minmax(0,1fr) auto}
+ .hyron-name-setting label:first-child{grid-column:1/-1}
+}
+@media(max-width:480px){
+ #voice-settings .voice-controls{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"voice" "speed" "reset" "english" "test"!important}
+ .hyron-name-setting{grid-template-columns:minmax(0,1fr)}
+ .hyron-name-setting label:first-child{grid-column:auto}
+}
+
+
+/* HYRON v0.5.20 - Respostas ricas no estilo de um chat moderno. */
+#chat .bubble.ai:not(.error){
+  width:100%;max-width:100%;align-self:stretch;background:transparent;
+  border:0;border-radius:0;padding:10px 6px 12px;
+  white-space:normal;line-height:1.68;color:#e5f2ee;
+}
+#chat .bubble.ai.error{max-width:100%}
+#chat .bubble.user{max-width:min(88%,700px);white-space:pre-wrap}
+#chat .hyron-rich-content{font-size:1rem;line-height:1.72;overflow-wrap:anywhere;min-width:0}
+#chat .hyron-rich-content :first-child{margin-top:0}
+#chat .hyron-rich-content :last-child{margin-bottom:0}
+#chat .hyron-rich-content p{margin:0 0 1em}
+#chat .hyron-rich-content h1,#chat .hyron-rich-content h2,#chat .hyron-rich-content h3,#chat .hyron-rich-content h4,#chat .hyron-rich-content h5,#chat .hyron-rich-content h6{
+  letter-spacing:0;color:#e5f6ef;line-height:1.35;margin:1.25em 0 .55em;font-weight:750;
+}
+#chat .hyron-rich-content h1{font-size:1.48rem}
+#chat .hyron-rich-content h2{font-size:1.28rem}
+#chat .hyron-rich-content h3{font-size:1.12rem}
+#chat .hyron-rich-content h4,#chat .hyron-rich-content h5,#chat .hyron-rich-content h6{font-size:1rem}
+#chat .hyron-rich-content strong{font-weight:760;color:#f4fcf8}
+#chat .hyron-rich-content em{font-style:italic}
+#chat .hyron-rich-content ul,#chat .hyron-rich-content ol{margin:.4em 0 1em;padding-left:1.65em}
+#chat .hyron-rich-content li{margin:.26em 0;padding-left:.15em}
+#chat .hyron-rich-content li > ul,#chat .hyron-rich-content li > ol{margin:.3em 0}
+#chat .hyron-rich-content li::marker{color:#91d8c5}
+#chat .hyron-rich-content a{color:#91e7d6;text-decoration:underline;text-underline-offset:3px}
+#chat .hyron-rich-content a:hover{color:#c4fff0}
+#chat .hyron-rich-content blockquote{border-left:3px solid #528a7c;color:#b4d0c7;margin:.65em 0 1em;padding:.25em 0 .25em 1em}
+#chat .hyron-rich-content hr{border:0;border-top:1px solid #34594f;margin:1.25em 0}
+#chat .hyron-inline-code{background:#18372f;border:1px solid #2d564b;border-radius:5px;padding:.12em .35em;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace}
+#chat .hyron-codeblock{background:#0b1615;border:1px solid #2b4540;border-radius:12px;margin:.65em 0 1.1em;overflow:hidden}
+#chat .hyron-code-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;background:#142a25;color:#acc9bf;font-size:.78rem}
+#chat .hyron-copy-code,#chat .hyron-copy-answer{font-size:.78rem;line-height:1.25;border:1px solid #426459;border-radius:7px;padding:6px 10px;background:transparent;color:#b5e5d6;cursor:pointer}
+#chat .hyron-copy-code:hover,#chat .hyron-copy-answer:hover{background:#24443a}
+#chat .hyron-codeblock pre{white-space:pre;overflow-x:auto;tab-size:2;margin:0;padding:14px 16px;font: .86rem/1.6 ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;color:#d9e9e4}
+#chat .hyron-codeblock code{font:inherit}
+#chat .hyron-table-scroll{overflow-x:auto;max-width:100%;margin:.5em 0 1.05em;border:1px solid #34564d;border-radius:9px}
+#chat .hyron-rich-content table{border-collapse:collapse;width:100%;min-width:290px;font-size:.93em}
+#chat .hyron-rich-content th,#chat .hyron-rich-content td{border-bottom:1px solid #29483e;padding:9px 12px;text-align:left;vertical-align:top}
+#chat .hyron-rich-content tr:last-child td{border-bottom:0}
+#chat .hyron-rich-content th{background:#17352b;font-weight:700}
+#chat .hyron-rich-content tr:nth-child(even) td{background:#10261f}
+#chat .hyron-math,#chat .hyron-math-display{font-family:Cambria Math,STIX Two Math,Georgia,serif;letter-spacing:.015em;color:#f1f7f3}
+#chat .hyron-math{display:inline-block;max-width:100%;vertical-align:baseline}
+#chat .hyron-math-display{display:block;text-align:center;overflow-x:auto;padding:.6em 0;margin:.7em auto;font-size:1.08em}
+#chat .hyron-reply-actions{display:flex;gap:8px;align-items:center;margin-top:10px}
+#chat .hyron-copy-answer{border-color:transparent;opacity:.8}
+#chat .hyron-copy-answer:hover{opacity:1;border-color:#426459}
+#chat .model-meta{display:block;margin:8px 0 0;color:#8ea9a0;opacity:.8;font-size:.72rem}
+@media(max-width:600px){
+ #chat .bubble.ai:not(.error){padding:8px 2px 12px}
+ #chat .hyron-rich-content{font-size:.97rem}
+ #chat .hyron-codeblock pre{padding:12px;font-size:.8rem}
+ #chat .hyron-rich-content th,#chat .hyron-rich-content td{padding:7px 9px}
+}

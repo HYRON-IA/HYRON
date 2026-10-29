@@ -1,0 +1,23 @@
+/* HYRON UI V5 */
+.hyron-native-replacement{box-sizing:border-box;width:min(440px,calc(100vw - 32px));max-width:100%;border:1px solid #42665c;border-radius:18px;padding:24px;color:#e9f1ee;background:#171c1c;box-shadow:0 24px 80px #0009;}
+.hyron-native-replacement::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(3px)}
+.hyron-native-replacement h2{font-size:1.15rem;margin:0 0 14px;color:#f7fafa}
+.hyron-native-replacement p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin:0 0 17px;color:#c7d8d1}
+.hyron-native-replacement form{display:flex;flex-direction:column;gap:16px}
+.hyron-native-replacement input{width:100%;box-sizing:border-box;padding:12px;background:#0d1110;color:white;border:1px solid #50786b;border-radius:10px}
+.hyron-dialog-actions{display:flex;justify-content:flex-end;gap:10px}
+.hyron-dialog-actions button{border-radius:10px;padding:10px 17px;border:1px solid #547267;color:white;background:#273b34;cursor:pointer}
+.hyron-dialog-actions button.danger{background:#5b262f;border-color:#a34453}
+#hyron-toast-region{position:fixed;right:20px;bottom:22px;z-index:99999;display:grid;gap:8px;max-width:min(420px,calc(100vw - 40px))}
+.hyron-toast{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;background:#1d2d28;color:#f1faf6;border:1px solid #537567;border-radius:13px;box-shadow:0 8px 30px #0008;padding:13px 16px;overflow-wrap:anywhere}
+.hyron-toast button{color:inherit;background:none;border:0;cursor:pointer;font-size:20px}
+#hyron-drive-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;align-items:stretch}
+#hyron-drive-list .hyron-file-row{display:flex;align-items:stretch;flex-direction:column;gap:8px;min-width:0;padding:12px;border:1px solid #355a50;border-radius:14px;background:#111a18}
+#hyron-drive-list .hyron-file-row .hyron-attachment-card{width:100%;max-width:100%;box-sizing:border-box}
+#hyron-drive-list .hyron-drive-actions{display:flex;gap:8px;justify-content:flex-end;align-items:center}
+#hyron-drive-list .hyron-drive-actions>*{padding:7px 10px;border:1px solid #45665d;border-radius:9px;color:#deece6;background:#213129;text-decoration:none;cursor:pointer}
+#hyron-drive-image-list:not([hidden]){display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;max-height:310px;overflow:auto}
+.hyron-drive-select-item{display:flex;flex-direction:column;gap:8px;min-width:0;padding:9px;background:#111b18;border:1px solid #406659;border-radius:12px}
+.hyron-drive-select-item .hyron-attachment-card{max-width:100%;width:100%;box-sizing:border-box}
+.hyron-drive-select-item>.hyron-drive-select-action{border-radius:9px;padding:8px;color:#f2faf7;background:#244a3f;border:1px solid #397965;cursor:pointer}
+.hyron-attachment-visual img{width:100%;height:100%;object-fit:cover}

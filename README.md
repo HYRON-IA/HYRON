@@ -2,6 +2,57 @@
 
 Cloudflare Workers + D1, contas por convite, memórias por usuário, histórico isolado e roteador multi-LLM.
 
+## HYRON v0.5.14 — Cloud Voice Storage (opcional)
+
+O backend agora possui implementação **preparada** de sincronização dos binários da Voice Library via bucket privado Hugging Face Storage Buckets, preservando os metadados em D1. Para ativá-la, é necessário criar bucket/credenciais, executar `database/0006_v0514_cloud_voice_storage.sql`, configurar segredos no Worker e validar o fluxo end-to-end. Sem isso, a biblioteca continua funcionando localmente.
+
+**Leia primeiro [`docs/HF-VOICE-STORAGE-SETUP.md`](docs/HF-VOICE-STORAGE-SETUP.md) e [`RELATORIO-V0514.md`](RELATORIO-V0514.md).** Os testes unitários não validam o serviço HF real. A importação não ativa inferência RVC nem compatibilidade Android nativa.
+
+## Voice Library v0.5.13 (comportamento local)
+
+A biblioteca sincroniza metadados e a seleção da voz na tabela D1 `voice_models`.
+Execute `npx.cmd wrangler d1 execute hyron-history --remote --file=database/0005_v0513_voice_library.sql`
+uma vez, depois de fazer backup do banco. A migração amplia a tabela criada em
+`0004_v052.sql`; não a execute antes dessa migração.
+
+Os arquivos do pacote permanecem no armazenamento local do navegador. A v0.5.13 não incluía
+upload, download remoto, R2 ou extração de arquivos compactados. O armazenamento remoto é opcional na v0.5.14. Para importar,
+selecione `manifest.json`, o modelo e os auxiliares opcionais. O manifesto usa
+`schemaVersion: 1`, `engineType: "rvc" | "piper"`, `architecture`,
+`sampleRate`, `compatibility`, `model: { file, sha256 }`, e `support`/`preview`
+opcionais no mesmo formato. RVC é limitado aos metadados compatíveis com
+`RVC-v1-40k` a 40000 Hz; Piper exige o par ONNX e `.onnx.json`. SHA-256 detecta
+divergências em relação ao manifesto, mas não autentica quem o publicou.
+
+Exemplo mínimo de manifesto Piper:
+
+```json
+{
+  "schemaVersion": 1,
+  "name": "Voz PT",
+  "description": "Modelo local",
+  "language": "pt-BR",
+  "engineType": "piper",
+  "architecture": "Piper",
+  "sampleRate": 22050,
+  "compatibility": ["windows", "web"],
+  "model": { "file": "pt_BR.onnx", "sha256": "<64 hex chars>" },
+  "support": { "file": "pt_BR.onnx.json", "sha256": "<64 hex chars>" }
+}
+```
+
+A seleção é sincronizada pela conta. O chat continua usando a voz de síntese do
+dispositivo; o pacote importado não é carregado automaticamente nem ligado ao
+engine Windows. Sem bucket HF configurado, outros dispositivos
+exibem os metadados e informam que o download não está disponível.
+
+## RVC Cloud Trainer v0.5.12
+
+A preparação do treinamento RVC em Kaggle está em `tools/rvc-cloud-trainer/`.
+Neste diretório há um notebook Kaggle, scripts de preparação/validação/exportação,
+configuração conservadora e relatório técnico. O treinamento não inicia
+automaticamente: a sessão requer GPU, dataset autorizado e confirmação explícita do operador.
+
 ## Instalação
 
 1. Faça backup do banco remoto antes de atualizar: `npx.cmd wrangler d1 export hyron-history --remote --output=backup-hyron.sql`.

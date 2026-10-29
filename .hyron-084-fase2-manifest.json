@@ -1,0 +1,30 @@
+{
+  "backup": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\.hyron-084-fase2-backup-1792852487862",
+  "states": [
+    {
+      "name": "src/index.ts",
+      "created": false,
+      "afterHash": "2f2c97a41f6e768bce121f4d59829a3e7881684a81cf9db3bacfdb1b73411642"
+    },
+    {
+      "name": "src/private-messages.ts",
+      "created": false,
+      "afterHash": "b1b8655dea98597d30bfc4f15c7d2442031d29627d7ee0d6709d00d15c139054"
+    },
+    {
+      "name": "src/group-rooms.ts",
+      "created": false,
+      "afterHash": "8ef31f93b1fa4e3ecedabe4c0cc851dc826de51d4fd8e041b6514fb9d77a9ab1"
+    },
+    {
+      "name": "src/hyron-internos-runtime.ts",
+      "created": true,
+      "afterHash": "818bd264a7f164c59824d101b02ef923b60b25b035fc38b3aeef75c2767c591a"
+    },
+    {
+      "name": "database/0018_internos_virtuais.sql",
+      "created": true,
+      "afterHash": "26257eed95000b10b1931947a7d0f51194e6fd119765030f864e98a97278ea2b"
+    }
+  ]
+}

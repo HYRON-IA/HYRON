@@ -1,0 +1,59 @@
+
+{
+  "name": "hyron",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "vars": {
+    "HYRON_ENABLE_FREELLM": "true",
+    "HYRON_FREELLM_PROVIDERS": "openrouter,cloudflare-ai,gemini,nvidia,cohere,huggingface,sambanova",
+
+    "HYRON_ENABLE_UNOROUTER": "false",
+    "HYRON_ENABLE_GROQ": "false",
+    "HYRON_ENABLE_MISTRAL": "false",
+    "HYRON_ENABLE_GITHUB_MODELS": "false",
+
+    "OPENROUTER_MODEL": "dots-studio/dots-3-note-preview:free",
+
+   
+    "GEMINI_MODEL": "gemini-2.5-flash-lite",
+    "HYRON_FREELLM_ALLOW_GEMINI_FREE_TIER": "true",
+
+
+   
+    "HYRON_ENABLE_CLOUDFLARE_AI": "true",
+    "CLOUDFLARE_ACCOUNT_ID": "39314cf83621f96ba3d118dff1ccd1cc",
+    "CLOUDFLARE_AI_MODEL": "@cf/zai-org/glm-4.7-flash",
+    "HYRON_FREELLM_ALLOW_CLOUDFLARE_FREE_PLAN": "true",
+
+
+    "HYRON_ENABLE_NVIDIA": "false",
+    "NVIDIA_MODEL": "nvidia/nemotron-3-ultra-550b-a55b",
+    "HYRON_FREELLM_ALLOW_NVIDIA_PROTOTYPE": "false",
+
+    "HYRON_ENABLE_COHERE": "false",
+    "COHERE_MODEL": "command-a-03-2025",
+    "HYRON_FREELLM_ALLOW_COHERE_EVALUATION": "false",
+
+    "HYRON_ENABLE_HUGGINGFACE": "false",
+    "HF_INFERENCE_MODEL": "openai/gpt-oss-20b",
+    "HYRON_FREELLM_ALLOW_HF_MONTHLY_CREDITS": "false",
+
+    "HYRON_ENABLE_SAMBANOVA": "false",
+    "SAMBANOVA_MODEL": "gpt-oss-120b",
+    "HYRON_FREELLM_ALLOW_SAMBANOVA_VERIFIED_ZERO_COST": "false"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hyron-history",
+      "database_id": "fd1cd349-a6ad-4ce6-9db0-19c9923f8975"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+STATUS: BASE PREPARADA, NAO INTEGRADA
+Nao executar individuality.sql sem verificar a estrutura atual do Cloudflare D1.
+Nao importar identity.ts no backend antes de validar tipos, caminhos e nomes reais.
+Requer ZIP atual do HYRON com CAPS v4.1 para produzir instalador definitivo.

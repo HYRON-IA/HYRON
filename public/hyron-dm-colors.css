@@ -1,0 +1,11 @@
+/* HYRON 0.8.2 — per-account message bubbles */
+#hyron-dm-colors-fieldset .hy-dm-color-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0}
+#hyron-dm-colors-fieldset .hy-dm-color-grid label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px}
+#hyron-dm-colors-fieldset input[type="color"]{width:62px;height:35px;cursor:pointer}
+/* Legacy outgoing/incoming classes, scoped to the DM drawer. */
+[data-hyron-dm-v2="panel"] :is(.hyron-dm-message.sent,.hyron-dm-bubble.sent,.dm-msg.sent,.dm-message.sent,.message-outgoing,.dm-message--outgoing){background:var(--hy-dm-sent,#246B55)!important;color:var(--hy-dm-sent-text,#fff)!important}
+[data-hyron-dm-v2="panel"] :is(.hyron-dm-message.received,.hyron-dm-bubble.received,.dm-msg.received,.dm-message.received,.message-incoming,.dm-message--incoming){background:var(--hy-dm-received,#272727)!important;color:var(--hy-dm-received-text,#fff)!important}
+/* The player itself remains the card; the containing bubble becomes transparent. */
+[data-hyron-dm-v2="panel"] .hy-dm-audio-only{background:transparent!important;border-color:transparent!important;box-shadow:none!important;padding:0!important}
+[data-hyron-dm-v2="panel"] .hy-dm-audio-only::before,[data-hyron-dm-v2="panel"] .hy-dm-audio-only::after{display:none!important}
+@media(max-width:520px){#hyron-dm-colors-fieldset .hy-dm-color-grid{grid-template-columns:1fr}}

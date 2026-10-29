@@ -1,0 +1,21 @@
+{
+  "backup": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\.hyron-ghost-backup\\2026-10-23T23-34-13-775Z",
+  "changed": [
+    {
+      "rel": "src/index.ts",
+      "hash": "0de25d3b0cd49f09a22742926193cb941d12504a36c015cec691b54b107e814b"
+    },
+    {
+      "rel": "src/private-messages.ts",
+      "hash": "376fbef3902b080966628cba78ba3d2430c7f1bcb12f86d516b4635a582ef194"
+    },
+    {
+      "rel": "public/index.html",
+      "hash": "a7afa4afc6653760f9af281c4c95b7c42c3458dcc566bf66ba259abedb8a53f2"
+    }
+  ],
+  "added": [
+    "database/0016_soft_block_ghost.sql",
+    "public/hyron-ghost-admin.js"
+  ]
+}

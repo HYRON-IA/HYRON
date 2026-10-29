@@ -1,0 +1,10 @@
+/* HYRON v0.6.8 - painel de roteador */
+#hyron-router-diagnostics-open{width:100%;background:#1b3d33;text-align:left;padding:11px 14px;border:1px solid #3b7362;border-radius:11px;color:#dcfaef;margin:9px 0;cursor:pointer}
+#hyron-router-diagnostics-open:hover{background:#245346}
+#hyron-router-diagnostics{background:#0c201a;color:#e4f6f0;border:1px solid #417564;border-radius:16px;padding:18px;width:min(700px,94vw);max-height:85dvh;overflow:auto;box-shadow:0 30px 90px #0009}
+#hyron-router-diagnostics::backdrop{background:#000a}
+.hyron-router-diagnostics-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.hyron-router-diagnostics-top h2{margin:0;font-size:1.2rem}
+#hyron-router-diag-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:9px;margin-top:16px}
+.hyron-router-diag-item{border:1px solid #305547;border-radius:10px;padding:10px;background:#112b23;display:flex;flex-direction:column;gap:5px;overflow-wrap:anywhere}
+.hyron-router-diag-item strong{font-size:.95rem}.hyron-router-diag-item small{font-size:.72rem;color:#a7cfc1}
+.hyron-router-state-ready{color:#99ecd1}.hyron-router-state-off{color:#d6c69f}

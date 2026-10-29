@@ -1,0 +1,78 @@
+import { applyHybridHumor } from './hyron-humor-hybrid';
+
+type OriginalArgs = Parameters<typeof applyHybridHumor>;
+type HumorResult = Awaited<ReturnType<typeof applyHybridHumor>>;
+type ProtectedResult = HumorResult & { humorAttempts:number; repeatedInsultsRejected:number };
+const STARTER = [
+ 'Você é tão confuso que até o Wi-Fi pede ajuda pra se conectar.',
+ 'Sua velocidade de pensamento é tão boa quanto o download de um video em 240p.',
+ 'Você é tão rápido em perder a linha que o próprio texto precisa de pausa para te acompanhar.',
+ 'Você é tão confuso que até o GPS pede “recalcular rota”.',
+ 'Você é tão confuso que até o Wi-Fi pede “reconectar”.',
+ 'Você é tão lento no raciocínio que o processador pede férias.',
+ 'Você é tão lento que o processador já pediu férias.',
+ 'Seu cérebro tem mais lag que um streaming dos anos 2000 — e ainda tem a audácia de culpar o Wi-Fi.'
+];
+const normalize = (s:string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/wi[\s-]?fi/g,'wifi').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const words=(s:string)=>new Set(normalize(s).split(' ').filter(w=>w.length>2));
+function similar(a:string,b:string):boolean {
+ const na=normalize(a),nb=normalize(b);
+ if(!na||!nb)return false;
+ if(na===nb||(na.length>22&&nb.includes(na))||(nb.length>22&&na.includes(nb)))return true;
+ const aa=words(a),bb=words(b),intersection=[...aa].filter(w=>bb.has(w)).length;
+ return intersection>=4 && intersection/Math.min(aa.size||1,bb.size||1)>=0.68;
+}
+const roast=/\b(?:provoca[cç][aã]o|zoada|zoeira|sarc[aá]stic|me\s+(?:xinga|zoa|zoe|insulta|ofende)|tira\s+sarro)\b/i;
+const neutral='Não vou reciclar uma provocação. Me peça outra e tentarei algo realmente novo.';
+const result=(answer:string,reason:string,attempts=0,duplicates=0):ProtectedResult=>({answer,changed:false,reason,engine:'none',aiStatus:reason,humorAttempts:attempts,repeatedInsultsRejected:duplicates});
+function extractAdded(base:string,full:string):string|null {
+ const prefix=base.trimEnd()+'\n\n';
+ return full.startsWith(prefix)?full.slice(prefix.length).trim():null;
+}
+export async function applyRepeatProtectedHumor(db:D1Database,userId:string,...args:OriginalArgs):Promise<ProtectedResult> {
+ const [base,userMessage,settings,ctx,opts]=args;
+ const relevant=roast.test(userMessage)&&settings.teasing&&settings.level>=3&&settings.frequency>0&&!ctx.hasSources&&!ctx.webRequested&&!ctx.backendIdentity;
+ if(!relevant){const r=await applyHybridHumor(...args);return {...r,humorAttempts:r.aiStatus==='ok'?1:0,repeatedInsultsRejected:0};}
+ const canUseSenseNova=Boolean(String(opts.senseNovaKey||'').trim());
+ let history:string[]=[];
+ try {
+  const count=await db.prepare('SELECT COUNT(*) AS n FROM hyron_humor_insults WHERE user_id=?').bind(userId).first<{n:number}>();
+  if(!count?.n){for(const line of STARTER)await db.prepare('INSERT INTO hyron_humor_insults(user_id,insult) VALUES(?,?)').bind(userId,line).run();}
+  history=(await db.prepare('SELECT insult FROM hyron_humor_insults WHERE user_id=? ORDER BY id DESC LIMIT 20').bind(userId).all<{insult:string}>()).results.map(x=>x.insult);
+ }catch(e){console.error('HYRON ANTI-REPEAT READ',e instanceof Error?e.name:'unknown');return result(neutral,'humor-memory-unavailable');}
+ const duplicate=(line:string)=>history.some(x=>similar(line,x));
+ const original=base.trim();
+ let rejected=duplicate(original)?1:0;
+ const originalAllowed=!duplicate(original);
+ let chosen:string|null=null;
+ let attempts=0;
+ let engine:'local'|'secondary-ai'|'none'='none';
+ let aiStatus='not-needed';
+ let reason='main-model-unique';
+ // A resposta principal tambem e fiscalizada. Se for repetida, o modelo secundario deve substitui-la.
+ if(canUseSenseNova){
+  for(let i=1;i<=5;i++){
+   attempts=i;
+   const r=await applyHybridHumor(base,userMessage,settings,ctx,{...opts,excludedInsults:[...history,original]});
+   aiStatus=r.aiStatus;
+   if(r.engine!=='secondary-ai'||!r.changed){
+    // Timeout/erro: nao multiplicar chamadas que falharam; preserve uma resposta original NOVA.
+    if(r.aiStatus!=='rejected'&&r.aiStatus!=='ok')break;
+    continue;
+   }
+   const joke=extractAdded(base,r.answer)||r.answer.trim();
+   if(!joke||duplicate(joke)||similar(joke,original)) {rejected++;continue;}
+   chosen=joke;engine='secondary-ai';reason=originalAllowed?'sensenova-unique-added':'main-duplicate-replaced';break;
+  }
+ }
+ // Quando SenseNova falhar, uma resposta principal original continua valida.
+ if(!chosen&&!originalAllowed)return result(neutral,'repeat-blocked-no-new-insult',attempts,rejected);
+ const accepted:string[]=originalAllowed?[original]:[];
+ if(chosen)accepted.push(chosen);
+ try{
+  for(const line of accepted)await db.prepare('INSERT INTO hyron_humor_insults(user_id,insult) VALUES(?,?)').bind(userId,line).run();
+  await db.prepare('DELETE FROM hyron_humor_insults WHERE user_id=? AND id NOT IN (SELECT id FROM hyron_humor_insults WHERE user_id=? ORDER BY id DESC LIMIT 20)').bind(userId,userId).run();
+ }catch(e){console.error('HYRON ANTI-REPEAT WRITE',e instanceof Error?e.name:'unknown');return result(neutral,'humor-memory-write-failed',attempts,rejected);}
+ const answer=originalAllowed?(chosen?original+'\n\n'+chosen:original):(chosen||neutral);
+ return {answer,changed:answer!==base,reason,engine,aiStatus:chosen?'ok':aiStatus,humorAttempts:attempts,repeatedInsultsRejected:rejected};
+}

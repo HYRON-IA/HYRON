@@ -1,0 +1,14 @@
+{
+  "backup": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\backups\\HYRON-FASE4-2026-10-24T00-32-35-710Z",
+  "migration": "database/0017_admin_group_audit.sql",
+  "changes": [
+    {
+      "name": "src/index.ts",
+      "hash": "d227503db59e2963b5c3cefa4985467d4e47ce7b2e739a90e89853b028286174"
+    },
+    {
+      "name": "public/hyron-admin-center.js",
+      "hash": "a4fbdf3cbc5ec411a41c135305b96e177edd6058d7183e8a0d1f6fb4953475ca"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+/* HYRON FIX 0.8.2 - faixa de anexos acompanha a area de envio */
+#hyron-main #form #hyron-attach-strip{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  z-index:0!important;
+  order:-20;
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:0 0 9px!important;
+  padding:7px 0 10px!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:stretch!important;
+  gap:9px!important;
+  overflow:visible!important;
+  height:auto!important;
+}
+#hyron-main #form #hyron-attach-strip:empty {display:none!important;margin:0!important;padding:0!important}
+#hyron-main #form #hyron-scan-progress{
+  order:-19;
+  position:relative!important;
+  inset:auto!important;
+  margin:0 0 6px!important;
+}
+#hyron-main #form #hyron-attach-strip .hyron-attachment-card{
+  position:relative!important;
+  flex:0 1 210px;
+  max-width:min(100%,230px)!important;
+  min-width:0!important;
+  margin:0!important;
+  isolation:isolate;
+}
+#hyron-main #form #hyron-attach-strip .hyron-attachment-card--image{
+  flex-basis:155px;
+}
+#hyron-main #form #hyron-attach-strip .hyron-attachment-name{
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+@media(max-width:600px){
+  #hyron-main #form #hyron-attach-strip{grid-column:1/-1!important;grid-row:auto!important;max-width:100%!important;padding:4px 0 8px!important}
+  #hyron-main #form #hyron-attach-strip .hyron-attachment-card{flex-basis:155px;max-width:100%!important}
+}

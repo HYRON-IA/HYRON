@@ -1,0 +1,17 @@
+/* HYRON v0.8.3 - ajuste cirurgico: mensagens do usuario no lado direito. */
+/* Nao modifica composer, mensagens de IA, DMs ou grupos. */
+#chat > article.bubble.user,
+#chat > .bubble.user {
+  align-self: flex-end !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  width: fit-content !important;
+  max-width: min(78%, 700px) !important;
+  min-width: 0;
+  flex: 0 1 auto !important;
+  text-align: left !important;
+}
+@media (max-width: 600px) {
+  #chat > article.bubble.user,
+  #chat > .bubble.user {max-width: 88% !important;}
+}

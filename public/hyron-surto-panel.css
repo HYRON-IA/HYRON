@@ -1,0 +1,12 @@
+/* HYRON 0.8.5 - estilo isolado */
+.hyron-surto-toggle{border:1px solid rgba(107,225,190,.55);border-radius:9px;padding:7px 11px;background:rgba(14,40,35,.9);color:#b9f4d9;cursor:pointer;font:inherit;font-size:.85rem}
+.hyron-surto-toggle[hidden],.hyron-surto-modal[hidden]{display:none!important}
+.hyron-surto-modal{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.65);padding:16px;color:#e6f2ed}
+.hyron-surto-card{background:#12241f;border:1px solid #497b68;border-radius:15px;width:min(100%,480px);max-height:90vh;overflow:auto;padding:20px;box-shadow:0 15px 65px #0008;font-family:inherit}
+.hyron-surto-card header,.hyron-surto-card footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hyron-surto-card header strong{font-size:1.15rem}.hyron-surto-card button{border:1px solid #638f7c;border-radius:8px;background:#1d3930;color:#e6f2ed;padding:9px 13px;cursor:pointer;font:inherit}.hyron-surto-card button:disabled{opacity:.5;cursor:wait}
+.hyron-surto-hint{font-size:.85rem;line-height:1.5;color:#a5c7b7}
+.hyron-surto-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hyron-surto-fields label{display:flex;flex-direction:column;gap:6px;font-size:.88rem}.hyron-surto-fields .hyron-surto-enabled{grid-column:1/-1;flex-direction:row;align-items:center}
+.hyron-surto-fields input[type=number]{width:100%;box-sizing:border-box;padding:9px;border:1px solid #648b7a;border-radius:7px;color:#fff;background:#081a14;font:inherit}
+.hyron-surto-fields input[type=checkbox]{accent-color:#72e5b4;width:18px;height:18px}.hyron-surto-status{min-height:1.4em;font-size:.87rem}.hyron-surto-card footer{justify-content:flex-end}
+@media(max-width:430px){.hyron-surto-fields{grid-template-columns:1fr}.hyron-surto-toggle{font-size:.73rem;padding:6px}.hyron-surto-card{padding:15px}}

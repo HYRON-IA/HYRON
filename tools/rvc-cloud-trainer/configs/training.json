@@ -1,0 +1,65 @@
+{
+  "project": "HYRON RVC Cloud Trainer",
+  "version": "0.5.12",
+  "runtime": {
+    "repository": "RVC-Project/Retrieval-based-Voice-Conversion-WebUI",
+    "commit": "81eed5e8f68b6bed1789f682fe78cdd324495afc",
+    "strict_loading": true,
+    "weights_only": true,
+    "index_rate": 0
+  },
+  "kaggle": {
+    "gpu_required": true,
+    "observed_python_version": "3.13.15",
+    "observed_torch_version": "2.11.0+cu128",
+    "observed_cuda_version": "12.8",
+    "observed_cuda_available": true,
+    "observed_gpu_models": ["NVIDIA Tesla T4", "NVIDIA Tesla T4"],
+    "observed_gpu_vram_available_gb_each": 14.46,
+    "observed_ram_available_gb": 29.62,
+    "selected_physical_gpu": 0,
+    "cuda_visible_devices": "0",
+    "runtime_training_compatibility": "not_verified",
+    "cuda_validation": true,
+    "allow_auto_training": false,
+    "install_or_downgrade_torch_automatically": false
+  },
+  "dataset": {
+    "input_dir": "/kaggle/input/<dataset-name>",
+    "prepared_dir": "/kaggle/working/rvc-prepared",
+    "report_path": "/kaggle/working/rvc-prepared/manifest.json",
+    "target_sample_rate": 40000,
+    "mono": true,
+    "pcm16": true,
+    "silence_threshold_dbfs": -35.0,
+    "silence_seconds": 0.6,
+    "padding_seconds": 0.15,
+    "minimum_segment_seconds": 0.45
+  },
+  "training": {
+    "model_type": "RVC v1",
+    "batch_size": 1,
+    "epochs": 20,
+    "save_every": 5,
+    "f0_method": "rmvpe",
+    "num_workers": 0,
+    "use_intermediate_checkpoints": true,
+    "sample_rate": 40000,
+    "device": "cuda:0",
+    "device_count_limit": 1,
+    "gpu_memory_guard_mb": 1024,
+    "ram_guard_mb": 3584
+  },
+  "export": {
+    "output_dir": "/kaggle/working/rvc-export",
+    "include_manifest": true,
+    "include_dataset_hashes": true,
+    "include_metadata": true
+  },
+  "operator": {
+    "authorization_required": true,
+    "train_only_after_explicit_confirmation": true,
+    "do_not_publish_recordings": true,
+    "do_not_use_unlicensed_models": true
+  }
+}

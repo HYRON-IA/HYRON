@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+temporary-audio/
+.piper-runtime/
+.piper-models/
+*.wav
+*.tmp

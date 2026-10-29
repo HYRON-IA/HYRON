@@ -1,0 +1,15 @@
+{
+  "dir": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\.backup-hyron-caps-v4-hotfix-1792856810297",
+  "files": [
+    {
+      "name": "group-rooms.ts",
+      "before": "cade604c0353336b6d1fa26a00a7962a30f5006b5b658fdd854c7226e09936fb",
+      "after": "eb0fc8a5aaa076a8d8b1613d706d4d165cd60092c57bfe34bef2efd716fb6df6"
+    },
+    {
+      "name": "private-messages.ts",
+      "before": "bc3e9f8ceb410ddcd4380316a9ff717842f26b476d7c1f26bcdd2a1f97c6cc89",
+      "after": "30448460aceadc7969c372a39a1072be0dad02739a0d6e53e2a682483b740167"
+    }
+  ]
+}

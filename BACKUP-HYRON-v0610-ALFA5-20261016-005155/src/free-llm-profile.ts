@@ -1,0 +1,51 @@
+// HYRON v0.6.10 Alfa 4 — FreeLLMAPI adaptado: rotas de acesso gratuito controladas.
+// Nao instala o gateway FreeLLMAPI original e nao garante limites comerciais.
+// BLOQUEIO PREVENTIVO: ativacao requer chave, modelo explicito, autorizacao do plano
+// correspondente e allowlist imutavel. Nunca usa modelo default da API.
+import type { Provider } from './model-providers';
+
+type SimpleEnv=Record<string,unknown>;
+const get=(e:object,k:string)=>String((e as SimpleEnv)[k]??'').trim();
+const enabled=(e:object,k:string)=>['true','yes','1'].includes(get(e,k).toLowerCase());
+const explicitFree=/^[a-z0-9][a-z0-9._\/-]{1,160}:free$/;
+const allowlists:Record<string,ReadonlySet<string>>={
+ gemini:new Set(['gemini-2.5-flash','gemini-2.5-flash-lite']),
+ groq:new Set(['openai/gpt-oss-20b','openai/gpt-oss-120b']),
+ mistral:new Set(['mistral-small-latest','ministral-3b-latest','ministral-8b-latest']),
+ 'cloudflare-ai':new Set(['@cf/google/gemma-4-26b-a4b-it','@cf/zai-org/glm-4.7-flash','@cf/nvidia/nemotron-3-120b-a12b']),
+ 'github-models':new Set(['openai/gpt-4.1-mini']),
+ cohere:new Set(['command-r7b-12-2024','command-a-03-2025']),
+ nvidia:new Set(['nvidia/nemotron-3-ultra-550b-a55b']),
+};
+// Confirmações distintas evitam ativar contas faturadas por engano.
+const acknowledgement:Record<string,string>={
+ gemini:'HYRON_FREELLM_ALLOW_GEMINI_FREE_TIER',
+ groq:'HYRON_FREELLM_ALLOW_GROQ_FREE_TIER',
+ mistral:'HYRON_FREELLM_ALLOW_MISTRAL_FREE_MODE',
+ 'cloudflare-ai':'HYRON_FREELLM_ALLOW_CLOUDFLARE_FREE_PLAN',
+ 'github-models':'HYRON_FREELLM_ALLOW_GITHUB_FREE_API',
+ cohere:'HYRON_FREELLM_ALLOW_COHERE_EVALUATION',
+ nvidia:'HYRON_FREELLM_ALLOW_NVIDIA_PROTOTYPE',
+};
+const supported=new Set(['openrouter',...Object.keys(allowlists)]);
+export function freeTierReason(env:object,p:Provider,permittedCsv:string):string {
+ const permitted=new Set(permittedCsv.split(',').map(s=>s.trim().toLowerCase()).filter(Boolean));
+ if(!permitted.has(p.name))return 'nao incluido em HYRON_FREELLM_PROVIDERS';
+ if(!supported.has(p.name))return 'perfil gratuito nao verificado para este provedor';
+ if(!get(env,p.key))return 'chave nao configurada';
+ const selected=get(env,p.model);
+ if(!selected)return 'modelo nao definido explicitamente';
+ if(p.name==='openrouter')return explicitFree.test(selected)&&!selected.startsWith('openrouter/free')?'ready':'OpenRouter exige ID especifico terminado em :free';
+ const flag=acknowledgement[p.name];
+ if(!flag||!enabled(env,flag))return 'confirmacao do plano gratuito ausente: '+flag;
+ if(!allowlists[p.name].has(selected))return 'modelo nao esta na allowlist validada para o plano';
+ if(p.name==='cloudflare-ai' && !/^[0-9a-f]{32}$/i.test(get(env,'CLOUDFLARE_ACCOUNT_ID')))return 'Cloudflare Account ID ausente ou invalido';
+ return 'ready';
+}
+export function freeTierEligible(env:object,p:Provider,permittedCsv:string):boolean {
+ return freeTierReason(env,p,permittedCsv)==='ready';
+}
+export function freeTierDiagnostics(env:object,providers:readonly Provider[],permittedCsv:string){
+ const permitted=new Set(permittedCsv.split(',').map(s=>s.trim().toLowerCase()).filter(Boolean));
+ return providers.filter(p=>permitted.has(p.name)).map(p=>({provider:p.name,model:get(env,p.model)||null,status:freeTierReason(env,p,permittedCsv)}));
+}

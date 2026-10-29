@@ -1,0 +1,15 @@
+{
+  "backup": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\.hyron-backups\\fase5-dictation-2026-10-24T02-17-32-540Z",
+  "refs": [
+    {
+      "rel": "public/app.js",
+      "hash": "9f9ad47f8c37280962b87a4be234880351b78ef961d2f539636cb2ba14495943"
+    },
+    {
+      "rel": "public/index.html",
+      "hash": "79d6ca962a25203ddbd2eb20b2de916cbba1a58bcead893cf39909796c6710b8"
+    }
+  ],
+  "extra": "public/hyron-dictation.js",
+  "extraHash": "1fac4b748901236677023c85c7370c25be62643cf5a8ea9838c87809e5dafd46"
+}

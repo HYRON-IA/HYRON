@@ -1,0 +1,13 @@
+HYRON — Páginas públicas para Google OAuth
+
+1) EDITE politica-de-privacidade.html e termos-de-uso.html para substituir [RESPONSÁVEL], [E-MAIL DE CONTATO] e [URL OFICIAL].
+2) Revise os textos para garantir que correspondem às práticas REAIS de tratamento de dados e aos escopos OAuth usados pelo HYRON.
+3) Envie os três arquivos HTML/CSS para o MESMO diretório público do seu site que publica a página inicial.
+4) URLs esperadas (se a raiz do domínio corresponde a essa pasta):
+   https://SEU-DOMINIO/politica-de-privacidade.html
+   https://SEU-DOMINIO/termos-de-uso.html
+5) Abra as URLs em uma aba anônima para verificar que são públicas, retornam HTTP 200 e não exigem login.
+6) Cole os endereços na configuração de domínio e tela de consentimento Google Auth Platform.
+7) Adicione links para as páginas no rodapé da home do HYRON.
+
+Essas páginas não são publicadas automaticamente pelo ZIP. Publicar em Cloudflare Workers exige que estejam no diretório de assets estáticos servido pelo Worker; publicar na x10Hosting exige a pasta pública correta da hospedagem.

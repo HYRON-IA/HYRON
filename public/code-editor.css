@@ -1,0 +1,38 @@
+/* HYRON code editor v0.8.1 */
+.hyron-editor{width:min(1000px,96vw);height:min(85vh,820px);max-width:none;max-height:none;border:1px solid #376e5e;border-radius:15px;padding:0;background:#111b19;color:#e6f5ee;box-shadow:0 20px 80px #000a}
+.hyron-editor::backdrop{background:#000a}
+.hyron-editor-header,.hyron-editor-tools{display:flex;align-items:center;gap:10px;padding:12px 16px;flex-wrap:wrap;border-bottom:1px solid #355a4d}
+.hyron-editor-header{justify-content:space-between}
+.hyron-editor-tools input{flex:1;min-width:150px;background:#152b25;border:1px solid #3b6758;color:white;border-radius:7px;padding:8px}
+.hyron-editor button{background:#23463b;color:#e7fff5;border:1px solid #497867;border-radius:8px;padding:8px 10px;cursor:pointer}
+.hyron-editor button:disabled{opacity:.5;cursor:wait}
+.hyron-editor-workspace{height:calc(100% - 162px);display:flex;overflow:hidden;background:#0b1313}
+.hyron-editor-gutter{min-width:45px;text-align:right;padding:12px 8px;overflow:hidden;white-space:pre;line-height:1.55;font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;color:#729487;border-right:1px solid #284238;user-select:none}
+.hyron-editor-input{border:0;resize:none;outline:none;flex:1;min-width:0;height:100%;padding:12px;background:transparent;color:#e5f4e9;font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;overflow:auto;tab-size:2}
+.hyron-editor-status{font-size:12px;padding:8px 16px;color:#9bdbbf;margin:0}
+
+/* HYRON_CODE_HIGHLIGHT_082 */
+.hyron-editor-tabs{display:flex;gap:8px;padding:7px 16px;border-bottom:1px solid #355a4d}
+.hyron-editor-tabs button[aria-selected="true"]{background:#286b56;border-color:#80d8b5}
+.hyron-editor-workspace{height:calc(100% - 210px)}
+.hyron-editor-code-view{display:flex;min-width:0;width:100%;height:100%;overflow:hidden}
+.hyron-editor-layer{position:relative;flex:1;min-width:0;height:100%;overflow:hidden}
+.hyron-editor-layer .hyron-editor-input,.hyron-editor-highlight{position:absolute;inset:0;box-sizing:border-box;width:100%;height:100%;margin:0;border:0;padding:12px;tab-size:2;font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;overflow:auto}
+.hyron-editor-highlight{pointer-events:none;color:#e5f4e9;background:transparent;z-index:0}
+.hyron-editor-layer .hyron-editor-input{z-index:1;color:transparent;-webkit-text-fill-color:transparent;caret-color:#f7f7f7;background:transparent;resize:none}
+.hyron-editor-layer .hyron-editor-input::selection{background:rgba(87,167,219,.36);-webkit-text-fill-color:transparent}
+.hyron-code-comment{color:#7f9a8f}.hyron-code-string{color:#a5e3ad}.hyron-code-keyword{color:#c5a9ff}.hyron-code-number{color:#f4bb7a}.hyron-code-tag{color:#79cbe9}.hyron-code-selector{color:#85cdd5}
+.hyron-editor-image-view{display:flex;justify-content:center;align-items:center;flex:1;min-width:0;overflow:auto;padding:20px;background:repeating-conic-gradient(#d8dedb 0% 25%,#f0f2f1 0% 50%) 50% / 24px 24px}
+.hyron-editor-image-view img{max-width:100%;max-height:100%;object-fit:contain}
+.hyron-editor-code-view[hidden],.hyron-editor-image-view[hidden],.hyron-editor-tabs button[hidden]{display:none!important}
+
+/* HYRON_EDITOR_QUEBRA_VISUAL_082: quebra SOMENTE visual, sincronizada no textarea e no realce. */
+.hyron-editor-code-view.hyron-editor-wrap .hyron-editor-layer .hyron-editor-input,
+.hyron-editor-code-view.hyron-editor-wrap .hyron-editor-highlight {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  overflow-x: hidden !important;
+}
+.hyron-editor-code-view.hyron-editor-wrap .hyron-editor-gutter {display:none}
+.hyron-editor-tools button[aria-pressed="true"] {background:#286b56;border-color:#80d8b5}

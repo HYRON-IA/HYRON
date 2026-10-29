@@ -1,0 +1,17 @@
+{
+  "name": "hyron",
+  "version": "0.5.14",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/voice-library.test.ts tests/voice-package.test.js tests/voice-migration.test.js tests/hf-bucket.test.ts tests/voice-cloud.test.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "wrangler": "^4.0.0",
+    "@cloudflare/workers-types": "^5.20261006.1"
+  }
+}

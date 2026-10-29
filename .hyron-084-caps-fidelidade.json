@@ -1,0 +1,20 @@
+{
+  "dir": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\.backup-hyron-caps-fidelidade-1792857138323",
+  "files": [
+    {
+      "name": "index.ts",
+      "before": "e75e908ae6a69c0a2e1d65426ae633d01023b6b857eae99aac1fc7043a66f478",
+      "after": "e8f5557258e901f232016448026679baefc5382285a2888da86777b5597f0f5f"
+    },
+    {
+      "name": "group-rooms.ts",
+      "before": "eb0fc8a5aaa076a8d8b1613d706d4d165cd60092c57bfe34bef2efd716fb6df6",
+      "after": "9fdf00048bd557d8a705cd6e19b9d9a6d290c29036d753c4edcd5127c3c31e0e"
+    },
+    {
+      "name": "private-messages.ts",
+      "before": "30448460aceadc7969c372a39a1072be0dad02739a0d6e53e2a682483b740167",
+      "after": "f7bc63109744794fe7b555e17fc45318260e2a05a03e5d12debf268419bc285a"
+    }
+  ]
+}

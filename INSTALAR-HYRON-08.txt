@@ -1,0 +1,12 @@
+HYRON 0.8 - Etapa 1: Sistema de Humor
+
+1. Faça um backup da pasta HYRON antes de qualquer mudança.
+2. Extraia este ZIP na RAIZ do projeto HYRON, mantendo pastas public, src e tests.
+3. Confirme a substituição dos arquivos index.ts, app.js e index.html.
+4. Rode npm run check, node --experimental-strip-types --test tests/hyron-07.test.mjs e node --experimental-strip-types --test tests/hyron-humor.test.mjs (Node recente).
+5. Teste com npm run dev antes de executar npm run deploy.
+6. Faça login no HYRON e use a seção Personalidade · Humor.
+
+As preferências ficam no localStorage por usuário do navegador. Não há migração de D1.
+Importante: humor pode variar conforme provedor/modelo e pode não aparecer em respostas determinísticas do backend (memória, checagem factual etc.).
+Este pacote não altera prompts anteriores já gravados no D1.

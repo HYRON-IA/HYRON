@@ -1,0 +1,478 @@
+/* HYRON_SIDEBAR_V0524 — barra lateral responsiva */
+#app.shell{width:100%;max-width:none;margin:0;padding:0;min-height:100dvh;height:100dvh;display:grid;grid-template-columns:300px minmax(0,1fr);gap:0;background:#071310;overflow:hidden}
+#hyron-sidebar{min-width:0;min-height:0;height:100dvh;display:flex;flex-direction:column;gap:12px;padding:20px 14px;background:#0c201b;border-right:1px solid #315348;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#44665d transparent}
+.sidebar-brand{display:flex;align-items:center;gap:12px;padding:4px 7px 15px;border-bottom:1px solid #2b5147}
+.sidebar-mark{display:grid;place-items:center;width:40px;height:40px;border:1px solid #376e5d;border-radius:11px;background:#153b31;color:#74e8ce;font-size:25px}
+.sidebar-brand strong{display:block;color:#78e6cd;letter-spacing:.2em;font-size:1rem}.sidebar-brand small{display:block;font-size:.73rem;margin-top:4px}
+.sidebar-title{font-size:.82rem;letter-spacing:.04em;color:#9bb8ae;margin:4px 6px 0}
+#hyron-sidebar .history-bar{display:flex;flex-wrap:wrap;gap:7px}
+#hyron-sidebar .history-bar #conversation{position:absolute;width:1px;height:1px;padding:0;opacity:0;pointer-events:none;clip-path:inset(50%);overflow:hidden}
+#hyron-sidebar .history-bar #new{width:100%;padding:11px;background:#1c5344;border-color:#347961}
+#hyron-sidebar #search{width:100%;font-size:.85rem}
+#sidebar-conversations{display:flex;flex-direction:column;gap:4px;flex:0 0 auto;min-height:45px}
+#sidebar-conversations .sidebar-conversation{width:100%;display:block;max-width:100%;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;text-align:left;border:1px solid transparent;background:transparent;color:#d3e6df;font-weight:500;padding:10px 12px;border-radius:9px}
+#sidebar-conversations .sidebar-conversation:hover{background:#1b3c32}
+#sidebar-conversations .sidebar-conversation.active{background:#225344;border-color:#386f5e;color:#fff}
+#sidebar-conversations .history-empty{padding:9px 12px;color:#8caaa0;font-size:.82rem;margin:0}
+#hyron-sidebar .sidebar-management{display:flex;gap:7px}#hyron-sidebar .sidebar-management button{flex:1;font-size:.76rem;padding:8px 5px}
+#hyron-sidebar .sidebar-actions{display:flex;flex-direction:column;gap:7px;border-top:1px solid #315348;padding-top:14px}#hyron-sidebar .sidebar-actions button{width:100%;text-align:left;font-size:.85rem}
+#hyron-sidebar .sidebar-tools{border-top:1px solid #315348;padding-top:12px}
+#hyron-sidebar .sidebar-tools>summary{cursor:pointer;font-weight:650;list-style:none;padding:10px 9px;border-radius:8px;color:#dbf2ea;background:#19382f}
+#hyron-sidebar .sidebar-tools>summary::after{content:'⌄';float:right;color:#93b8aa}#hyron-sidebar .sidebar-tools[open]>summary::after{content:'⌃'}
+#hyron-sidebar #voice-settings{margin-top:10px;padding:10px;min-width:0;gap:12px}#hyron-sidebar #voice-settings h2{font-size:.9rem}
+#hyron-sidebar #voice-settings .voice-controls{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important;grid-template-columns:none!important;grid-template-areas:none!important;padding:10px!important}
+#hyron-sidebar #voice-settings .voice-controls>*{width:100%;min-width:0;max-width:100%}#hyron-sidebar #voice-settings .voice-controls label{display:flex;min-width:0;flex-direction:column;gap:6px}#hyron-sidebar #voice-settings .voice-controls .english-toggle{flex-direction:row;align-items:center}
+#hyron-sidebar #voice-settings .hyron-name-setting{display:flex;flex-direction:column;align-items:stretch;padding:10px;gap:10px}
+#hyron-sidebar #voice-settings .hyron-name-setting>*{width:100%;min-width:0}#hyron-sidebar #voice-settings .hyron-name-setting select,#hyron-sidebar #voice-settings .hyron-name-setting input{max-width:100%}
+#hyron-sidebar #voice-settings #speed-info,#hyron-sidebar #voice-settings #voice-info,#hyron-sidebar #voice-settings #name-tip{font-size:.73rem;text-align:left;overflow-wrap:anywhere}
+#hyron-sidebar #admin-panel{min-width:0}#hyron-sidebar .admin-user{flex-wrap:wrap}
+#hyron-main{display:flex;flex-direction:column;min-width:0;min-height:0;height:100dvh;padding:18px clamp(16px,5vw,75px);gap:16px;overflow:hidden}
+#hyron-main header{flex:none;margin:auto;width:min(100%,1000px);padding-bottom:14px;gap:12px}
+#hyron-main #chat{width:min(100%,1000px);margin:0 auto;max-height:none!important;min-height:0;flex:1;overflow-y:auto;scrollbar-width:thin;padding:14px 6px}
+#hyron-main #form{width:min(100%,1000px);margin:0 auto;flex:none}
+#hyron-main>p.hint{margin:0 auto;font-size:.68rem;flex:none}
+#sidebar-toggle{display:none;flex:0 0 auto;margin:0;padding:9px 12px;font-size:1.15rem}
+#sidebar-backdrop{display:none}
+@media(max-width:850px){
+ #app.shell{display:block}
+ #hyron-sidebar{position:fixed;z-index:99;left:0;top:0;width:min(340px,88vw);height:100dvh;transform:translateX(-102%);transition:transform .2s ease;box-shadow:10px 0 30px #0006}
+ #app.sidebar-open #hyron-sidebar{transform:translateX(0)}
+ #app.sidebar-open #sidebar-backdrop{display:block;position:fixed;z-index:98;inset:0;background:#0009;border:0;border-radius:0;padding:0;width:100%;height:100%}
+ #hyron-main{padding:12px clamp(12px,3vw,24px);height:100dvh}
+ #sidebar-toggle{display:inline-flex;align-items:center;justify-content:center}
+ #hyron-main header .logo{width:42px;height:42px;font-size:23px}
+ #hyron-main header h1{font-size:1.25rem}
+}
+@media(max-width:500px){#hyron-main header small{font-size:.72rem}#hyron-main header{gap:8px}#hyron-main header .ghost{padding:9px 10px}#hyron-main #chat{padding:10px 0}}
+@media(prefers-reduced-motion:reduce){#hyron-sidebar{transition:none}}
+
+
+/* HYRON_LAYOUT_COMPACT_V065B - ajustes somente visuais (sem alterar APIs). */
+#hyron-sidebar .sidebar-drive-action{padding-top:11px;border-top:1px solid #315348}
+#hyron-sidebar #hyron-drive-open{display:block;width:100%;margin:0;text-align:left;padding:10px 12px;font-size:.85rem;background:#19382f}
+#hyron-sidebar #hyron-drive-open:hover{background:#285245}
+#hyron-sidebar .sidebar-session-action{margin-top:auto;padding-top:12px;border-top:1px solid #315348}
+#hyron-sidebar #logout{display:block;width:100%;margin:0;text-align:left;padding:9px 12px;font-size:.85rem;background:transparent}
+#hyron-sidebar #logout:hover{background:#285245}
+
+/* Area superior mais baixa e mais espaco util para as mensagens. */
+#hyron-main{gap:10px;padding-top:10px;padding-bottom:10px}
+#hyron-main header{padding-bottom:8px;gap:10px;align-items:center;min-height:0}
+#hyron-main header .logo{flex:0 0 42px;width:42px;height:42px;border-radius:11px;font-size:23px}
+#hyron-main header h1{font-size:20px;line-height:1.2;letter-spacing:.13em}
+#hyron-main header small{font-size:12px;line-height:1.25}
+#hyron-main header #who{font-size:11px;line-height:1.25;margin:2px 0 0}
+#hyron-main #chat{padding-top:8px;padding-bottom:8px}
+
+/* Campo compacto; o usuario ainda pode expandir manualmente para textos longos. */
+#hyron-main #form{padding:7px 10px;border-radius:12px}
+#hyron-main #form #prompt{display:block;height:42px;min-height:42px;max-height:150px;padding:7px 8px;line-height:1.45;resize:vertical}
+#hyron-main #form .actions{align-items:center;gap:6px}
+#hyron-main #form .actions button{padding:7px 10px;min-height:34px;font-size:.85rem}
+#hyron-main #form .actions select{padding:5px 7px;min-height:32px;font-size:.85rem;max-width:160px}
+#hyron-main #form .provider-label{font-size:.85rem}
+#hyron-main #form #hyron-attach-button{padding:7px 10px}
+#hyron-main #hyron-attach-hint{font-size:.68rem;line-height:1.3;overflow-wrap:anywhere}
+#hyron-main #hyron-drive-panel{width:min(100%,1000px);margin:0 auto;flex:0 1 auto;max-height:45dvh;overflow:auto}
+
+@media(max-width:850px){
+ #hyron-main{padding-top:9px;padding-bottom:9px;gap:8px}
+ #hyron-main header{padding-bottom:7px}
+ #hyron-main header .logo{width:36px;height:36px;flex-basis:36px;font-size:20px}
+ #hyron-main header h1{font-size:18px}
+ #hyron-main header small{font-size:11px}
+ #hyron-main #form .actions{gap:5px}
+ #hyron-main #form .actions button{padding:7px 8px;font-size:.8rem}
+}
+@media(max-width:500px){
+ #hyron-main #form{padding:7px 8px}
+ #hyron-main #form .actions{row-gap:6px}
+ #hyron-main #form #prompt{height:40px;min-height:40px}
+ #hyron-main>p.hint{font-size:.62rem}
+}
+
+/* HYRON v0.6.6 - seletor web compacto */
+#hyron-main #form .hyron-web-label{display:flex;align-items:center;gap:5px;font-size:.8rem;color:#bfe9df}
+#hyron-main #form .hyron-web-label select{background:#142523;color:#e3f5ee;border:1px solid #35564d;border-radius:6px;padding:5px 7px;max-width:118px}
+@media(max-width:500px){#hyron-main #form .hyron-web-label{flex-wrap:wrap}#hyron-main #form .hyron-web-label select{max-width:110px}}
+
+/* HYRON Alfa 6.14: acoes por conversa, teclado, toque e menu fora do scroll. */
+#hyron-sidebar .sidebar-management[hidden]{display:none}
+.sidebar-history-row{display:flex;align-items:center;gap:3px;min-width:0;border-radius:9px}
+#sidebar-conversations .sidebar-history-row .sidebar-conversation{flex:1;min-width:0;width:auto}
+.sidebar-history-row .history-more{flex:0 0 36px;width:36px;height:38px;padding:0;border:0;border-radius:8px;background:transparent;color:#d7f3e9;font-size:24px;line-height:1;opacity:0;pointer-events:none}
+.sidebar-history-row:hover .history-more,.sidebar-history-row:focus-within .history-more,.history-more[aria-expanded="true"]{opacity:1;pointer-events:auto}
+.history-more:hover,.history-more:focus-visible{background:#285245}
+.history-more:focus-visible,.hyron-history-menu button:focus-visible{outline:2px solid #78e6cd;outline-offset:1px}
+.hyron-history-menu{position:fixed;z-index:300;width:190px;max-width:calc(100vw - 16px);padding:5px;background:#15372d;border:1px solid #497264;border-radius:10px;box-shadow:0 8px 25px #0008}
+.hyron-history-menu button{display:block;text-align:left;width:100%;padding:10px;border:0;background:transparent;border-radius:6px;color:#e6f5ef;font-size:14px}
+.hyron-history-menu button:hover,.hyron-history-menu button:focus-visible{background:#285245}
+.hyron-history-menu .history-delete{color:#ffb3ad}
+@media(hover:none),(pointer:coarse){.sidebar-history-row .history-more{opacity:1;pointer-events:auto;width:44px;height:44px;flex-basis:44px}}
+
+/* HYRON_TZ_SIDEBAR_FIX — controles da conta recolhidos na barra lateral */
+#hyron-sidebar #hyron-timezone-drawer{flex:none;min-width:0}
+#hyron-sidebar #timezone-settings{margin-top:10px;padding:12px;min-width:0;display:grid;gap:10px}
+#hyron-sidebar #timezone-settings h2{font-size:.9rem}
+#hyron-sidebar #timezone-settings label{font-size:.82rem;color:inherit}
+#hyron-sidebar #timezone-settings select{display:block;width:100%;min-width:0;max-width:100%;background:#142523;color:#e3f5ee;border:1px solid #35564d;border-radius:9px;padding:9px}
+#hyron-sidebar #timezone-settings button{width:100%;white-space:normal}
+#hyron-sidebar #timezone-settings .hint{text-align:left;overflow-wrap:anywhere}
+
+/* HYRON_TIMEZONE_SEARCH - pesquisa responsiva na configuracao de conta */
+#hyron-sidebar #hyron-timezone-search{box-sizing:border-box;width:100%;min-width:0;border:1px solid #35564d;background:#142523;color:#e3f5ee;border-radius:9px;padding:10px;font:inherit;font-size:.88rem}
+#hyron-sidebar #hyron-timezone-search:focus-visible{outline:2px solid #78e6cd;outline-offset:1px}
+#hyron-sidebar #hyron-timezone-drawer select{min-height:42px}
+
+/* HYRON_083_MOBILE_FINAL_PHASE1 */
+
+/* HYRON_083_MOBILE_FINAL_PHASE1: panel overlay, safe chat width and touch UI. */
+@media (max-width:850px){
+ html,body{width:100%;max-width:100%;overflow-x:clip}
+ #app.shell{width:100%!important;max-width:100%!important;min-width:0!important;grid-template-columns:minmax(0,1fr)!important;overflow:hidden!important}
+ #hyron-main{box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;padding-inline:clamp(10px,3vw,20px)!important;overflow-x:hidden!important}
+ #hyron-main > *,#hyron-main header,#hyron-main #chat,#hyron-main #form{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+ #hyron-main header{width:100%!important;flex-wrap:wrap}
+ #hyron-main #chat{width:100%!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain}
+ #hyron-main #chat .bubble,#hyron-main #chat pre,#hyron-main #chat code{max-width:100%;overflow-wrap:anywhere}
+ #hyron-main #chat pre{overflow-x:auto}
+ #hyron-main #form{width:100%!important}
+ #hyron-main #form .actions{min-width:0;max-width:100%;flex-wrap:wrap}
+ #hyron-main #form .actions>*{max-width:100%}
+ #sidebar-toggle{display:inline-flex!important;min-width:44px!important;min-height:44px!important;flex-shrink:0;position:relative;z-index:2}
+ #hyron-sidebar{box-sizing:border-box!important;position:fixed!important;inset:0 auto 0 0!important;width:min(340px,88vw)!important;max-width:88vw!important;height:100dvh!important;transform:translate3d(-105%,0,0)!important;visibility:hidden;pointer-events:none;will-change:transform;overflow-y:auto!important;overscroll-behavior:contain;z-index:10001!important}
+ #app.sidebar-open #hyron-sidebar{transform:translate3d(0,0,0)!important;visibility:visible;pointer-events:auto}
+ #app.sidebar-open #sidebar-backdrop{display:block!important;position:fixed!important;inset:0!important;width:100%!important;height:100dvh!important;z-index:10000!important;background:rgba(0,0,0,.65)!important}
+ #app.sidebar-open #hyron-main{width:100%!important;transform:none!important}
+ #sidebar-conversations .history-more{opacity:1;pointer-events:auto;min-width:44px;min-height:44px}
+}
+@media (max-width:480px){
+ #hyron-main header{gap:6px!important}
+ #hyron-main header h1{font-size:clamp(16px,5vw,19px)!important}
+ #hyron-main #form #prompt{max-width:100%!important;min-width:0!important}
+ #hyron-main #form .actions button{min-height:40px}
+}
+@media (prefers-reduced-motion:reduce){#hyron-sidebar{transition:none!important}}
+
+
+/* HYRON_SIDEBAR_REFINADA_V1 – visual only; mantém estruturas e listeners */
+@media(min-width:851px){
+ #app.shell{grid-template-columns:clamp(290px,23vw,350px)!important}
+}
+#hyron-sidebar{
+ box-sizing:border-box;
+ gap:12px!important;
+ padding:16px 14px 18px!important;
+ background:linear-gradient(160deg,#0c1d19 0%,#091611 100%)!important;
+ border-right:1px solid rgba(114,182,153,.2)!important;
+ scrollbar-width:thin;
+}
+#hyron-sidebar .sidebar-brand{
+ padding:9px 7px 16px!important;
+ gap:12px!important;
+ align-items:center;
+}
+#hyron-sidebar .sidebar-mark{
+ width:46px;height:46px;min-width:46px;
+ border-radius:14px!important;
+ box-shadow:0 5px 16px #0004;
+}
+#hyron-sidebar .sidebar-brand strong{letter-spacing:.16em!important}
+#hyron-sidebar .sidebar-title{
+ margin:3px 3px 0!important;
+ text-transform:uppercase;
+ letter-spacing:.11em!important;
+ font-size:.73rem!important;
+ font-weight:750;
+}
+#hyron-sidebar .history-bar{gap:8px!important}
+#hyron-sidebar .history-bar #new{
+ min-height:43px!important;
+ border:1px solid #477f66!important;
+ border-radius:12px!important;
+ background:linear-gradient(180deg,#235f4a,#1b4638)!important;
+ font-weight:700!important;
+ font-size:.94rem!important;
+ box-shadow:0 4px 14px #0003;
+}
+#hyron-sidebar :is(#hyron-dm-open,#hyron-groups-open){
+ width:100%!important;
+ min-height:40px!important;
+ margin:0!important;
+ border:1px solid rgba(119,167,146,.28)!important;
+ border-radius:11px!important;
+ font-size:.89rem!important;
+ text-align:left!important;
+ padding:9px 12px!important;
+ background:rgba(21,44,36,.62)!important;
+}
+#hyron-sidebar :is(#hyron-dm-open,#hyron-groups-open):hover{
+ background:rgba(39,83,63,.85)!important;
+}
+#hyron-sidebar #search{
+ box-sizing:border-box;
+ min-height:40px;
+ border-radius:11px!important;
+ background:rgba(5,16,13,.7)!important;
+ border:1px solid rgba(114,182,153,.27)!important;
+ padding:9px 12px!important;
+}
+#hyron-sidebar #search:focus{outline:2px solid #65c9a3;outline-offset:1px}
+#sidebar-conversations{
+ flex:0 1 auto!important;
+ min-height:100px!important;
+ max-height:clamp(180px,35dvh,380px)!important;
+ overflow-y:auto!important;
+ overflow-x:hidden!important;
+ padding-right:3px;
+ scrollbar-width:thin;
+ scrollbar-color:#315849 transparent;
+ gap:5px!important;
+}
+#sidebar-conversations .sidebar-history-row{min-width:0}
+#sidebar-conversations .sidebar-conversation{
+ font-size:.86rem!important;
+ line-height:1.35!important;
+ min-height:42px;
+ padding:10px 11px!important;
+ border-radius:10px!important;
+}
+#sidebar-conversations .sidebar-conversation:hover{
+ background:rgba(66,123,99,.25)!important;
+}
+#sidebar-conversations .sidebar-conversation.active{
+ border-color:#4b977a!important;
+ background:rgba(36,100,78,.53)!important;
+}
+#sidebar-conversations .sidebar-history-row .history-more{
+ flex:0 0 38px!important;
+ border-radius:9px!important;
+}
+#hyron-sidebar .sidebar-actions{
+ gap:8px!important;
+ padding-top:12px!important;
+ border-top:1px solid rgba(114,182,153,.17)!important;
+}
+#hyron-sidebar .sidebar-actions button,
+#hyron-sidebar :is(#hyron-drive-open,#logout){
+ min-height:39px!important;
+ padding:9px 12px!important;
+ border-radius:10px!important;
+ font-size:.85rem!important;
+ text-align:left!important;
+ white-space:normal;
+ overflow-wrap:anywhere;
+}
+#hyron-sidebar .sidebar-actions button{
+ background:rgba(22,48,39,.62)!important;
+ border:1px solid rgba(114,182,153,.16)!important;
+}
+#hyron-sidebar .sidebar-actions button:hover,
+#hyron-sidebar :is(#hyron-drive-open,#logout):hover{
+ background:rgba(39,82,65,.86)!important;
+}
+#hyron-sidebar .sidebar-tools{
+ border-top:1px solid rgba(114,182,153,.17)!important;
+ padding-top:10px!important;
+}
+#hyron-sidebar .sidebar-tools>summary{
+ border-radius:11px!important;
+ min-height:39px;
+ padding:11px 12px!important;
+ background:rgba(31,69,52,.8)!important;
+ border:1px solid rgba(114,182,153,.18);
+}
+#hyron-sidebar .sidebar-tools[open]>summary{
+ border-color:#559d7c!important;
+ background:rgba(30,88,65,.9)!important;
+}
+#hyron-sidebar .sidebar-drive-action,
+#hyron-sidebar .sidebar-session-action{
+ border-top:1px solid rgba(114,182,153,.17)!important;
+ padding-top:10px!important;
+}
+#hyron-sidebar .sidebar-session-action{margin-top:4px!important}
+#hyron-sidebar button:focus-visible,
+#hyron-sidebar summary:focus-visible{outline:2px solid #78e6cd!important;outline-offset:2px}
+@media(max-width:850px){
+ #hyron-sidebar{
+  width:min(350px,90vw)!important;
+  max-width:90vw!important;
+  padding-top:max(16px,env(safe-area-inset-top))!important;
+  padding-bottom:max(20px,env(safe-area-inset-bottom))!important;
+ }
+ #sidebar-conversations{max-height:clamp(180px,31dvh,330px)!important}
+ #sidebar-conversations .history-more{opacity:1!important;pointer-events:auto!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #hyron-sidebar *{scroll-behavior:auto!important}
+}
+
+/* HYRON_DESKTOP_GRID_RESCUE_01 — desktop only */
+@media (min-width: 851px) {
+  html body #app.shell {
+    display: grid !important;
+    grid-template-columns: clamp(290px,23vw,350px) minmax(0,1fr) !important;
+    grid-template-rows: minmax(0,1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+    align-items: stretch !important;
+  }
+  html body #app.shell > #hyron-sidebar {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: 100dvh !important;
+    position: relative !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+  html body #app.shell > #hyron-main {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    align-self: stretch !important;
+  }
+  html body #app.shell > #sidebar-backdrop {
+    display: none !important;
+  }
+}
+
+
+/* HYRON_SIDEBAR_HISTORY_EXPAND_V1 */
+#hyron-sidebar .sidebar-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px} 
+#hyron-sidebar .sidebar-section-head .sidebar-title{margin:0!important;flex:1 1 auto} 
+#hyron-sidebar .sidebar-history-toggle{flex:0 0 auto;min-height:32px;padding:6px 10px;border-radius:10px;border:1px solid rgba(114,182,153,.22);background:rgba(24,56,45,.72);color:#dff7ee;font-size:.78rem;font-weight:700;letter-spacing:.02em} 
+#hyron-sidebar .sidebar-history-toggle:hover{background:rgba(42,89,69,.9)} 
+#hyron-sidebar .sidebar-history-toggle:focus-visible{outline:2px solid #78e6cd;outline-offset:2px} 
+#hyron-sidebar.history-expanded #sidebar-conversations{max-height:min(68dvh,calc(100dvh - 320px))!important;flex:1 1 auto!important} 
+@media(max-width:850px){#hyron-sidebar.history-expanded #sidebar-conversations{max-height:min(52dvh,calc(100dvh - 360px))!important}}
+
+/* HYRON_SIDEBAR_CONTROLS_V2 - desktop only layout protection */
+@media(min-width:851px){
+ #app.shell{display:grid!important;grid-template-columns:var(--hyron-sidebar-width,340px) minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;height:100dvh!important;overflow:hidden!important}
+ #app.shell #hyron-sidebar{grid-column:1!important;grid-row:1!important;box-sizing:border-box!important;min-width:0!important;height:100dvh!important;position:relative!important;top:auto!important;left:auto!important;transform:none!important;visibility:visible!important}
+ #app.shell #hyron-main{grid-column:2!important;grid-row:1!important;min-width:0!important;min-height:0!important;height:100dvh!important;overflow:hidden!important;position:relative!important;top:auto!important;left:auto!important;transform:none!important;visibility:visible!important}
+ #hyron-sidebar .sidebar-brand{position:relative;padding-right:35px!important}
+ #hyron-sidebar.hyron-collapsed{padding:14px 7px!important;gap:0!important}
+ #hyron-sidebar.hyron-collapsed>:not(.sidebar-brand):not(.hyron-sidebar-resizer){display:none!important}
+ #hyron-sidebar.hyron-collapsed .sidebar-brand{padding:4px 0!important;justify-content:center!important;flex-wrap:wrap!important}
+ #hyron-sidebar.hyron-collapsed .sidebar-brand>span:not(.sidebar-mark){display:none!important}
+ #hyron-sidebar.hyron-collapsed .sidebar-mark{width:40px!important;height:40px!important;min-width:40px!important}
+ #hyron-sidebar.hyron-collapsed .hyron-sidebar-collapse{position:static!important;margin-top:7px!important}
+ #hyron-sidebar.hyron-collapsed .hyron-sidebar-resizer{display:none!important}
+ #hyron-sidebar .hyron-sidebar-resizer{position:absolute;z-index:10;top:0;right:0;height:100%;width:8px;cursor:col-resize;touch-action:none;background:transparent}
+ #hyron-sidebar .hyron-sidebar-resizer:hover,#hyron-sidebar .hyron-sidebar-resizer:focus-visible{background:rgba(91,201,159,.28);outline:none}
+ #hyron-sidebar.hyron-history-expanded #sidebar-conversations{flex:1 1 auto!important;min-height:110px!important;max-height:none!important;overflow-y:auto!important}
+ #hyron-sidebar:not(.hyron-history-expanded) #sidebar-conversations{flex:0 1 auto!important;max-height:clamp(160px,35dvh,380px)!important;overflow-y:auto!important}
+ html.hyron-sidebar-dragging,html.hyron-sidebar-dragging *{cursor:col-resize!important;user-select:none!important}
+}
+#hyron-sidebar .hyron-sidebar-collapse{position:absolute;top:8px;right:0;z-index:3;border:1px solid rgba(110,168,141,.4);border-radius:9px;background:rgba(24,62,47,.95);color:#ddf9ec;min-width:30px;height:32px;cursor:pointer}
+#hyron-sidebar .sidebar-section-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#hyron-sidebar .sidebar-section-head .sidebar-title{margin:0!important}
+#hyron-sidebar #sidebar-history-toggle{font-size:.78rem;padding:7px 10px;min-height:31px;border-radius:9px;white-space:nowrap}
+#hyron-sidebar .sidebar-brand{position:relative}
+@media(max-width:850px){#hyron-sidebar .hyron-sidebar-collapse,#hyron-sidebar .hyron-sidebar-resizer{display:none!important}#hyron-sidebar.hyron-history-expanded #sidebar-conversations{max-height:55dvh!important;min-height:140px!important;overflow-y:auto!important}}
+
+/* HYRON_SIDEBAR_CHATGPT_V3 - ChatGPT style compact rail + resizable sidebar */
+@media(min-width:851px){
+ #app.shell{display:grid!important;grid-template-columns:var(--hyron-v3-sidebar-width,340px) minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;width:100%!important;max-width:100%!important;height:100dvh!important;overflow:hidden!important}
+ #app.shell #hyron-sidebar{grid-column:1!important;grid-row:1!important;min-width:0!important;max-width:none!important;width:100%!important;height:100dvh!important;position:relative!important;top:auto!important;left:auto!important;transform:none!important;visibility:visible!important;overflow-y:auto!important;box-sizing:border-box!important}
+ #app.shell #hyron-main{grid-column:2!important;grid-row:1!important;min-width:0!important;min-height:0!important;width:100%!important;height:100dvh!important;position:relative!important;top:auto!important;left:auto!important;transform:none!important;visibility:visible!important;overflow:hidden!important;box-sizing:border-box!important}
+ #hyron-sidebar.hyron-rail-mode{padding:10px 5px!important;gap:0!important;overflow:hidden!important}
+ #hyron-sidebar.hyron-rail-mode>:not(.hyron-v3-rail){display:none!important}
+ #hyron-sidebar .hyron-v3-rail{display:none!important}
+ #hyron-sidebar.hyron-rail-mode .hyron-v3-rail{display:flex!important;flex-direction:column;align-items:center;gap:12px;width:100%;height:100%}
+ #hyron-sidebar.hyron-rail-mode .hyron-v3-rail button{display:grid;place-items:center;width:46px;height:46px;padding:0;background:transparent!important;border:1px solid transparent!important;border-radius:13px!important;font-size:23px;color:var(--hy-text,#e5fff3);cursor:pointer}
+ #hyron-sidebar.hyron-rail-mode .hyron-v3-rail button:hover,#hyron-sidebar.hyron-rail-mode .hyron-v3-rail button:focus-visible{background:rgba(72,153,117,.2)!important;border-color:rgba(100,160,130,.3)!important}
+ #hyron-sidebar .hyron-v3-rail-logo{display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(140,195,169,.2);border-radius:13px;color:#abe9d1;font-size:29px;margin-bottom:6px}
+ #hyron-sidebar .hyron-v3-grip{position:absolute;top:0;right:0;width:9px;height:100%;z-index:80;cursor:col-resize;touch-action:none}
+ #hyron-sidebar.hyron-rail-mode .hyron-v3-grip{display:none!important}
+ #hyron-sidebar .hyron-v3-grip:hover,#hyron-sidebar .hyron-v3-grip:focus-visible{background:rgba(72,153,117,.22);outline:0}
+ #hyron-sidebar.hyron-v3-history-expanded #sidebar-conversations{flex:1 1 auto!important;max-height:calc(100dvh - 420px)!important;min-height:180px!important;overflow-y:auto!important}
+ #hyron-sidebar:not(.hyron-v3-history-expanded) #sidebar-conversations{flex:0 1 auto!important;max-height:clamp(160px,35dvh,380px)!important;overflow-y:auto!important}
+ html.hyron-v3-dragging,html.hyron-v3-dragging *{cursor:col-resize!important;user-select:none!important}
+}
+#hyron-sidebar .sidebar-brand{position:relative;padding-right:42px!important}
+#hyron-sidebar .hyron-v3-fold{position:absolute;right:4px;top:4px;display:grid;place-items:center;width:37px;height:37px;border-radius:11px;border:1px solid rgba(134,188,155,.25);background:rgba(22,49,39,.7);color:var(--hy-text,#eafff6);cursor:pointer}
+#hyron-sidebar .sidebar-section-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#hyron-sidebar .sidebar-section-head>.sidebar-title{margin:0!important}
+#hyron-sidebar #sidebar-history-toggle{padding:7px 10px;min-height:34px;border-radius:9px;white-space:nowrap;font-size:.8rem}
+@media(max-width:850px){#hyron-sidebar .hyron-v3-rail,#hyron-sidebar .hyron-v3-fold,#hyron-sidebar .hyron-v3-grip{display:none!important}}
+
+/* HYRON_HISTORY_FOCUS_V1: foco completo no histórico sem modificar scripts */
+@media (min-width:851px) {
+  #app.shell #hyron-sidebar.hyron-v3-history-expanded:not(.hyron-rail-mode) {
+    display:flex!important;
+    flex-direction:column!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  #app.shell #hyron-sidebar.hyron-v3-history-expanded:not(.hyron-rail-mode) > :not(.sidebar-brand):not(.sidebar-section-head):not(#search):not(#sidebar-conversations):not(.hyron-v3-grip) {
+    display:none!important;
+  }
+  #app.shell #hyron-sidebar.hyron-v3-history-expanded:not(.hyron-rail-mode) > .sidebar-brand,
+  #app.shell #hyron-sidebar.hyron-v3-history-expanded:not(.hyron-rail-mode) > .sidebar-section-head,
+  #app.shell #hyron-sidebar.hyron-v3-history-expanded:not(.hyron-rail-mode) > #search {
+    flex:0 0 auto!important;
+  }
+  #app.shell #hyron-sidebar.hyron-v3-history-expanded:not(.hyron-rail-mode) > #sidebar-conversations {
+    display:flex!important;
+    flex:1 1 0%!important;
+    min-height:0!important;
+    max-height:none!important;
+    height:auto!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    scrollbar-width:thin;
+    padding-bottom:14px!important;
+    overscroll-behavior:contain;
+  }
+  #app.shell #hyron-sidebar.hyron-v3-history-expanded:not(.hyron-rail-mode) > #sidebar-conversations .sidebar-history-row {
+    flex:0 0 auto;
+  }
+}
+/* No mobile, o menu segue sendo overlay. Ao expandir, o histórico ocupa a área disponível. */
+@media (max-width:850px) {
+  #app.sidebar-open #hyron-sidebar.hyron-v3-history-expanded {
+    display:flex!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+  }
+  #app.sidebar-open #hyron-sidebar.hyron-v3-history-expanded > :not(.sidebar-brand):not(.sidebar-section-head):not(#search):not(#sidebar-conversations):not(.hyron-v3-grip) {
+    display:none!important;
+  }
+  #app.sidebar-open #hyron-sidebar.hyron-v3-history-expanded > #sidebar-conversations {
+    display:flex!important;
+    flex:1 1 0%!important;
+    min-height:0!important;
+    max-height:none!important;
+    height:auto!important;
+    overflow-y:auto!important;
+  }
+  #app.sidebar-open #hyron-sidebar.hyron-v3-history-expanded > #sidebar-conversations .sidebar-history-row {flex:0 0 auto}
+}
+
+/* HYRON_HISTORY_BUTTON_NEAR_V1 */
+#hyron-sidebar .sidebar-section-head {
+  justify-content: flex-start !important;
+  gap: 10px !important;
+}
+#hyron-sidebar .sidebar-section-head .sidebar-title {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+}
+#hyron-sidebar .sidebar-section-head #sidebar-history-toggle {
+  margin: 0 !important;
+  flex: 0 0 auto !important;
+}

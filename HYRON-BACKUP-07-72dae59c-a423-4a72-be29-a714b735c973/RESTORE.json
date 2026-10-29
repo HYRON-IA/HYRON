@@ -1,0 +1,34 @@
+[
+  {
+    "file": "tests/hyron-07.test.mjs",
+    "existed": true
+  },
+  {
+    "file": "public/hyron-cobra.svg",
+    "existed": false
+  },
+  {
+    "file": "public/theme-model.js",
+    "existed": false
+  },
+  {
+    "file": "public/app.js",
+    "existed": true
+  },
+  {
+    "file": "public/appearance.css",
+    "existed": false
+  },
+  {
+    "file": "public/cobra-mark.js",
+    "existed": false
+  },
+  {
+    "file": "public/index.html",
+    "existed": true
+  },
+  {
+    "file": "public/appearance.js",
+    "existed": false
+  }
+]

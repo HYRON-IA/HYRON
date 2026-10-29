@@ -1,0 +1,13 @@
+#hyron-notifications-root{position:fixed;z-index:10040;top:14px;right:22px;font:inherit;color:var(--text,#ecf9f4)}#hyron-notification-bell{background:#12241f;border:1px solid #407263;border-radius:12px;padding:9px 12px;cursor:pointer;color:inherit}#hyron-notification-count{background:#37cba0;color:#00170c;border-radius:9px;padding:1px 5px;font-weight:700}#hyron-notification-popover{background:#0c1b16;border:1px solid #436e60;box-shadow:0 12px 40px #0009;border-radius:14px;width:min(370px,90vw);max-height:60vh;overflow:auto;margin-top:8px}#hyron-notification-popover[hidden]{display:none}#hyron-notification-popover header{display:flex;flex-wrap:wrap;gap:6px;padding:12px;border-bottom:1px solid #34564a}#hyron-notification-popover header strong{flex-basis:100%}#hyron-notification-popover header button{background:#1b3028;color:inherit;border:1px solid #44675b;border-radius:8px;padding:5px 8px;cursor:pointer}#hyron-notification-list p{padding:12px;color:#adbdba}.hyron-notification-entry{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;width:100%;background:transparent;color:inherit;border:0;border-bottom:1px solid #28493d;padding:12px;cursor:pointer}.hyron-notification-entry:hover{background:#183229}.hyron-notification-entry small{opacity:.78}#hyron-notification-toasts{position:fixed;right:18px;top:65px;display:grid;gap:8px;max-width:min(390px,90vw)}.hyron-notification-toast{background:#153c31;border:1px solid #5ed6ae;border-radius:12px;padding:13px;color:#fff;cursor:pointer;text-align:left}
+
+/* HYRON_083_MOBILE_BELL_MINIMAL_V1: apenas no celular; mantém aparência desktop. */
+@media (max-width:650px){
+ #hyron-notification-bell{background:transparent !important;border:0 !important;box-shadow:none !important;padding:8px !important;color:#fff !important;min-width:42px;min-height:42px;font-size:0 !important;display:flex;align-items:center;justify-content:center;position:relative}
+ #hyron-notification-bell::before{content:'♧';display:none}
+ #hyron-notification-bell{font-size:0 !important}
+ #hyron-notification-bell::after{content:'🔔';font-size:24px;line-height:1;filter:grayscale(1) brightness(0) invert(1)}
+ #hyron-notification-bell.hyron-has-notifications::after{filter:none}
+ #hyron-notification-bell #hyron-notification-count{position:absolute;right:0;top:0;font-size:10px;line-height:1.2;background:#f2c94c;color:#151515;border-radius:100%;min-width:15px;padding:2px}
+ #hyron-notification-bell #hyron-notification-count[hidden]{display:none !important}
+ #hyron-main header small,#hyron-main header #who{display:none !important}
+}

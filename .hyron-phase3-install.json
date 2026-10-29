@@ -1,0 +1,14 @@
+{
+  "backup": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\backups\\HYRON-FASE3-2026-10-24T00-30-05-388Z",
+  "hash": "a2e6fe5f764a2dbc5f6ecb5d207ded65bb285c7e5b197294ba5b6a8261c0f688",
+  "assets": [
+    {
+      "name": "hyron-admin-center.css",
+      "hash": "5f99935be21a0b9b54b87fbca27d03fa318ac8c1507bb0a32cb900bc80b4531d"
+    },
+    {
+      "name": "hyron-admin-center.js",
+      "hash": "a8e94e201601afdf584582ad24bbb85088652ac2e5403bcb4ee8c75ea329f860"
+    }
+  ]
+}

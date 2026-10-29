@@ -1,0 +1,20 @@
+{
+  "backDir": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\.hyron084-native-backups-1792854173079",
+  "files": [
+    {
+      "dest": "src/group-rooms.ts",
+      "installedHash": "94a0e4dffa5bcfecc890b136c157e94dfdeb801d432a6c9ef289fbce097cb642",
+      "originalHash": "8ef31f93b1fa4e3ecedabe4c0cc851dc826de51d4fd8e041b6514fb9d77a9ab1"
+    },
+    {
+      "dest": "src/private-messages.ts",
+      "installedHash": "e7e6d0d54ebfa86a4e7739ce4c3638374a57dc471118007354b7731da60c4f17",
+      "originalHash": "b1b8655dea98597d30bfc4f15c7d2442031d29627d7ee0d6709d00d15c139054"
+    },
+    {
+      "dest": "public/hyron-dm.js",
+      "installedHash": "5330fc7b35848cc0a192d56a9d03ce84ddad2ffebe82cc7662e0b27d50e3e75a",
+      "originalHash": "6d9bec7e3d426543f363f27e7794328e1c1142e52663da64f02c8b226cd57ed1"
+    }
+  ]
+}

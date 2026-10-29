@@ -1,0 +1,24 @@
+/* HYRON_083_DESKTOP_BELL_AND_CONFIRM — sem mexer no chat */
+html body #hyron-notification-bell{
+ background:transparent!important;border:0!important;box-shadow:none!important;
+ color:#fff!important;display:flex!important;align-items:center!important;
+ justify-content:center!important;position:relative!important;padding:8px!important;
+ min-width:42px;min-height:42px;font-size:0!important;
+}
+html body #hyron-notification-bell::before{content:none!important}
+html body #hyron-notification-bell::after{
+ content:'🔔'!important;font-size:25px!important;line-height:1!important;
+ filter:grayscale(1) brightness(0) invert(1)!important;
+}
+html body #hyron-notification-bell.hyron-has-notifications::after{filter:none!important}
+html body #hyron-notification-bell #hyron-notification-count{
+ position:absolute!important;top:0;right:0;background:#f2c94c!important;
+ color:#141414!important;border-radius:20px;font-size:10px!important;
+ min-width:15px;text-align:center;padding:2px 4px;
+}
+html body #hyron-notification-bell #hyron-notification-count[hidden]{display:none!important}
+.hyron-confirm-shade{position:fixed;inset:0;z-index:2147483600;background:rgba(0,0,0,.66);display:grid;place-items:center;padding:18px}
+.hyron-confirm-dialog{box-sizing:border-box;width:min(420px,100%);max-height:90vh;overflow:auto;padding:22px;border:1px solid var(--hy-border,#496258);border-radius:16px;background:var(--hy-surface,#111);color:var(--hy-text,#fff);box-shadow:0 16px 60px #000b}
+.hyron-confirm-dialog h3{margin:0 0 12px;font-size:1.1rem}.hyron-confirm-dialog p{margin:0 0 24px;line-height:1.6;overflow-wrap:anywhere}
+.hyron-confirm-actions{display:flex;justify-content:flex-end;gap:12px}.hyron-confirm-actions button{padding:10px 15px;border-radius:10px;border:1px solid var(--hy-border,#4b5954);background:transparent;color:inherit;cursor:pointer}
+.hyron-confirm-actions .hyron-confirm-danger{background:#9a3030;color:#fff;border-color:#b14a4a}.hyron-confirm-actions button:focus-visible{outline:2px solid #7bdec1;outline-offset:2px}

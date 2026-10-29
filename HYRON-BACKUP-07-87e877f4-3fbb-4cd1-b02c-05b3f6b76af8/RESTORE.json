@@ -1,0 +1,38 @@
+[
+  {
+    "file": "package.json",
+    "existed": true
+  },
+  {
+    "file": "package-lock.json",
+    "existed": true
+  },
+  {
+    "file": "src/index.ts",
+    "existed": true
+  },
+  {
+    "file": "src/free-llm-profile.ts",
+    "existed": true
+  },
+  {
+    "file": "src/routing-policy.ts",
+    "existed": false
+  },
+  {
+    "file": "tests/hyron-07.test.mjs",
+    "existed": false
+  },
+  {
+    "file": "public/provider-errors.js",
+    "existed": false
+  },
+  {
+    "file": "public/app.js",
+    "existed": true
+  },
+  {
+    "file": "public/index.html",
+    "existed": true
+  }
+]

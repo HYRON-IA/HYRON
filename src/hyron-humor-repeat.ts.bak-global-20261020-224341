@@ -1,0 +1,51 @@
+import { applyHybridHumor } from './hyron-humor-hybrid';
+
+type OriginalArgs = Parameters<typeof applyHybridHumor>;
+type HumorResult = Awaited<ReturnType<typeof applyHybridHumor>>;
+const STARTER = [
+ 'Você é tão confuso que até o Wi-Fi pede ajuda pra se conectar.',
+ 'Sua velocidade de pensamento é tão boa quanto o download de um video em 240p.',
+ 'Você é tão rápido em perder a linha que o próprio texto precisa de pausa para te acompanhar.',
+ 'Você é tão confuso que até o GPS pede “recalcular rota”.',
+ 'Você é tão confuso que até o Wi-Fi pede “reconectar”.',
+ 'Você é tão lento no raciocínio que o processador pede férias.',
+ 'Você é tão lento que o processador já pediu férias.',
+ 'Seu cérebro tem mais lag que um streaming dos anos 2000 — e ainda tem a audácia de culpar o Wi-Fi.'
+];
+const normalize = (s:string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/wi[\s-]?fi/g,'wifi').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const words = (s:string) => new Set(normalize(s).split(' ').filter(w=>w.length>2));
+function similar(a:string,b:string):boolean {
+ const na=normalize(a), nb=normalize(b);
+ if(na===nb || (na.length>22&&nb.includes(na)) || (nb.length>22&&na.includes(nb)))return true;
+ const aa=words(a),bb=words(b);
+ if(!aa.size||!bb.size)return false;
+ const intersection=[...aa].filter(w=>bb.has(w)).length;
+ const ratio=intersection/Math.min(aa.size,bb.size);
+ return intersection>=4 && ratio>=0.68;
+}
+const noHumor=(answer:string,reason:string,attempts:number,duplicates:number):HumorResult & {humorAttempts:number;repeatedInsultsRejected:number}=>({answer,changed:false,reason,engine:'none',aiStatus:reason,humorAttempts:attempts,repeatedInsultsRejected:duplicates});
+export async function applyRepeatProtectedHumor(db:D1Database,userId:string,...args:OriginalArgs):Promise<HumorResult & {humorAttempts:number;repeatedInsultsRejected:number}> {
+ const [answer,userMessage,settings,ctx,opts]=args;
+ const isSenseNova=opts.mode==='sensenova-only'||Boolean(String(opts.senseNovaKey||'').trim());
+ if(!isSenseNova){const r=await applyHybridHumor(...args);return {...r,humorAttempts:r.aiStatus==='ok'?1:0,repeatedInsultsRejected:0};}
+ try {
+  // Sem id de usuario em migrations: a lista de oito frases e inicializada uma vez por conta.
+  const count=await db.prepare('SELECT COUNT(*) AS n FROM hyron_humor_insults WHERE user_id=?').bind(userId).first<{n:number}>();
+  if(!count?.n){
+   for(const line of STARTER) await db.prepare('INSERT INTO hyron_humor_insults(user_id,insult) VALUES(?,?)').bind(userId,line).run();
+  }
+  let history=(await db.prepare('SELECT insult FROM hyron_humor_insults WHERE user_id=? ORDER BY id DESC LIMIT 20').bind(userId).all<{insult:string}>()).results.map(x=>x.insult);
+  let duplicates=0;
+  for(let attempt=1;attempt<=5;attempt++){
+   const r=await applyHybridHumor(answer,userMessage,settings,ctx,{...opts,excludedInsults:history});
+   if(r.engine!=='secondary-ai'||!r.changed){return {...r,humorAttempts:attempt,repeatedInsultsRejected:duplicates};}
+   const line=r.answer.startsWith(answer.trimEnd()+'\n\n')?r.answer.slice((answer.trimEnd()+'\n\n').length).trim():r.answer.trim();
+   if(history.some(old=>similar(line,old))){duplicates++;continue;}
+   // Registra antes de expor. Se D1 falhar, nao publica uma provocacao sem memoria.
+   await db.prepare('INSERT INTO hyron_humor_insults(user_id,insult) VALUES(?,?)').bind(userId,line).run();
+   await db.prepare('DELETE FROM hyron_humor_insults WHERE user_id=? AND id NOT IN (SELECT id FROM hyron_humor_insults WHERE user_id=? ORDER BY id DESC LIMIT 20)').bind(userId,userId).run();
+   return {...r,humorAttempts:attempt,repeatedInsultsRejected:duplicates};
+  }
+  return noHumor(answer,'repeated-insults-limit',5,duplicates);
+ } catch(err){console.error('HYRON HUMOR D1 ERROR',err instanceof Error?err.name:'unknown');return noHumor(answer,'humor-memory-unavailable',0,0);}
+}

@@ -1,0 +1,32 @@
+/* HYRON_083_MOBILE_CHAT_BG_TO_COMPOSER_V1 — carregado por ultimo.
+   Fundo do historico termina na borda superior do compositor.
+   Desktop e demais paineis nao afetados. */
+@media (max-width:650px) {
+  html[data-hyron-theme] #app.shell:not([hidden]) #hyron-main,
+  #app.shell:not([hidden]) #hyron-main {
+    display:flex !important; flex-direction:column !important;
+    height:100dvh !important; min-height:0 !important;
+    padding-bottom:max(4px,env(safe-area-inset-bottom,0px)) !important;
+    gap:0 !important; overflow:hidden !important;
+    background:var(--hy-canvas,#071310) !important;
+  }
+  html[data-hyron-theme] #hyron-main #chat,
+  #hyron-main #chat {
+    flex:1 1 0% !important; min-height:0 !important; height:auto !important;
+    max-height:none !important; overflow-y:auto !important;
+    overflow-x:hidden !important; margin:0 !important;
+    padding-bottom:12px !important; scroll-padding-bottom:12px !important;
+    background:var(--hy-chat,transparent) !important;
+    border-radius:0 !important;
+  }
+  html[data-hyron-theme] #hyron-main #form,
+  #hyron-main #form {
+    flex:0 0 auto !important; position:relative !important;
+    top:auto !important; bottom:auto !important;
+    margin-top:0 !important; margin-bottom:0 !important;
+    z-index:3 !important;
+  }
+  /* No celular, o rodape nao deve ocupar espaco nem cobrir mensagens. */
+  html[data-hyron-theme] #hyron-main > p.hint,
+  #hyron-main > p.hint { display:none !important; }
+}

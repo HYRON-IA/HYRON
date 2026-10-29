@@ -1,0 +1,22 @@
+[
+  {
+    "file": "public/app.js",
+    "existed": true
+  },
+  {
+    "file": "public/sidebar.js",
+    "existed": true
+  },
+  {
+    "file": "public/sidebar.css",
+    "existed": true
+  },
+  {
+    "file": "public/history-actions.js",
+    "existed": false
+  },
+  {
+    "file": "public/history-menu.js",
+    "existed": false
+  }
+]

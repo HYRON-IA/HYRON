@@ -1,0 +1,50 @@
+/* HYRON_083_MOBILE_LAYOUT_STABLE_V2: layout em fluxo e popover sobreposto. */
+@media (max-width:650px) {
+ html,body { width:100%; max-width:100%; overflow-x:hidden!important; }
+ #app.shell:not([hidden]) { height:100dvh!important; min-height:0!important; overflow:hidden!important; }
+ #hyron-main { box-sizing:border-box!important; position:relative!important; display:flex!important;
+   flex-direction:column!important; gap:6px!important; width:100%!important;
+   min-width:0!important; height:var(--hyron-mobile-visible-height,100dvh)!important; max-height:var(--hyron-mobile-visible-height,100dvh)!important;
+   padding:8px 10px max(6px,env(safe-area-inset-bottom,0px))!important;
+   overflow:hidden!important; }
+ #hyron-main > header { flex:0 0 auto!important; width:100%!important; min-height:0!important;
+   max-width:100%!important; padding-right:51px!important; margin:0!important;
+   flex-wrap:nowrap!important; overflow:hidden!important; }
+ #hyron-main > header small, #hyron-main > header #who { display:none!important; }
+ #sidebar-toggle { position:relative!important; display:inline-flex!important; visibility:visible!important;
+   opacity:1!important; z-index:2!important; flex-shrink:0!important; }
+ /* Histórico no fluxo: scroll próprio, nunca atrás do campo ou rodapé. */
+ #hyron-main #chat { box-sizing:border-box!important; display:block!important;
+   flex:1 1 0px!important; width:100%!important; min-width:0!important;
+   height:0!important; min-height:0!important; max-height:none!important;
+   margin:0!important; padding:10px 4px 16px!important;
+   overflow-y:auto!important; overflow-x:hidden!important; scroll-padding-bottom:20px;
+   overscroll-behavior-y:contain; }
+ #hyron-main #form { position:relative!important; inset:auto!important;
+   flex:0 0 auto!important; width:100%!important; max-height:min(43dvh,295px)!important;
+   margin:0!important; transform:none!important; }
+ #hyron-main > p.hint { flex:0 0 auto!important; margin:0!important;
+   padding:1px 2px!important; overflow-wrap:anywhere; }
+ /* O sino permanece no canto direito sem mudar a geometria do cabeçalho. */
+ #hyron-notifications-root { position:fixed!important; z-index:10040!important;
+   top:calc(env(safe-area-inset-top,0px) + 12px)!important; right:10px!important;
+   left:auto!important; bottom:auto!important; display:block!important;
+   width:44px!important; height:44px!important; min-width:44px!important;
+   margin:0!important; padding:0!important; transform:none!important; pointer-events:none!important; }
+ #hyron-notification-bell { pointer-events:auto!important; position:absolute!important;
+   inset:0!important; width:44px!important; height:44px!important;
+   border:0!important; box-shadow:none!important; background:transparent!important;
+   padding:0!important; color:white!important; font-size:0!important;
+   display:flex!important; align-items:center!important; justify-content:center!important; }
+ #hyron-notification-bell::after { content:'🔔'!important; font-size:23px!important;
+   line-height:1!important; filter:grayscale(1) brightness(0) invert(1)!important; }
+ #hyron-notification-bell.hyron-has-notifications::after { filter:none!important; }
+ #hyron-notification-popover { pointer-events:auto!important; position:fixed!important;
+   top:calc(env(safe-area-inset-top,0px) + 62px)!important;
+   right:10px!important; left:auto!important; bottom:auto!important;
+   width:min(355px,calc(100vw - 20px))!important;
+   max-width:calc(100vw - 20px)!important; max-height:min(55dvh,420px)!important;
+   margin:0!important; overflow-y:auto!important; overscroll-behavior:contain;
+   z-index:10041!important; }
+ #hyron-notification-popover[hidden] { display:none!important; }
+}

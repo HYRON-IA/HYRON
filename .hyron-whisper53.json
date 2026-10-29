@@ -1,0 +1,18 @@
+{
+  "back": "C:\\Users\\Admin\\Downloads\\Project H.Y.R.O.N\\HYRON-v0.1\\.hyron-whisper53-backup\\2026-10-24T02-35-28-067Z",
+  "added": "public/hyron-whisper-dictation.js",
+  "updated": [
+    {
+      "p": "src/index.ts",
+      "hash": "ac2674f42dfbcbcf7903dfb9361ab16aec55a8fdeb87e50e5b749c0955e4e431"
+    },
+    {
+      "p": "wrangler.jsonc",
+      "hash": "226ba852d5366a0a769e71bded1d294326f5b35ca54d7f5f4112778192805a9a"
+    },
+    {
+      "p": "public/index.html",
+      "hash": "54c73876c55c2770ce76170fb444aa7e31ee00625ca1f06719475a8061ff7880"
+    }
+  ]
+}

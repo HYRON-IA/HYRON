@@ -1,0 +1,148 @@
+/* HYRON v0.8.2 — side drawer, responsive DM and theme-aware voice controls. */
+html [data-hyron-dm-v2="panel"]{
+  position:fixed!important;inset:0 0 0 auto!important;
+  width:75vw!important;min-width:0!important;max-width:none!important;
+  height:100vh!important;height:100dvh!important;max-height:100dvh!important;
+  margin:0!important;transform:none!important;
+  border-radius:18px 0 0 18px!important;
+  border:0!important;border-left:1px solid var(--hy-border,#49655a)!important;
+  box-shadow:-22px 0 70px rgba(0,0,0,.32)!important;
+  background:var(--hy-surface,#0f221c)!important;
+  color:var(--hy-text,#e9f5ef)!important;
+  z-index:14010!important;
+  display:flex!important;flex-direction:column!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+html [data-hyron-dm-v2="header"]{
+  flex:none!important;min-height:64px!important;padding:14px 22px!important;
+  border-bottom:1px solid var(--hy-border,#49655a)!important;
+  background:var(--hy-raised,#19372e)!important;
+  color:var(--hy-text,#e9f5ef)!important;
+}
+html [data-hyron-dm-v2="layout"]{
+  flex:1 1 auto!important;min-height:0!important;min-width:0!important;
+  display:grid!important;grid-template-columns:minmax(220px,30%) minmax(0,1fr)!important;
+  overflow:hidden!important;
+  background:var(--hy-surface,#0f221c)!important;
+}
+html [data-hyron-dm-v2="contacts"]{
+  min-width:0!important;min-height:0!important;overflow-y:auto!important;
+  border-right:1px solid var(--hy-border,#49655a)!important;
+  background:var(--hy-raised,#19372e)!important;
+  color:var(--hy-text,#e9f5ef)!important;
+}
+html [data-hyron-dm-v2="conversation"]{
+  min-width:0!important;min-height:0!important;
+  display:flex!important;flex-direction:column!important;
+  background:var(--hy-surface,#0f221c)!important;
+  color:var(--hy-text,#e9f5ef)!important;
+  overflow:hidden!important;
+}
+html [data-hyron-dm-v2="panel"] :is(input,select,textarea,button){color:var(--hy-text,#e9f5ef);border-color:var(--hy-border,#49655a)}
+html [data-hyron-dm-v2="panel"] :is(input,select,textarea){background:var(--hy-raised,#19372e)}
+html [data-hyron-dm-v2="panel"] button:focus-visible{outline:2px solid var(--hy-accent,#78e6cd);outline-offset:2px}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-back{display:none}
+/* Hide any old default audio control, but leave the element alive for playback/events. */
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-audio audio{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-audio{
+  --audio-accent:var(--hy-accent,#78e6cd);
+  width:min(390px,100%);min-width:0;max-width:100%;box-sizing:border-box;
+  margin:7px 0;padding:8px 12px;
+  background:var(--hy-raised,#19372e);border:1px solid var(--hy-border,#49655a);
+  border-radius:18px;color:var(--hy-text,#e9f5ef);
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-controls{display:flex;align-items:center;gap:10px;min-width:0;width:100%}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-play{
+  flex:none;width:38px!important;height:38px!important;min-width:38px!important;padding:0!important;
+  display:grid!important;place-items:center!important;border-radius:50%!important;
+  background:var(--audio-accent)!important;color:var(--hy-button-text,#001910)!important;
+  border:0!important;font-size:17px!important;font-weight:700!important;cursor:pointer;
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-progress{
+  flex:1;min-width:35px;width:100%;height:5px!important;padding:0!important;border:0!important;
+  background:linear-gradient(90deg,var(--audio-accent) var(--hyron-audio-progress,0%),var(--hy-border,#45665a) var(--hyron-audio-progress,0%))!important;
+  border-radius:999px;appearance:none;-webkit-appearance:none;cursor:pointer;
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-progress::-webkit-slider-thumb{
+  appearance:none;-webkit-appearance:none;width:12px;height:12px;border-radius:50%;border:0;background:var(--audio-accent);
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-progress::-moz-range-thumb{
+  width:12px;height:12px;border-radius:50%;border:0;background:var(--audio-accent);
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-times{display:flex;align-items:center;gap:4px;white-space:nowrap;color:var(--hy-muted,#a0bdb1);font-size:12px;font-variant-numeric:tabular-nums}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-separator{opacity:.65}
+@media (max-width:1023px){
+  html [data-hyron-dm-v2="panel"]{width:85vw!important}
+  html [data-hyron-dm-v2="layout"]{grid-template-columns:minmax(200px,35%) minmax(0,1fr)!important}
+}
+@media (max-width:767px){
+  html [data-hyron-dm-v2="panel"]{
+    width:100vw!important;max-width:100vw!important;
+    height:100vh!important;height:100dvh!important;max-height:100dvh!important;
+    border:0!important;border-radius:0!important;
+    overscroll-behavior:contain;
+  }
+  html [data-hyron-dm-v2="header"]{min-height:52px!important;padding:8px 13px!important}
+  html [data-hyron-dm-v2="layout"]{grid-template-columns:minmax(0,1fr)!important;display:block!important;position:relative!important}
+  html [data-hyron-dm-v2="contacts"],
+  html [data-hyron-dm-v2="conversation"]{
+    position:absolute!important;inset:0!important;
+    width:100%!important;height:100%!important;max-width:100%!important;
+    box-sizing:border-box!important;border:0!important;
+  }
+  html [data-hyron-dm-v2="panel"]:not(.hyron-dm-v2-chat-active) [data-hyron-dm-v2="conversation"]{display:none!important}
+  html [data-hyron-dm-v2="panel"].hyron-dm-v2-chat-active [data-hyron-dm-v2="contacts"]{display:none!important}
+  html [data-hyron-dm-v2="panel"] .hyron-dm-v2-back{
+    display:block!important;position:relative;z-index:3;
+    flex:none!important;text-align:left!important;width:auto!important;max-width:max-content!important;
+    padding:10px 14px!important;margin:7px 10px 4px!important;
+    background:var(--hy-raised,#19372e)!important;
+    border:1px solid var(--hy-border,#49655a)!important;border-radius:10px!important;
+  }
+  html [data-hyron-dm-v2="conversation"] textarea{max-height:130px!important;min-height:42px!important;max-width:100%!important}
+  html [data-hyron-dm-v2="panel"] .hyron-dm-v2-audio{width:100%}
+  html [data-hyron-dm-v2="panel"] .hyron-dm-v2-audio .hyron-dm-v2-controls{gap:7px}
+}
+@media (prefers-reduced-motion:reduce){html [data-hyron-dm-v2="panel"] *{transition-duration:0s!important;animation-duration:0s!important}}
+
+/* HYRON v0.8.2 - Correcoes v3: notificacoes e audio refinado */
+html.hyron-dm-v3-open #hyron-notification-bell,
+html.hyron-dm-v3-open #hyron-notification-popover{display:none!important;pointer-events:none!important}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-audio{
+ width:min(410px,100%);padding:12px 13px 13px;border-radius:16px;
+ border:1px solid color-mix(in srgb,var(--hy-accent,#70d6b0) 38%,var(--hy-border,#41685a));
+ background:linear-gradient(145deg,color-mix(in srgb,var(--hy-accent,#70d6b0) 10%,var(--hy-raised,#19372e)),var(--hy-raised,#19372e));
+ box-shadow:0 5px 20px rgba(0,0,0,.12)
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v3-hint{
+ display:flex;align-items:center;gap:9px;margin-bottom:9px;
+ font-size:11px;font-weight:600;letter-spacing:.03em;
+ color:var(--hy-muted,var(--hy-text,#deede5))
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v3-hint span{color:var(--hy-accent,#70d6b0);font-size:18px;letter-spacing:2px}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-controls{gap:9px;min-height:43px}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-play{
+ width:42px!important;height:42px!important;min-width:42px!important;
+ background:var(--hy-accent,#6de0bd)!important;
+ box-shadow:0 3px 10px rgba(0,0,0,.24);font-size:18px!important;
+ transition:transform .15s,filter .15s
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-play:hover{transform:scale(1.06);filter:brightness(1.09)}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-progress{height:6px!important;min-width:30px;border-radius:999px}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v2-times{font-size:11px;gap:3px;white-space:nowrap}
+html [data-hyron-dm-v2="panel"] :is(.hyron-dm-v3-speed,.hyron-dm-v3-volume){
+ display:inline-grid;place-items:center;flex:none;
+ min-width:28px;width:28px;height:28px;padding:0!important;
+ font-size:12px;font-weight:600;white-space:nowrap;
+ border:1px solid var(--hy-border,#41685a)!important;
+ border-radius:9px;background:var(--hy-surface,#11251e)!important;
+ color:var(--hy-text,#e1f1e8)!important;cursor:pointer
+}
+html [data-hyron-dm-v2="panel"] .hyron-dm-v3-speed{width:36px}
+html [data-hyron-dm-v2="panel"] :is(.hyron-dm-v3-speed,.hyron-dm-v3-volume):hover{border-color:var(--hy-accent,#70d6b0)!important}
+@media(max-width:480px){
+ html [data-hyron-dm-v2="panel"] .hyron-dm-v2-audio{padding:10px;}
+ html [data-hyron-dm-v2="panel"] .hyron-dm-v2-controls{gap:6px;flex-wrap:wrap;}
+ html [data-hyron-dm-v2="panel"] .hyron-dm-v2-times{order:4;}
+}

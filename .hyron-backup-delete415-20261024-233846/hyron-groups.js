@@ -1,0 +1,300 @@
+async function hyronGroupConfirm(message){
+ return new Promise(resolve=>{
+  const shade=document.createElement('div');shade.className='hyron-confirm-shade';
+  const dialog=document.createElement('section');dialog.className='hyron-confirm-dialog';dialog.setAttribute('role','alertdialog');dialog.setAttribute('aria-modal','true');dialog.setAttribute('aria-label','Confirmar ação');
+  const h=document.createElement('h3');h.textContent='Confirmar ação';
+  const p=document.createElement('p');p.textContent=String(message);
+  const bar=document.createElement('div');bar.className='hyron-confirm-actions';
+  const no=document.createElement('button');no.type='button';no.textContent='Cancelar';
+  const yes=document.createElement('button');yes.type='button';yes.textContent='Confirmar';yes.className='hyron-confirm-danger';
+  bar.append(no,yes);dialog.append(h,p,bar);shade.append(dialog);document.body.append(shade);
+  const previously=document.activeElement;
+  const finish=(result)=>{document.removeEventListener('keydown',keys,true);shade.remove();if(previously?.isConnected&&typeof previously.focus==='function')previously.focus();resolve(result)};
+  const keys=(e)=>{if(e.key==='Escape'){e.preventDefault();finish(false)}else if(e.key==='Tab'){const items=[no,yes];const here=items.indexOf(document.activeElement);if(e.shiftKey&&here<=0){e.preventDefault();yes.focus()}else if(!e.shiftKey&&here===1){e.preventDefault();no.focus()}}};
+  document.addEventListener('keydown',keys,true);no.onclick=()=>finish(false);yes.onclick=()=>finish(true);shade.onclick=e=>{if(e.target===shade)finish(false)};no.focus();
+ });
+}
+
+// HYRON_083_DESKTOP_BELL_AND_CONFIRM
+// HYRON v0.8.3 - Ala Coletiva, grupos privados (fase 1).
+(()=>{
+const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e};
+function makeGroupAudioPlayer(audio,parent){
+ const shell=make('div','hyron-groups-audio-player');shell.setAttribute('role','group');shell.setAttribute('aria-label','Mensagem de voz');
+ const hint=make('div','hyron-groups-audio-hint','▂▃▅▇▅▃▂  Mensagem de voz');
+ const controls=make('div','hyron-groups-audio-controls');
+ const play=make('button','hyron-groups-audio-play','▶');play.type='button';play.setAttribute('aria-label','Reproduzir áudio');
+ const seek=make('input','hyron-groups-audio-seek');seek.type='range';seek.min='0';seek.max='1000';seek.value='0';seek.setAttribute('aria-label','Posição do áudio');
+ const time=make('span','hyron-groups-audio-time','00:00 / …');
+ const mute=make('button','hyron-groups-audio-mute','♪');mute.type='button';mute.title='Silenciar áudio';
+ const speed=make('button','hyron-groups-audio-speed','1×');speed.type='button';speed.title='Velocidade de reprodução';
+ controls.append(play,seek,time,mute,speed);shell.append(hint,controls,audio);parent.append(shell);
+ audio.controls=false;audio.preload='metadata';audio.classList.add('hyron-groups-audio-source');
+ function clock(t){if(!Number.isFinite(t))return '--:--';const s=Math.max(0,Math.floor(t));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+ let recoveredDuration=NaN,metadataRecoveryAttempted=false;
+ function duration(){if(Number.isFinite(audio.duration)&&audio.duration>0)return audio.duration;if(Number.isFinite(recoveredDuration)&&recoveredDuration>0)return recoveredDuration;try{if(audio.seekable.length){const end=audio.seekable.end(audio.seekable.length-1);if(Number.isFinite(end)&&end>0)return end}}catch{}return NaN}
+ // MediaRecorder WebM files can omit duration metadata. On seekable files, Chrome may
+ // discover the true endpoint after a one-time seek beyond the stream's end.
+ function recoverMetadata(){
+  if(metadataRecoveryAttempted||audio.error||audio.readyState<1||Number.isFinite(duration()))return;
+  metadataRecoveryAttempted=true;
+  if(!Number.isFinite(audio.duration)&&audio.seekable.length===0&&audio.paused){
+   try{audio.currentTime=1e10}catch{};
+  }
+ }
+ audio.addEventListener('seeked',()=>{
+  if(metadataRecoveryAttempted&&!Number.isFinite(recoveredDuration)&&Number.isFinite(audio.currentTime)&&audio.currentTime>0&&audio.currentTime<86400){
+   recoveredDuration=audio.currentTime;
+   if(audio.paused){try{audio.currentTime=0}catch{}}
+  }
+  sync();
+ });
+ audio.addEventListener('loadedmetadata',recoverMetadata);
+ audio.addEventListener('durationchange',recoverMetadata);
+ function sync(){const len=duration(),valid=Number.isFinite(len)&&len>0;time.textContent=clock(audio.currentTime)+' / '+(valid?clock(len):'…');seek.disabled=!valid;seek.value=valid?String(Math.round(Math.max(0,Math.min(1,audio.currentTime/len))*1000)):'0';play.textContent=audio.paused?'▶':'Ⅱ';play.setAttribute('aria-label',audio.paused?'Reproduzir áudio':'Pausar áudio')}
+ play.addEventListener('click',async()=>{try{if(audio.paused)await audio.play();else audio.pause()}catch{play.title='Não foi possível reproduzir este áudio'}sync()});
+ seek.addEventListener('input',()=>{const len=duration();if(Number.isFinite(len))audio.currentTime=len*Number(seek.value)/1000;sync()});
+ mute.addEventListener('click',()=>{audio.muted=!audio.muted;mute.textContent=audio.muted?'×':'♪';mute.setAttribute('aria-label',audio.muted?'Ativar som':'Silenciar')});
+ speed.addEventListener('click',()=>{const speeds=[1,1.25,1.5,2],i=speeds.indexOf(audio.playbackRate);const next=speeds[(i+1)%speeds.length];audio.playbackRate=next;speed.textContent=String(next).replace('.',',')+'×'});
+ audio.addEventListener('play',()=>{document.querySelectorAll('audio').forEach(a=>{if(a!==audio&&!a.paused)a.pause()})});
+ for(const event of ['loadedmetadata','durationchange','timeupdate','play','pause','ended','progress'])audio.addEventListener(event,sync);
+ sync();return shell;
+}
+async function api(path,method='GET',data){const res=await fetch(path,{method,credentials:'same-origin',headers:data!==undefined?{'content-type':'application/json'}:{},body:data!==undefined?JSON.stringify(data):undefined});const json=await res.json().catch(()=>({error:'Resposta invalida'}));if(!res.ok)throw Error(json.error||('HTTP '+res.status));return json}
+const launch=make('button','','👥 Ala Coletiva');launch.type='button';launch.id='hyron-groups-open';
+const panel=make('section','hyron-groups-panel');panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Ala Coletiva');panel.setAttribute('aria-modal','true');
+const head=make('div','hyron-groups-row');const title=make('h2','','👥 Ala Coletiva · HYRON');title.style.margin='0';const close=make('button','','✕ Fechar');close.type='button';head.append(title,close);head.style.justifyContent='space-between';
+const status=make('div','hyron-groups-status');status.setAttribute('role','status');const list=make('div','hyron-groups-list');const workspace=make('div','hyron-groups-workspace hyron-groups-unified');const left=make('aside','hyron-groups-conversations');const right=make('section','hyron-groups-conversation');const create=make('div','hyron-groups-create');const newBtn=make('button','','＋ Criar grupo');newBtn.type='button';
+const form=make('form');form.hidden=true;const name=make('input');name.required=true;name.minLength=3;name.maxLength=64;name.placeholder='Nome do grupo';const desc=make('textarea');desc.maxLength=500;desc.placeholder='Descrição (opcional)';const photo=make('input');photo.type='file';photo.accept='image/jpeg,image/png,image/webp';const people=make('div','hyron-groups-people');const submit=make('button','','Criar grupo privado');submit.type='submit';const cancel=make('button','','Cancelar');cancel.type='button';form.append(make('label','','Nome do grupo'),name,make('label','','Descrição'),desc,make('label','','Foto do grupo (opcional)'),photo,make('label','','Integrantes'),people,submit,cancel);create.append(newBtn,form);
+const sideTitle=make('h3','','Grupos');const search=make('input');search.type='search';search.placeholder='Pesquisar grupos...';search.setAttribute('aria-label','Pesquisar grupos');left.append(sideTitle,search,create,list);right.append(make('div','hyron-groups-empty','Selecione um grupo para começar a conversar.'));workspace.append(left,right);panel.append(head,status,workspace);document.body.append(panel);const nav=document.querySelector('.history-bar')||document.querySelector('.actions')||document.body;nav.append(launch);
+let self=null,users=[],activeGroup=null,refreshTimer=null;let groupRecorder=null,groupStream=null;const report=t=>{status.textContent=t||''};
+function closePanel(){if(groupRecorder&&groupRecorder.state!=='inactive')groupRecorder.stop();groupStream?.getTracks().forEach(t=>t.stop());panel.hidden=true;panel.classList.remove('has-group');activeGroup=null;if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}launch.focus()}
+close.onclick=closePanel;panel.addEventListener('click',e=>{if(e.target===panel)closePanel()});
+async function selectedUsers(){const result=await api('/api/dm/users?q=');users=result.users||[];people.replaceChildren();for(const u of users){const label=make('label');const cb=make('input');cb.type='checkbox';cb.value=u.id;label.append(cb,make('span','',u.username));people.append(label)}}
+let allGroups=[];
+function draw(groups){
+ allGroups=groups;
+ list.replaceChildren();
+ const query=(search.value||'').trim().toLocaleLowerCase('pt-BR');
+ const shown=groups.filter(g=>String(g.name||'').toLocaleLowerCase('pt-BR').includes(query));
+ if(!shown.length)list.append(make('p','hyron-groups-no-results',groups.length?'Nenhum grupo encontrado.':'Você ainda não participa de nenhum grupo.'));
+ for(const g of shown){
+  const card=make('button','hyron-groups-card'+(activeGroup===g.id?' is-active':''));card.type='button';card.setAttribute('aria-label','Abrir grupo '+g.name);
+  const av=make('img');av.alt='';av.src='/api/groups/'+encodeURIComponent(g.id)+'/avatar';av.onerror=()=>{av.replaceWith(make('span','hyron-groups-icon','👥'))};
+  const body=make('span','hyron-groups-card-details');body.append(make('strong','',g.name),make('small','',g.memberCount+' participante(s)'));
+  card.append(av,body);card.onclick=()=>detail(g.id);list.append(card);
+ }
+}
+search.addEventListener('input',()=>draw(allGroups));
+async function refresh(){const data=await api('/api/groups');draw(data.groups||[]);newBtn.hidden=!data.canCreate}
+async function detail(id){
+ try{
+  activeGroup=id;if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}
+  const data=await api('/api/groups/'+encodeURIComponent(id));
+  right.replaceChildren();panel.classList.add('has-group');document.dispatchEvent(new CustomEvent('hyron:group-selected',{detail:{groupId:id}}));draw(allGroups);
+  const layout=make('div','hyron-groups-chat-layout');
+  const sidebar=make('div','hyron-groups-chat-members');
+  const back=make('button','hyron-groups-mobile-back','← Grupos');back.type='button';back.onclick=()=>{panel.classList.remove('has-group');activeGroup=null;if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}right.replaceChildren(make('div','hyron-groups-empty','Selecione um grupo para começar a conversar.'));draw(allGroups)};
+  const membersHeading=make('h3','','Participantes ('+data.members.length+')');
+  sidebar.append(back,membersHeading);
+  for(const m of data.members){
+   const item=make('div','hyron-groups-member');
+   const who=make('span','',m.username+(m.role==='admin'?' · admin':''));item.append(who);
+   const canManage=data.myRole==='admin';
+   if(canManage){
+    const setRole=make('button','',m.role==='admin'?'Rebaixar':'Promover');setRole.type='button';
+    setRole.setAttribute('aria-label',(m.role==='admin'?'Rebaixar ':'Promover ')+m.username);
+    setRole.onclick=async()=>{
+     const next=m.role==='admin'?'member':'admin';
+     if(!await hyronGroupConfirm((next==='admin'?'Promover ':'Rebaixar ')+m.username+'?'))return;
+     setRole.disabled=true;
+     try{await api('/api/groups/'+id+'/members','PATCH',{userId:m.id,role:next});report('Cargo atualizado');await detail(id)}
+     catch(e){report(e.message);setRole.disabled=false}
+    };
+    const remove=make('button','',m.id===self?.id?'Sair':'Remover');remove.type='button';
+    remove.setAttribute('aria-label',(m.id===self?.id?'Sair do grupo':'Remover ' +m.username));
+    remove.onclick=async()=>{
+     if(!await hyronGroupConfirm(m.id===self?.id?'Sair deste grupo?':'Remover '+m.username+' do grupo?'))return;
+     remove.disabled=true;
+     try{await api('/api/groups/'+id+'/members','DELETE',{userId:m.id});report('Participante removido');
+      if(m.id===self?.id){if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}activeGroup=null;panel.classList.remove('has-group');right.replaceChildren(make('div','hyron-groups-empty','Selecione um grupo.'));await refresh()}
+      else await detail(id);
+     }catch(e){report(e.message);remove.disabled=false}
+    };
+    item.append(setRole,remove);
+   }else if(m.id===self?.id){
+    const leave=make('button','','Sair do grupo');leave.type='button';
+    leave.onclick=async()=>{if(!await hyronGroupConfirm('Sair deste grupo?'))return;leave.disabled=true;try{await api('/api/groups/'+id+'/members','DELETE',{userId:m.id});if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}activeGroup=null;panel.classList.remove('has-group');right.replaceChildren(make('div','hyron-groups-empty','Selecione um grupo.'));await refresh();report('Voce saiu do grupo')}catch(e){report(e.message);leave.disabled=false}};
+    item.append(leave);
+   }
+   sidebar.append(item);
+  }
+  if(data.myRole==='admin'){
+   const select=make('select');for(const u of users.filter(u=>!data.members.some(m=>m.id===u.id))){const opt=make('option','',u.username);opt.value=u.id;select.append(opt)}
+   const add=make('button','','Adicionar usuário');add.type='button';add.onclick=async()=>{try{if(!select.value)return;await api('/api/groups/'+id+'/members','POST',{userId:select.value});report('Participante adicionado');await detail(id)}catch(e){report(e.message)}};
+   sidebar.append(select,add);
+  }
+  const chat=make('div','hyron-groups-chat');
+  const heading=make('div','hyron-groups-chat-heading');const titleBox=make('div','hyron-groups-chat-title');titleBox.append(make('strong','',data.group.name),make('small','',data.group.description||'Grupo privado'));heading.append(titleBox);
+  const feed=make('div','hyron-groups-chat-feed');feed.setAttribute('aria-live','polite');
+  const older=make('button','','Carregar mensagens anteriores');older.type='button';older.hidden=true;
+  const composer=make('form');composer.className='hyron-groups-chat-composer';
+  const input=make('textarea');input.placeholder='Escreva uma mensagem para o grupo...';input.maxLength=4000;input.rows=2;
+  const send=make('button','','Enviar');send.type='submit';
+  const cancelEdit=make('button','hyron-groups-cancel-edit','Cancelar');cancelEdit.type='button';cancelEdit.hidden=true;
+  let editingMessage=null;
+  const stamp=m=>{const d=new Date(m.createdAt);const base=Number.isNaN(d.getTime())?m.createdAt:d.toLocaleString('pt-BR');return m.editedAt?base+' · editada':base};
+  const stopEditing=({keepNotice=false}={})=>{editingMessage=null;send.textContent='Enviar';cancelEdit.hidden=true;input.value='';if(!keepNotice)report('');};
+  const beginEditing=(m)=>{if((Array.isArray(m.attachments)?m.attachments:[]).length){report('Edicao disponivel apenas para mensagens sem anexo');return;}if(recorder&&recorder.state!=='inactive'){report('Conclua a gravacao antes de editar');return;}setPending(null);editingMessage={id:m.id};input.value=String(m.content||'');send.textContent='Salvar';cancelEdit.hidden=false;report('Editando mensagem. Pressione Esc para cancelar.');input.focus();input.setSelectionRange(input.value.length,input.value.length);};
+  cancelEdit.onclick=()=>{stopEditing();report('Edicao cancelada.');input.focus();};
+  const media=make('div','hyron-groups-media-actions');
+  const picker=make('input');picker.type='file';picker.hidden=true;
+  const photoPicker=make('input');photoPicker.type='file';photoPicker.accept='image/*';photoPicker.hidden=true;
+  const videoPicker=make('input');videoPicker.type='file';videoPicker.accept='video/*';videoPicker.hidden=true;
+  const pickButton=make('button','','📎 Arquivo');pickButton.type='button';pickButton.onclick=()=>picker.click();
+  const photoButton=make('button','','📷 Foto');photoButton.type='button';photoButton.onclick=()=>photoPicker.click();
+  const videoButton=make('button','','🎥 Vídeo');videoButton.type='button';videoButton.onclick=()=>videoPicker.click();
+  const audioButton=make('button','','🎤 Áudio');audioButton.type='button';
+  const pending=make('div','hyron-groups-media-pending');pending.hidden=true;
+  let pendingFile=null,recorder=null,stream=null,chunks=[],elapsed=0,clockId=null,startAt=0,voiceDiscard=false;
+  const voice=make('div','hyron-groups-voice hyron-groups-voice-styled');voice.hidden=true;
+  const voiceClock=make('strong','','🔴 00:00');const voicePause=make('button','','⏸ Pausar');voicePause.type='button';
+  const voiceFinish=make('button','','✓ Revisar');voiceFinish.type='button';
+  const voiceDiscardButton=make('button','','🗑 Descartar');voiceDiscardButton.type='button';
+  const voiceHead=make('div','hyron-groups-voice-head');
+  const voiceWave=make('div','hyron-groups-voice-waves');voiceWave.setAttribute('aria-hidden','true');
+  for(let i=0;i<29;i++){const b=make('span');b.style.height=(8+Math.round(Math.abs(Math.sin(i*2.37))*19))+'px';voiceWave.append(b);b.style.height='4px'}
+  voiceHead.append(make('span','hyron-groups-voice-mic','🎙'),voiceClock,voiceWave);
+  const voiceTools=make('div','hyron-groups-voice-tools');voiceTools.append(voiceDiscardButton,voicePause,voiceFinish);
+  voice.append(voiceHead,voiceTools);
+
+  // HYRON live voice visualizer: only local browser PCM amplitude, never uploaded.
+  function hyronCreateLiveWave(microphone, host){
+    const bars=Array.from(host.children);
+    const AudioCtx=window.AudioContext||window.webkitAudioContext;
+    if(!AudioCtx||!bars.length)return {update(){},stop(){}};
+    let context,analyser,source,buffer,stopped=false;
+    try{
+      context=new AudioCtx();
+      analyser=context.createAnalyser();analyser.fftSize=1024;analyser.smoothingTimeConstant=.6;
+      source=context.createMediaStreamSource(microphone);source.connect(analyser);
+      buffer=new Uint8Array(analyser.fftSize);
+      context.resume().catch(()=>{});
+    }catch(e){try{context?.close()}catch(_){}return {update(){},stop(){}};}
+    return {
+      update(active){
+        if(stopped)return;
+        if(!active){bars.forEach(b=>b.style.height='4px');return;}
+        analyser.getByteTimeDomainData(buffer);
+        const stride=Math.max(1,Math.floor(buffer.length/bars.length));
+        bars.forEach((bar,i)=>{
+          let peak=0;const start=i*stride,end=Math.min(buffer.length,start+stride);
+          for(let k=start;k<end;k++)peak=Math.max(peak,Math.abs(buffer[k]-128)/128);
+          const previous=Number(bar.dataset.waveLevel||0);
+          const level=Math.max(0,Math.min(1,previous*.35+peak*.65));
+          bar.dataset.waveLevel=String(level);
+          bar.style.height=(4+Math.round(level*25))+'px';
+        });
+      },
+      stop(){stopped=true;try{source.disconnect()}catch(_){}try{analyser.disconnect()}catch(_){}try{context.close()}catch(_){}bars.forEach(b=>{b.style.height='4px';delete b.dataset.waveLevel;});}
+    };
+  }
+  let hyronGroupWave=null;
+  function tick(){const ms=elapsed+(recorder?.state==='recording'?performance.now()-startAt:0);voiceClock.textContent='🔴 '+String(Math.floor(ms/60000)).padStart(2,'0')+':'+String(Math.floor(ms/1000)%60).padStart(2,'0');hyronGroupWave?.update(recorder?.state==='recording')}
+  function cleanup(){hyronGroupWave?.stop();hyronGroupWave=null;if(clockId)clearInterval(clockId);clockId=null;stream?.getTracks().forEach(t=>t.stop());stream=null;groupStream=null;groupRecorder=null;voice.hidden=true;audioButton.hidden=false;recorder=null;}
+  function groupClipboardImage(transfer){
+   if(!transfer)return null;
+   const items=Array.from(transfer.items||[]);
+   for(const item of items){
+    if(item.kind==='file'&&/^image\//i.test(item.type||'')){
+     const blob=item.getAsFile?.();
+     if(blob){const ext=(blob.type||item.type||'image/png').includes('jpeg')?'jpg':(blob.type||item.type||'image/png').includes('webp')?'webp':'png';return new File([blob],'imagem-colada-'+Date.now()+'.'+ext,{type:blob.type||item.type||'image/png'});}
+    }
+   }
+   const file=Array.from(transfer.files||[]).find(f=>/^image\//i.test(f.type||''));
+   return file||null;
+  }
+  function setPending(file){pendingFile=file;pending.replaceChildren();pending.hidden=!file;if(!file)return;
+   const isAudio=file.type.startsWith('audio/');const label=make('span','',isAudio?'Mensagem de voz pronta para enviar':file.name+' · '+(file.size/1048576).toFixed(2)+' MB');
+   const remove=make('button','','✕ Remover');remove.type='button';remove.onclick=()=>setPending(null);pending.append(label,remove);
+   if(/^(audio|video|image)\//.test(file.type)){const uri=URL.createObjectURL(file);const el=make(file.type.startsWith('audio/')?'audio':file.type.startsWith('video/')?'video':'img');el.src=uri;
+    if(el.tagName==='AUDIO')makeGroupAudioPlayer(el,pending);else{if(el.tagName!=='IMG')el.controls=true;else el.alt='Prévia da imagem';pending.append(el)}const revoke=()=>URL.revokeObjectURL(uri);remove.addEventListener('click',revoke,{once:true});}
+  }
+  for(const p of [picker,photoPicker,videoPicker])p.onchange=()=>{if(p.files?.[0])setPending(p.files[0]);p.value=''};
+  audioButton.onclick=async()=>{if(recorder)return;try{if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder)throw Error('Gravacao indisponivel neste navegador');
+   stream=await navigator.mediaDevices.getUserMedia({audio:true});groupStream=stream;
+   const mime=['audio/webm;codecs=opus','audio/webm','audio/mp4'].find(t=>MediaRecorder.isTypeSupported(t));
+   recorder=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);hyronGroupWave?.stop();hyronGroupWave=hyronCreateLiveWave(stream,voiceWave);groupRecorder=recorder;chunks=[];elapsed=0;startAt=performance.now();voiceDiscard=false;
+   recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+   recorder.onstop=()=>{const disc=voiceDiscard;const typ=recorder?.mimeType||'audio/webm';const blob=new Blob(chunks,{type:typ});cleanup();if(!disc&&blob.size)setPending(new File([blob],'audio-'+Date.now()+(typ.includes('mp4')?'.m4a':'.webm'),{type:typ}))};
+   recorder.start(250);voice.hidden=false;audioButton.hidden=true;voicePause.textContent='⏸ Pausar';tick();clockId=setInterval(tick,200);
+  }catch(e){groupStream?.getTracks().forEach(t=>t.stop());groupStream=null;report('Microfone: '+e.message)}};
+  voicePause.onclick=()=>{if(!recorder)return;if(recorder.state==='recording'){elapsed+=performance.now()-startAt;recorder.pause();voicePause.textContent='▶ Continuar'}else if(recorder.state==='paused'){startAt=performance.now();recorder.resume();voicePause.textContent='⏸ Pausar'}tick()};
+  voiceFinish.onclick=()=>{if(recorder&&recorder.state!=='inactive')recorder.stop()};
+  voiceDiscardButton.onclick=()=>{voiceDiscard=true;if(recorder&&recorder.state!=='inactive')recorder.stop();else cleanup()};
+  media.append(pickButton,photoButton,videoButton,audioButton,picker,photoPicker,videoPicker);
+  composer.append(input,media,voice,pending,cancelEdit,send);
+  const info=make('details','hyron-groups-members-info');const summary=make('summary','','Participantes ('+data.members.length+')');info.append(summary,sidebar);
+  if(data.myRole==='admin'){const removeGroup=make('button','hyron-groups-danger-action','Excluir grupo');removeGroup.type='button';removeGroup.onclick=async()=>{if(!await hyronGroupConfirm('Excluir este grupo permanentemente, incluindo mensagens e anexos?'))return;if(!await hyronGroupConfirm('Confirmação final: excluir o grupo '+data.group.name+' para todos?'))return;removeGroup.disabled=true;try{await api('/api/groups/'+encodeURIComponent(id),'DELETE');activeGroup=null;if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null;}panel.classList.remove('has-group');right.replaceChildren(make('div','hyron-groups-empty','Grupo excluído.'));await refresh();report('Grupo excluído.');}catch(e){report(e.message);removeGroup.disabled=false;}};heading.append(removeGroup);}
+  heading.append(back,info);
+  chat.append(heading,older,feed,composer);layout.append(chat);right.append(layout);
+  let cursor=null,firstLoad=true;
+  function drawMessages(messages,prepend){
+   const wasAtBottom=feed.scrollHeight-feed.scrollTop-feed.clientHeight<80;
+   const oldHeight=feed.scrollHeight;
+   const fragment=document.createDocumentFragment();
+   for(const m of messages){
+    const mine=m.senderId===self?.id;
+    const row=make('div','hyron-groups-msg'+(mine?' is-me':''));
+    const avatar=make('img','hyron-groups-msg-avatar');
+    avatar.alt='Foto de perfil de '+m.senderName;
+    avatar.loading='lazy';avatar.decoding='async';
+    avatar.src='/api/profile/avatar/'+encodeURIComponent(m.senderId);
+    avatar.onerror=()=>{const fallback=make('span','hyron-groups-msg-avatar hyron-groups-msg-fallback',String(m.senderName||'?').trim().slice(0,1).toUpperCase());fallback.setAttribute('aria-hidden','true');avatar.replaceWith(fallback)};
+    const bubble=make('div','hyron-groups-msg-bubble');
+    const atts=Array.isArray(m.attachments)?m.attachments:[];
+    const automatic=atts.length===1&&(String(m.content||'')==='📎 '+String(atts[0].name||''));
+    bubble.append(make('strong','',m.senderName));
+    if(!automatic&&m.content)bubble.append(make('div','hyron-groups-msg-content',m.content));
+    for(const f of atts){const url='/api/groups/media/'+encodeURIComponent(f.id);const wrap=make('div','hyron-groups-attachment');const mime=String(f.mime||'');
+     if(mime.startsWith('image/')){const img=make('img');img.src=url;img.alt=f.name;img.loading='lazy';wrap.append(img)}
+     else if(mime.startsWith('audio/')){const player=make('audio');player.preload='metadata';player.src=url;makeGroupAudioPlayer(player,wrap)}
+     else if(mime.startsWith('video/')){const vid=make('video');vid.controls=true;vid.preload='metadata';vid.src=url;wrap.append(vid)}
+     if(!mime.startsWith('audio/')){const link=make('a','',f.name);link.href=url+'?download=1';link.download=f.name;wrap.append(link)}bubble.append(wrap)
+    }
+    if(atts.length===1&&String(atts[0].mime||'').startsWith('audio/')&&(automatic||!String(m.content||'').trim()))row.classList.add('hyron-groups-audio-only');
+    const meta=make('div','hyron-groups-msg-meta');meta.append(make('small','',stamp(m)));
+    if(mine){const actions=make('div','hyron-groups-msg-actions');if(!atts.length){const edit=make('button','hyron-groups-msg-action is-edit','✏ Editar');edit.type='button';edit.onclick=()=>beginEditing(m);actions.append(edit);}const del=make('button','hyron-groups-msg-action is-delete','🗑 Excluir');del.type='button';del.onclick=async()=>{if(!await hyronGroupConfirm('Apagar esta mensagem para todos? Esta ação não pode ser desfeita.'))return;del.disabled=true;try{await api('/api/groups/'+encodeURIComponent(id)+'/messages/'+encodeURIComponent(m.id),'DELETE');if(editingMessage?.id===m.id)stopEditing({keepNotice:true});await load(null);report('Mensagem excluída.');}catch(e){report(e.message);del.disabled=false;}};actions.append(del);meta.append(actions);}
+    bubble.append(meta);
+    row.append(avatar,bubble);row.dataset.mid=m.id;fragment.append(row);
+   }
+   if(prepend){feed.prepend(fragment);feed.scrollTop=feed.scrollHeight-oldHeight+feed.scrollTop}
+   else{feed.replaceChildren(fragment);if(firstLoad||wasAtBottom)feed.scrollTop=feed.scrollHeight}
+   firstLoad=false;
+  }
+  async function load(before){
+   const url='/api/groups/'+encodeURIComponent(id)+'/messages'+(before?'?before='+encodeURIComponent(before):'');
+   const result=await api(url);
+   if(activeGroup!==id)return;
+   drawMessages(result.messages||[],Boolean(before));cursor=result.nextBefore;older.hidden=!cursor;
+  }
+  older.onclick=async()=>{older.disabled=true;try{if(cursor)await load(cursor)}catch(e){report(e.message)}finally{older.disabled=false}};
+  composer.onsubmit=async e=>{e.preventDefault();if(recorder&&recorder.state!=='inactive'){report('Conclua a gravacao antes de enviar');return}
+   const content=input.value.trim();if(!content&&!pendingFile)return;send.disabled=true;
+   try{if(editingMessage){if(pendingFile)throw Error('Remova o arquivo pendente antes de salvar a edicao');await api('/api/groups/'+encodeURIComponent(id)+'/messages/'+encodeURIComponent(editingMessage.id),'PATCH',{content});stopEditing({keepNotice:true});await load(null);input.focus();report('Mensagem editada.');return;}
+    let files=[];if(pendingFile){if(pendingFile.size<1||pendingFile.size>100*1024*1024)throw Error('Arquivo deve ter entre 1 byte e 100 MB');
+    const upload=window.hyronDriveUploadFile;if(typeof upload!=='function')throw Error('Conecte seu Google Drive para enviar arquivos');
+    report('Enviando arquivo ao Drive...');const uploaded=await upload(pendingFile,n=>report('Upload: '+n+'%'));files=[{id:uploaded.id}];}
+    await api('/api/groups/'+id+'/messages','POST',{content,files});input.value='';setPending(null);await load(null);input.focus();report('')}
+   catch(err){report(err.message)}finally{send.disabled=false;send.textContent=editingMessage?'Salvar':'Enviar'}
+  };
+  input.addEventListener('keydown',e=>{if(e.key==='Escape'&&editingMessage){e.preventDefault();stopEditing();report('Edicao cancelada.');return;}if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();composer.requestSubmit()}});
+  input.addEventListener('paste',e=>{const file=groupClipboardImage(e.clipboardData);if(!file)return;e.preventDefault();if(recorder&&recorder.state!=='inactive'){report('Conclua a gravação antes de colar uma imagem');return;}setPending(file);report('Imagem colada e pronta para envio.');});
+  await load(null);
+  refreshTimer=setInterval(async()=>{if(panel.hidden||activeGroup!==id)return;try{if(!cursor)await load(null)}catch{}},10000);
+ }catch(e){report(e.message)}
+}
+function jpegImage(file){return new Promise((resolve,reject)=>{if(!file){resolve(null);return}if(file.size>10*1024*1024){reject(Error('Imagem original acima de 10 MB'));return}const im=new Image(),url=URL.createObjectURL(file);im.onload=()=>{try{const cv=document.createElement('canvas');cv.width=cv.height=192;const side=Math.min(im.naturalWidth,im.naturalHeight),sx=(im.naturalWidth-side)/2,sy=(im.naturalHeight-side)/2;cv.getContext('2d').drawImage(im,sx,sy,side,side,0,0,192,192);resolve(cv.toDataURL('image/jpeg',.72))}catch(e){reject(e)}finally{URL.revokeObjectURL(url)}};im.onerror=()=>{URL.revokeObjectURL(url);reject(Error('Imagem invalida'))};im.src=url})}
+launch.onclick=async()=>{panel.hidden=false;panel.classList.remove('has-group');activeGroup=null;right.replaceChildren(make('div','hyron-groups-empty','Selecione um grupo para começar a conversar.')); report('Carregando grupos...');try{const d=await api('/api/auth/me');self=d.user;await Promise.all([refresh(),selectedUsers()]);report('')}catch(e){report(e.message)}};
+newBtn.onclick=()=>{form.hidden=!form.hidden};cancel.onclick=()=>{form.hidden=true};form.onsubmit=async e=>{e.preventDefault();submit.disabled=true;report('Criando grupo...');try{const image=await jpegImage(photo.files?.[0]);await api('/api/groups','POST',{name:name.value,description:desc.value,image,members:[...people.querySelectorAll('input:checked')].map(e=>e.value)});form.reset();form.hidden=true;await refresh();report('Grupo privado criado.')}catch(err){report(err.message)}finally{submit.disabled=false}};
+})();

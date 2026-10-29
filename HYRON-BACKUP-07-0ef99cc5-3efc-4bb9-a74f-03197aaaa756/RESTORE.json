@@ -1,0 +1,22 @@
+[
+  {
+    "file": "public/appearance.css",
+    "existed": true
+  },
+  {
+    "file": "public/appearance.js",
+    "existed": true
+  },
+  {
+    "file": "public/theme-model.js",
+    "existed": true
+  },
+  {
+    "file": "public/app.js",
+    "existed": true
+  },
+  {
+    "file": "tests/hyron-07.test.mjs",
+    "existed": true
+  }
+]

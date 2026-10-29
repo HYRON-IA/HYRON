@@ -1,0 +1,16 @@
+/* HYRON 0.8.2 - Nenhuma cor de balão sobre o player de audio isolado. */
+html [data-hyron-dm-v2="panel"] .hyron-audio-bubble-transparent,
+html [data-hyron-dm-v2="panel"] .hyron-audio-bubble-transparent:is(.sent,.received,.message-outgoing,.message-incoming){
+ background:transparent!important;
+ background-image:none!important;
+ border-color:transparent!important;
+ box-shadow:none!important;
+ padding:0!important;
+ color:var(--hy-text,#e9f5ef)!important;
+}
+html [data-hyron-dm-v2="panel"] .hyron-audio-bubble-transparent::before,
+html [data-hyron-dm-v2="panel"] .hyron-audio-bubble-transparent::after {display:none!important}
+/* Player permanece em destaque; cabeçalho, link de download e horário continuam acessíveis. */
+html [data-hyron-dm-v2="panel"] .hyron-audio-bubble-transparent .hyron-dm-v2-audio{
+ margin-inline:0!important;
+}
